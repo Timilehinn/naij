@@ -13,7 +13,7 @@ import naijIcon2 from '../images/logo1.png'
 function Home() {
     
     const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
-    const [ loading, setLoading ] = useState(true)
+    const [ loading, setLoading ] = useState(false)
     const history = useHistory();
     // useEffect(()=>{
     //     const msg = <p style={{fontSize:'.85rem'}}>This app is still in production :)</p>
