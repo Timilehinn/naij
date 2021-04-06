@@ -10,6 +10,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 import Header from './header'
 import { ToastContainer, toast } from 'react-toastify';
 import ReactFileReader from 'react-file-reader';
+import Bottomnav from './_bottomnav'
 
 
 function Search() {
@@ -64,12 +65,14 @@ function Search() {
         </div>
 
         <div className={styles.divTwo}>
+        <br/>
+        <br/>
            Search
         </div>
         <div className={styles.divThree}>
                 <input style={{width:'80%', height:'30px',borderRadius:'5rem',border:'.5px solid green'}} />
         </div>
-        
+        <Bottomnav />
     </div>
     )
 }

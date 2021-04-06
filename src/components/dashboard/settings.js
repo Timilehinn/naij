@@ -149,7 +149,7 @@ function Settings(props) {
             <div className={styles.divThree}>
                     <input style={{width:'80%', height:'30px',borderRadius:'5rem',border:'.5px solid green'}} />
             </div>
-            {/* <Bottomnav /> */}
+            <Bottomnav />
         </div>
     )
 }
