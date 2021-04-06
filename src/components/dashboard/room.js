@@ -41,7 +41,7 @@ function Room(props) {
     useEffect(()=>{
         async function getMessages(){
             console.log(socket.id,' here')
-            const res = await axios.get(`http://localhost:3333/messages?slug=${props.match.params.room}`);
+            const res = await axios.get(`https://naij-react-backend.herokuapp.com/messages?slug=${props.match.params.room}`);
             setMesages(res.data);
         }
         getMessages()
