@@ -18,7 +18,7 @@ function Bottomnav() {
             <Link style={{color:'#5cab7d'}} to="/search">
                 <FaSearch size={23} />
             </Link>
-            <Link style={{color:'#5cab7d'}} to="">
+            <Link style={{color:'#5cab7d'}} to="/directmessage">
                 <FaEnvelope size={23} />
             </Link>
             <Link style={{color:'#5cab7d'}} to="/settings">

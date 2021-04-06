@@ -12,6 +12,7 @@ import Settings from './components/dashboard/settings'
 import Create_topic from './components/dashboard/create_topic'
 import Room from './components/dashboard/room';
 import Search from './components/dashboard/search';
+import DirectMessage from './components/dashboard/DirectMessage';
 function App() {
   const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
 
@@ -26,6 +27,7 @@ function App() {
           <Route path='/create-topic' render={(props) => !auth ? <Redirect to="/" /> : <Create_topic {...props}/> } />
           <Route path='/settings' render={(props) => !auth ? <Redirect to="/" /> : <Settings {...props}/> } />
           <Route path='/search' render={(props) => !auth ? <Redirect to="/" /> : <Search {...props}/> } />
+          <Route path='/directmessage' render={(props) => !auth ? <Redirect to="/" /> : <DirectMessage {...props}/> } />
           <Route path='/topic/:room' render={(props) => !auth ? <Redirect to="/" /> : <Room {...props}/> } />
           <Route component={Four} />
       </Switch>
