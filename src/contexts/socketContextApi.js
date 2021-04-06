@@ -5,7 +5,7 @@ export const SocketContext = createContext();
 
 function SocketContextApi(props) {
 
-    const socket = io("http://localhost:3333", { transport : ['websocket'] });
+    const socket = io("https://naij-react-backend.herokuapp.com", { transport : ['websocket'] });
     const socketVal = {socket}
 
     return (
