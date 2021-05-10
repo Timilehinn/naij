@@ -28,7 +28,7 @@ function DirectMessage() {
  
     return (
         <div className={styles.divBody}>
-        <Header title="Create topic" />                             
+        <Header title="Direct Message" />                             
         <ToastContainer />
         <div className={styles.divOne}>
             {userDetails.map(dets=>(

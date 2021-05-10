@@ -28,7 +28,7 @@ function Search() {
  
     return (
         <div className={styles.divBody}>
-        <Header title="Create topic" />                             
+        <Header title="Search" />                             
         <ToastContainer />
         <div className={styles.divOne}>
             {userDetails.map(dets=>(
