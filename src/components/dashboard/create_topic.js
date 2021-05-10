@@ -36,7 +36,7 @@ function Create_topic() {
             // console.log(title)
             // console.log(post)
             // console.log(photoBase64)
-            const res = await axios.post('https://naij-react-backend.herokuapp.com/create-topic',{
+            const res = await axios.post('http://localhost:3333/create-topic',{
                 title,post,photoBase64,creator:userDetails[0].fullname,creator_img:userDetails[0].img,verified:userDetails[0].verified,
                 creator_email:userDetails[0].email
             })
