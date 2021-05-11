@@ -15,6 +15,7 @@ import { FaImage, FaCheckCircle, FaPaperPlane, FaTimes } from 'react-icons/fa';
 import TextareaAutosize from 'react-autosize-textarea';
 import ReactFileReader from 'react-file-reader';
 import userImg from '../../images/user-circle.svg'
+import Navbar from './navbar'
 
 
 function Room(props) {
@@ -25,7 +26,7 @@ function Room(props) {
     const [chat,setChat] = useState([]);
     const [ textABorder,setTextABorder ] = useState('0px');
     const [ preview_img_display, setPreview_img_display ] = useState('none')
-    const {auth, setAuth, width, setWidth, userDetails,setUserDetails} = useContext(AuthContext);
+    const {auth, setAuth, width, setWidth, userDetails,setUserDetails,scrollPos} = useContext(AuthContext);
     const [ photo, setPhoto ] = useState('');
     const [ photoBase64, setPhotoBase64 ] = useState('');
     const topic = props.history.location.topic_info;
@@ -88,10 +89,11 @@ function Room(props) {
 
 
     return (
+        <>
+        <Navbar />
         <div className={styles.divBody}>
             <Chatheader title={topic.title} />
-            <div className={styles.divOne}></div>
-            <div className={styles.divTwo} style={{paddingTop:'1.6rem',}}>
+            <div className={styles.row1} style={{paddingTop:'1.6rem',}}>
                 <div className={styles.topicWrapper} style={{borderBottom:'.5px solid #5cab7d'}}>
                     <div style={{display:'flex',flexDirection:'row',paddingLeft:'1rem',paddingRight:'1rem',}}>
                         <img src={topic.creator_img} style={{width:'70px',height:'70px',borderRadius:'50%'}} />
@@ -104,8 +106,8 @@ function Room(props) {
                     {
                         topic.img === 'data:image/png;base64,' ? <></> 
                         : 
-                        <img src ={topic.img} 
-                            style={{width:'100%',borderRadius:'2rem'}}
+                        <img src ={topic.img}
+                            style={{width:'95%',height:'300px', margin:'1rem',borderRadius:'2rem'}}
                         />
                     }
                     <p>{topic.topic_body}</p>
@@ -113,13 +115,17 @@ function Room(props) {
                 {chat.map(msg=>(
                     <div key={msg.id} style={{display:'flex',flexDirection:'row',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>
                         {/* this shows the default profile image if the user has not set a profile image yet (default is 'user-img') */}
+                        {/* <span style={{display:"flex",flexDirection:'row',alignItems:'center'}}>
+                            <img src={msg.img} style={{width:'30px',height:'30px',borderRadius:'50%',marginRight:'.5rem'}} />
+                            <p style={{fontSize:'.75rem',color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
+                        </span> */}
                         {
-                            msg.img === 'user-img' ? <img src={userImg} style={{width:'50px',height:"50px",borderRadius:'50%' }} />
+                            msg.img === 'user-img' ? <img src={userImg} style={{width:'25px',height:"25px",borderRadius:'50%' }} />
                             :
-                            <img src={msg.img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
+                            <img src={msg.img} style={{width:'30px',height:"30px",borderRadius:'50%' }}/>
                         }
                         <div>
-                            <p style={{fontSize:'.75rem',color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
+                            <p style={{fontSize:'.75rem',margin:0,marginRight:.5rem,color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
                             <p>{msg.text}</p>
                             {
                                 msg.msg_w_img === 'data:image/png;base64,' ? <></> 
@@ -134,9 +140,9 @@ function Room(props) {
                 ))}
                 {messages.map(msg=>(
                     <div key={msg.id} style={{display:'flex',flexDirection:'row',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>
-                        <img src={msg.img} style={{width:'45px',height:'45px',borderRadius:'50%',marginRight:'.5rem'}} />
+                        <img src={msg.img} style={{width:'30px',height:'30px',borderRadius:'50%',marginRight:'.5rem'}} />
                         <div>
-                            <p style={{fontSize:'.75rem',color:'grey'}}>@{msg.name} {msg.is_msg_sender_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
+                            <p style={{fontSize:'.75rem',margin:0,color:'grey'}}>@{msg.name} {msg.is_msg_sender_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
                             <p>{msg.messages}</p>
                             {
                                 msg.messages_with_img === 'data:image/png;base64,' ? <></> 
@@ -161,12 +167,17 @@ function Room(props) {
                     <FaPaperPlane onClick={()=>submitMsg()} color="#5cab7d" size={30} style={{marginBottom:'5px',marginRight:'5px'}}/>
                 </div>
             </div>
-            <div className={styles.divThree}></div>
+            <div className={styles.row2}>
+                <div> 
+                    <h3>In this room.</h3>
+                </div>
+            </div>
             {/* <p>room page</p>
             {props.match.params.room }
             {JSON.stringify()} */}
             {/* <Bottomnav /> */}
         </div>
+        </>
     )
 }
 
