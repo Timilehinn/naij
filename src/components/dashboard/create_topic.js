@@ -108,7 +108,6 @@ function Create_topic() {
             <ToastContainer />
                 <img src={userDetails[0].img} style={{width:'40px',height:'35px',marginRight:'.25rem',borderRadius:'50%'}} />
                 <TextareaAutosize  onClick={()=>openModal()} maxLength="350" className={styles.input}  placeholder="Post" required />
-                <IoIosImage onClick={()=>openModal()} size={35} />
                 <button onClick={()=>openModal()} className={styles.button} >
                     <FaPlus/>
                 </button>
