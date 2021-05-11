@@ -20,6 +20,7 @@ function Home() {
     //     toast.info(msg)
     //     async function getUserByCookie(){
     //         const res= await axios.get(`https://naij-react-backend.herokuapp.com/get-session-id?n_s_id=${Cookies.get('n_s_id')}`);
+
     //         console.log(res.data.session)
     //         setAuth(res.data.session);
     //         setUserDetails(res.data.details)
@@ -62,7 +63,7 @@ function Home() {
                 <p className={styles.divOneP} >
                     Join convserations, share topics,<br /> meet new people.
                 </p>
-                <button onClick={()=>window.location.href='https://naij-react-backend.herokuapp.com/api/download-the-app'} className={styles.downloadButton}>
+                <button onClick={()=>window.location.href='http://localhost:3333/api/download-the-app'} className={styles.downloadButton}>
                     Download for Android
                 </button>
             </div>

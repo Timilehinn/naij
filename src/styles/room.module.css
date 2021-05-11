@@ -5,7 +5,11 @@ body{
 .divBody{
     display:flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    max-width: 950px;
+    justify-content: center;
+    margin:auto;
+    justify-content: space-around;
+    margin-top:100px;
 }
 .divOne{
     display:flex;
@@ -27,12 +31,8 @@ body{
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
-.divTwo{
-    flex:2;
-    height:100vh;
-    border-right: .5px solid green;
-    max-width:45%;
-    overflow-y: scroll;
+.row1{
+    width:60%;
     background-color: white;
     padding-bottom:5rem;
 }
@@ -41,24 +41,33 @@ body{
     transition:.3s;
 }
 .chatInput{
-    width:45%;
+    width:50%;
     height:auto;
     position:fixed;
     border:.5px solid lightgrey;
-    bottom:7px;
+    bottom:5px;
     display:flex;
     flex-direction:row;
     justify-content:space-evenly;
     align-items:flex-end;
     background-color:white;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-.divThree{
-    display:flex;
+.row2{
     flex-direction: column;
-    flex:1;
-    height:95vh;
-    padding-top:2rem;
-    align-items:center
+    width:35%;
+    align-items:center;
+}
+.row2 div{
+    flex-direction: column;
+    height:300px;
+    padding:.5rem;
+    width:25%;
+    background-color: white;
+    align-items:center;
+    overflow-y: scroll;
+    position: fixed;
 }
 
 
@@ -68,10 +77,11 @@ body{
 /* Media Query for low resolution  Tablets, Ipads */ 
 @media (min-width: 0px) and (max-width: 767px) { 
     body { /* background-color: red;  */ } 
-    .divOne{ flex:0; display:none; }
-    .divTwo{ flex:1; max-width:100%;padding-top:45px }
+    .row1{ flex:1; max-width:95%;padding-top:0px }
     .topicWrapper{padding-top:40px}
-    .divThree{ flex:0; display:none; }
+    .divBody{ margin-top:70px }
+    .topicDiv{ box-shadow: 0px 0px 0px 0px }
+    .row2{ flex:0; display:none; }
     .chatInput{
         width:100%;
     }
@@ -80,12 +90,9 @@ body{
   
 /* Media Query for Tablets Ipads portrait mode */ 
 @media (min-width: 768px) and (max-width: 1024px){ 
-    .divOne{ flex:.7; }
-    .divTwo{ flex:2; max-width:65%; }
-    .divThree{ flex:1; display:none; }
-    .chatInput{
-        width:65%;
-    }
+    .row1{ flex:2; max-width:65%; }
+    .row2{ flex:1; display:none; }
+    .chatInput{ width:65%; }
     .topicWrapper{}
 } 
   

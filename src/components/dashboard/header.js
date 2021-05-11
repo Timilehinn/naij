@@ -45,7 +45,7 @@ function Header(props) {
                     </div>
                     <div style={{paddingLeft:'3rem',borderBottom:'1px solid lightgrey'}}>
                         <Link style={{textDecoration:'none',color:'black'}} to={`/d/${userDetails[0].fullname}`}><h2>Home</h2></Link>
-                        <Link to="/create-topic" style={{textDecoration:'none',color:'black'}}><h2>Create Topic</h2></Link>
+                        {/* <Link to="/create-topic" style={{textDecoration:'none',color:'black'}}><h2>Create Topic</h2></Link> */}
                         <Link style={{textDecoration:'none',color:'black'}}><h2>Your Topics</h2></Link>
                         <Link style={{textDecoration:'none',color:'black'}}><h2>Get Verified</h2></Link>
                         <Link style={{textDecoration:'none',color:'black'}} to="/settings"><h2>Settings</h2></Link>

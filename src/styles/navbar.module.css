@@ -1,0 +1,28 @@
+.nav{
+    width:auto;
+    height: 50px;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom:1px solid grey;
+    margin-bottom:50px;
+    justify-content:space-between;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    background-color:white
+}
+.select{
+    width:20%;
+    height:30px;
+    outline:none;
+    border:0;
+    background-color: transparent;
+}
+.search{
+    width:20%;
+    height:25px;
+}
