@@ -49,7 +49,7 @@ function Dashboard(props) {
             setScrollPos(position);
         };
     
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
@@ -75,14 +75,14 @@ function Dashboard(props) {
                             <div style={{display:'flex',flexDirection:'row',marginLeft:'1rem'}}>
                                 <img src={topic.creator_img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
                                 <div style={{marginLeft:'1rem'}}>
-                                    <p style={{fontSize:'.75rem',color:'grey'}}>@{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
+                                    <p style={{fontSize:'.75rem',color:'grey'}}>Posted by @{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={12} color='#5cab7d'/> : <></>}</p>
                                     <p style={{fontWeight:'bold'}}>{topic.title}</p>
                                 </div>
                             </div>
                             <div style={{display:'flex',flexDirection:'column',marginLeft:'0rem',padding:'.5rem'}}>
                             {topic.img === 'data:image/png;base64,' ? <div style={{height:'0px'}}></div> 
                                 : 
-                                <img src={topic.img} style={{borderRadius:'1rem'}} width="auto" height="300px" />
+                                <img src={topic.img} style={{borderRadius:'.5rem'}} width="auto" height="300px" />
                             }
                                 <p>{topic.topic_body}</p>
                                 <p style={{fontSize:'.8rem',color:'grey'}}>{topic.date} {topic.time}</p>

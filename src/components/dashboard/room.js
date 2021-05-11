@@ -16,7 +16,8 @@ import TextareaAutosize from 'react-autosize-textarea';
 import ReactFileReader from 'react-file-reader';
 import userImg from '../../images/user-circle.svg'
 import Navbar from './navbar'
-
+import * as Scroll from 'react-scroll';
+import {Helmet} from "react-helmet";
 
 function Room(props) {
 
@@ -26,11 +27,16 @@ function Room(props) {
     const [chat,setChat] = useState([]);
     const [ textABorder,setTextABorder ] = useState('0px');
     const [ preview_img_display, setPreview_img_display ] = useState('none')
-    const {auth, setAuth, width, setWidth, userDetails,setUserDetails,scrollPos} = useContext(AuthContext);
+    const {auth, setAuth, width, setWidth, userDetails,setUserDetails} = useContext(AuthContext);
     const [ photo, setPhoto ] = useState('');
     const [ photoBase64, setPhotoBase64 ] = useState('');
+    const [ roomActivity, setRoomActivity ] = useState([])
+
     const topic = props.history.location.topic_info;
     const room = props.match.params.room;
+    const username = userDetails[0].fullname
+    const user_img = userDetails[0].img
+    let scroll    = Scroll.animateScroll;
 
    
     function handleFiles(e){
@@ -46,8 +52,8 @@ function Room(props) {
             setMesages(res.data);
         }
         getMessages()
-
-        socket.emit("usr-joined", (room));
+        scroll.scrollTo(0);
+        socket.emit("usr-joined", {username,room,user_img});
         
         socket.on("app-msg", msgFromServer => {
             // console.log(socket.id)
@@ -56,10 +62,24 @@ function Room(props) {
                 msgFromServer,...prevChat
               ]
             })
-          });
+        });
+
+        //user joined from server
+        socket.on('room-bot-msg',activity=>{
+            setRoomActivity((prevActivity)=>{
+                return [activity, ...prevActivity]
+            })
+        })
+
+        //user left from server
+        socket.on('room-bot-msg_left',activity=>{
+            setRoomActivity((prevActivity)=>{
+                return [activity, ...prevActivity]
+            })
+        })
 
     return () => {
-        socket.emit("usr-disconn",`${userDetails[0].fullname}, left`);
+        socket.emit("usr-disconn",{username,room,user_img});
         // setAllMessages([])
         socket.off('app-msg')
     }
@@ -90,27 +110,31 @@ function Room(props) {
 
     return (
         <>
+        <Helmet>
+                <meta charSet="utf-8" />
+                <title>{topic.title}</title>
+        </Helmet>
         <Navbar />
         <div className={styles.divBody}>
             <Chatheader title={topic.title} />
             <div className={styles.row1} style={{paddingTop:'1.6rem',}}>
                 <div className={styles.topicWrapper} style={{borderBottom:'.5px solid #5cab7d'}}>
-                    <div style={{display:'flex',flexDirection:'row',paddingLeft:'1rem',paddingRight:'1rem',}}>
-                        <img src={topic.creator_img} style={{width:'70px',height:'70px',borderRadius:'50%'}} />
+                    <div style={{display:'flex',alignItems:'center',flexDirection:'row',paddingLeft:'1rem',paddingRight:'1rem',}}>
+                        <img src={topic.creator_img} style={{width:'60px',height:'60px',marginRight:'.5rem',borderRadius:'50%'}} />
                         <div>
-                            <p>{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
-                            <p>{topic.title}</p>
+                            <p style={{margin:0}}>{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
+                            <p style={{fontWeight:'bold',margin:0}}>{topic.title}</p>
                         </div>
                     </div>
                     {/* <img src={topic.img} style={{width:'100%',borderRadius:'2rem'}} /> */}
                     {
                         topic.img === 'data:image/png;base64,' ? <></> 
                         : 
-                        <img src ={topic.img}
-                            style={{width:'95%',height:'300px', margin:'1rem',borderRadius:'2rem'}}
+                        <img src ={topic.img} onClick={()=>window.open(`'${topic.img}'`)}
+                            style={{width:'95%',height:'300px', borderRadius:'.5rem', margin:'1rem'}}
                         />
                     }
-                    <p>{topic.topic_body}</p>
+                    <p style={{marginLeft:'1rem'}}>{topic.topic_body}</p>
                 </div>
                 {chat.map(msg=>(
                     <div key={msg.id} style={{display:'flex',flexDirection:'row',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>
@@ -125,7 +149,7 @@ function Room(props) {
                             <img src={msg.img} style={{width:'30px',height:"30px",borderRadius:'50%' }}/>
                         }
                         <div>
-                            <p style={{fontSize:'.75rem',margin:0,marginRight:.5rem,color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
+                            <p style={{fontSize:'.75rem',margin:0,marginRight:'.5rem',color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
                             <p>{msg.text}</p>
                             {
                                 msg.msg_w_img === 'data:image/png;base64,' ? <></> 
@@ -169,7 +193,13 @@ function Room(props) {
             </div>
             <div className={styles.row2}>
                 <div> 
-                    <h3>In this room.</h3>
+                    <h3>Room activity.</h3>
+                    {roomActivity.map(activity=>(
+                        <span style={{display:'flex',flexDirection:'row',fontSize:'.75rem',alignItems:'center'}}>
+                            <img src={activity.img} height="20px" width="20px" style={{borderRadius:'50%'}} />
+                            <span style={{color:'grey',fontStyle:'italic',marginRight:'.5rem'}}>@{activity.username}</span> {activity.msg}
+                        </span>
+                    ))}
                 </div>
             </div>
             {/* <p>room page</p>

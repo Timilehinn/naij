@@ -1,6 +1,6 @@
 import React,{ useState, useContext } from 'react'
 import styles from '../../styles/navbar.module.css'
-import { FaHome, FaSearch, FaEnvelope, FaCog, FaBeer } from 'react-icons/fa';
+import { FaPen, FaCheckCircle } from 'react-icons/fa';
 import { Link, useHistory } from 'react-router-dom'
 import {AuthContext} from '../../contexts/authContextApi'
 import { useMediaQuery } from 'react-responsive'
@@ -29,6 +29,8 @@ function Header(props) {
                 <option>lorem 4</option>
             </select>
             <input placeholder="Search" className={styles.search} />
+            <FaCheckCircle color="grey" size={20} />
+            <FaPen color="grey" size={20} />
             <div style={{display:'flex',flexDirection:'row',marginRight:'1rem'}}>
                 <div style={{display:'flex',flexDirection:'column',marginRight:'1rem'}}>
                     <p style={{fontSize:'.9rem',margin:'0',color:'grey'}}>{userDetails[0].email}</p>
