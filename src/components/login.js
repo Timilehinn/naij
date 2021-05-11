@@ -21,7 +21,7 @@ function Login(props) {
     async function authenticateUser(e){
                 e.preventDefault();
                 console.log('aw far')
-                var loginRes = await axios.post('http://localhost:3333/api/login',{email,password})
+                var loginRes = await axios.post('https://naij-react-backend.herokuapp.com/api/login',{email,password})
                 const msg = <p style={{fontSize:'.85rem'}}>{loginRes.data.auth_msg}</p>
                 console.log(loginRes.data.session," ha ha")
                 setAuth(loginRes.data.session)
@@ -51,7 +51,7 @@ function Login(props) {
                         const session_Id = createId().substring(0,16);
                         Cookies.set('n_s_id', session_Id, { expires: 7 });
                         console.log(session_Id, ' my id')
-                        const sendSession = axios.post('http://localhost:3333/create-session-id',{email:loginRes.data.details[0].email,session_Id:session_Id})
+                        const sendSession = axios.post('https://naij-react-backend.herokuapp.com/create-session-id',{email:loginRes.data.details[0].email,session_Id:session_Id})
                     }
     
                     initSessionId();

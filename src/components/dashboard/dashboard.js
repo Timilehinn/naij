@@ -40,7 +40,7 @@ function Dashboard(props) {
 
     useEffect(()=>{
         async function getTopics(){
-            const res = await axios.get('http://localhost:3333/topics');
+            const res = await axios.get('https://naij-react-backend.herokuapp.com/topics');
             console.log(res.data)
             setTopics(res.data);
             setLoader(false)

@@ -30,7 +30,7 @@ function Settings(props) {
 
     useEffect(()=>{
         async function getTopics(){
-            const res = await axios.get('http://localhost:3333/topics');
+            const res = await axios.get('https://naij-react-backend.herokuapp.com/topics');
             console.log(res.data)
             setTopics(res.data);
         }
@@ -47,11 +47,11 @@ function Settings(props) {
     }
 
     const updateProfileImage = async ()=>{
-        const res = await axios.post('http://localhost:3333/update-profile-image',
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/update-profile-image',
         {photoBase64,id:userDetails[0].id,creator_email:userDetails[0].email})
         
         console.log(res.data)
-        const resForReload = await axios.get(`http://localhost:3333/api/login?email=${userDetails[0].email}`)
+        const resForReload = await axios.get(`https://naij-react-backend.herokuapp.com/api/login?email=${userDetails[0].email}`)
         setUserDetails(resForReload.data.details)
         if(res.data.success){
             toast.info(res.data.msg)
@@ -61,10 +61,10 @@ function Settings(props) {
     }
 
     const updateProfile = async ()=>{
-        const res = await axios.post('http://localhost:3333/update-profile-web',{id:userDetails[0].id,email,password,name})
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/update-profile-web',{id:userDetails[0].id,email,password,name})
         console.log(name)
         // console.log(res.data)
-        const resForReload = await axios.get(`http://localhost:3333/api/login?email=${userDetails[0].email}`)
+        const resForReload = await axios.get(`https://naij-react-backend.herokuapp.com/api/login?email=${userDetails[0].email}`)
         setUserDetails(resForReload.data.details)
         if(res.data.success){
             toast.info(res.data.msg)
