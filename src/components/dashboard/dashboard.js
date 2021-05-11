@@ -12,14 +12,23 @@ import Header from './header'
 import Sidebar from './sidebar'
 import { FaCheckCircle, FaChartLine, FaArrowUp, FaArrowDown, FaComment } from 'react-icons/fa';
 import  { MdBookmarkBorder } from 'react-icons/md'
-import { IoMdChatboxes, IoIosChatbubbles } from 'react-icons/io'
+import { IoMdChatboxes,IoMdHeart,IoIosImage, IoMdArrowDown,IoMdArrowUp, IoIosChatbubbles } from 'react-icons/io'
 import userImg from '../../images/user-circle.svg'
 import Navbar from './navbar'
 import * as Scroll from 'react-scroll';
 
-function Dashboard(props) {
+function TopicFunction(prop){
+    return (
+        <div style={{width:'100px',display:'flex',alignItems:'center',height:'30px',backgroundColor:'rgba(223,223,223,.5)',borderRadius:'1rem'}}> 
+            <IoMdArrowUp size={20}/>
+            <IoMdArrowDown size={20}/> 
+            <MdBookmarkBorder size={25}/>
+            <IoMdChatboxes size={20}/> {prop.comments}
+        </div>
+    )
+}
 
-  
+function Dashboard(props) {  
     const history = useHistory();
     const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos} = useContext(AuthContext);
     const [ topics, setTopics ] = useState([]);
@@ -59,10 +68,13 @@ function Dashboard(props) {
 
     return (
         <>
-        <Navbar />
+        <Navbar settings_link='/settings' />
         <div className={styles.divBody}>
         <Header title="Recent topics" />
             <div className={styles.row1}>
+                <Create_topic />
+                {/* create topic div */}
+                
                {
                    loader ? <div className={styles.the_box}>
                        <div className={styles.loader}></div>
@@ -76,7 +88,7 @@ function Dashboard(props) {
                                 <img src={topic.creator_img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
                                 <div style={{marginLeft:'1rem'}}>
                                     <p style={{fontSize:'.75rem',color:'grey'}}>Posted by @{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={12} color='#5cab7d'/> : <></>}</p>
-                                    <p style={{fontWeight:'bold'}}>{topic.title}</p>
+                                    <p style={{fontWeight:'bold',margin:0}}>{topic.title}</p>
                                 </div>
                             </div>
                             <div style={{display:'flex',flexDirection:'column',marginLeft:'0rem',padding:'.5rem'}}>
@@ -84,12 +96,13 @@ function Dashboard(props) {
                                 : 
                                 <img src={topic.img} style={{borderRadius:'.5rem'}} width="auto" height="300px" />
                             }
-                                <p>{topic.topic_body}</p>
+                                {topic.topic_body ? <p>{topic.topic_body}</p> :''  }
                                 <p style={{fontSize:'.8rem',color:'grey'}}>{topic.date} {topic.time}</p>
                             </div>
-                            <div> <FaArrowUp onClick={()=>alert(scrollPos)} size={20}/> <FaArrowDown size={20}/> <MdBookmarkBorder size={25}/>
+                            <TopicFunction comments={topic.comment_count} />
+                            {/* <div> <FaArrowUp onClick={()=>alert(scrollPos)} size={20}/> <FaArrowDown size={20}/> <MdBookmarkBorder size={25}/>
                                 <IoMdChatboxes size={20}/> {topic.comment_count}
-                            </div>
+                            </div> */}
                         </div>
                    </Link>
                ))}

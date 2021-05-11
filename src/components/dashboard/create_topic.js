@@ -5,11 +5,16 @@ import { useHistory, Link, Switch } from 'react-router-dom';
 import styles from '../../styles/create-topic.module.css';
 import axios from 'axios';
 import User_home from './user_home'
-import { FaPen, FaCheckCircle, FaTimes } from 'react-icons/fa';
+import { FaPen, FaCheckCircle, FaTimes, FaPlus } from 'react-icons/fa';
 import TextareaAutosize from 'react-autosize-textarea';
 import Header from './header'
 import { ToastContainer, toast } from 'react-toastify';
 import ReactFileReader from 'react-file-reader';
+import { IoMdChatboxes,IoMdHeart,IoIosImage, IoMdArrowDown,IoMdArrowUp, IoIosChatbubbles } from 'react-icons/io'
+import Modal from 'react-modal';
+import { useMediaQuery } from 'react-responsive'
+
+
 
 
 function Create_topic() {
@@ -20,19 +25,61 @@ function Create_topic() {
     const [ title,setTitle ] = useState('');
     const [ post, setPost ] = useState('');
     const [ photo, setPhoto ] = useState('');
+    const [ photoName, setPhotoName ] = useState('');
     const [ photoBase64, setPhotoBase64 ] = useState('');
     const [ preview_img_display, setPreview_img_display ] = useState('none')
+    const isMobile = useMediaQuery({ query: '(max-width: 767px)' })
 
+    function createWidth(){
+        if(isMobile){
+            return '80%'
+        }else{
+            return '50%'
+        }
+    }
+    const customStyles = {
+        content : {
+          width:createWidth(),
+          height:'50%',
+          top:'50%',
+          left:'50%',
+          right:'auto',
+          bottom:'auto',
+          marginRight:'-50%',
+          transform:'translate(-50%, -50%)',
+          overflowX:'hidden'
+        }
+      };
+    const isDesktopOrLaptop = useMediaQuery({ query: '(min-device-width: 1224px)' })
+    const isBigScreen = useMediaQuery({ query: '(min-device-width: 1824px)' })
+    
+    console.log(createWidth())
     function handleFiles(e){
         var pre_removed = e.base64.substring(e.base64.indexOf(",") + 1)
+        setPhotoName(e.fileList[0].name)
         setPhoto(e.base64)
         setPhotoBase64(pre_removed)
         setPreview_img_display('flex')
     }
 
 
+    // modal
+    const [modalIsOpen,setIsOpen] = React.useState(false);
+    function openModal() {
+      setIsOpen(true);
+    }
+  
+    function afterOpenModal() {
+      // references are now sync'd and can be accessed.
+    }
+  
+    function closeModal(){
+      setIsOpen(false);
+    }
+
+
     const publishPost= async ()=>{
-        if(title && post ){
+        if(title || post ){
             // console.log(title)
             // console.log(post)
             // console.log(photoBase64)
@@ -47,6 +94,7 @@ function Create_topic() {
                     setPhoto(null)
                     setTitle('')
                     setPost('')
+                    closeModal();
                 }else{
                     toast.error(res.data.msg);
                 }
@@ -55,64 +103,38 @@ function Create_topic() {
     }
  
     return (
-        <div className={styles.divBody}>
-        <Header title="Create topic" />                             
-        <ToastContainer />
-        <div className={styles.divOne}>
-            {userDetails.map(dets=>(
-                <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                    <img src={dets.img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
-                    <div style={{marginLeft:'.5rem'}}>
-                        <h4>@{dets.fullname} {dets.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</h4>
-                        <p style={{fontSize:'.9rem',color:'grey'}}>{dets.email}</p>
-                    </div>
-                    
-                </div>
-            ))}
-            {/* <p>{Cookies.get('n_s_id')}</p> */}
-            <div style={{display:'flex',flexDirection:'row', marginLeft:'3rem'}}>
-                <h4 style={{fontWeight:'lighter'}}>followers - </h4>
-                <h4 style={{fontWeight:'lighter'}}>following - </h4>
+        <>
+            <div className={styles.createTopicDiv}>
+            <ToastContainer />
+                <img src={userDetails[0].img} style={{width:'40px',height:'35px',marginRight:'.25rem',borderRadius:'50%'}} />
+                <TextareaAutosize  onClick={()=>openModal()} maxLength="350" className={styles.input}  placeholder="Post" required />
+                <IoIosImage onClick={()=>openModal()} size={35} />
+                <button onClick={()=>openModal()} className={styles.button} >
+                    <FaPlus/>
+                </button>
+            
             </div>
-            <div style={{paddingLeft:'3rem',borderBottom:'1px solid grey'}}>
-                <Link style={{textDecoration:'none',color:'black'}} to={`/d/${userDetails[0].fullname}`}><h2>Home</h2></Link>
-                <Link style={{textDecoration:'none',color:'black'}}><h2>Create Topic</h2></Link>
-                <Link style={{textDecoration:'none',color:'black'}}><h2>Your Topics</h2></Link>
-                <Link style={{textDecoration:'none',color:'black'}}><h2>Get Verified</h2></Link>
-                <Link style={{textDecoration:'none',color:'black'}} to="/settings"><h2>Settings</h2></Link>
-            </div>
-            <br/>
-            {/*  */}
-            <div className={styles.lowerSideBar} style={{paddingLeft:'3rem'}}>
-                <h3 onClick={()=>alert('fuck u')}>About</h3>
-                <h3 onClick={()=>alert('fuck u')}>Policy</h3>
-                <h3 style={{color:'orange'}} onClick={()=>{Cookies.remove('n_s_id'); history.push('/')}}>logout</h3>
-                {/* <h3 onClick={()=>alert(Cookies.get('n_s_id'))}>chaeck state</h3> */}
-            </div>
-           
-        </div>
+      
 
-        <div className={styles.divTwo}>
-            <div style={{display:preview_img_display,justifyContent:'flex-end'}}>
-                <img src={photo} width="150px" height="150px" />
-                <FaTimes size={30} onClick={()=>{setPreview_img_display('none'); setPhoto(''); setPhotoBase64('')}} color='grey'/>
-            </div>
-            <ReactFileReader handleFiles={e=>handleFiles(e)} base64={true}>
-                    <p style={{color:'grey'}}>Tap to add an image.</p>
-            </ReactFileReader>
-            <div className={styles.input} >
-                <input onChange={e=>setTitle(e.target.value)} style={{border:'0px', outline:'none',height:'35px',backgroundColor:'transparent',width:'100%'}}  placeholder="an intresting title ..." required />
-            </div>
-            <div className={styles.input} >
-                <TextareaAutosize onChange={e=>setPost(e.target.value)} maxLength="350" style={{marginTop:'50px', outline:'none',border:'0px', height:'auto',backgroundColor:'transparent',width:'100%'}}  placeholder="Post" required />
-            </div>
-            <button onClick={()=>publishPost()} className={styles.button} >Post topic</button>
-        </div>
-        <div className={styles.divThree}>
-                <input style={{width:'80%', height:'30px',borderRadius:'5rem',border:'.5px solid green'}} />
-        </div>
-        
-    </div>
+            <Modal
+                isOpen={modalIsOpen}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+                >
+                <button style={{marginBottom:'.3rem'}} onClick={closeModal}>X close</button>
+                <input
+                style={{width:'100%',height:'30px',marginBottom:'1rem'}}
+                placehoder="title" onChange={e=>setTitle(e.target.value)} maxLength="300" placehoder="Title" required />
+                <ReactFileReader handleFiles={e=>handleFiles(e)} base64={true}>
+                    <span style={{cursor:'pointer'}}>Select Image</span> <span style={{color:'grey',fontStyle:'italic'}}>{photoName}</span>
+                </ReactFileReader>
+                <textarea onChange={e=>setPost(e.target.value)} maxLength="350" style={{marginTop:".5rem",height:'150px',width:'100%'}}  placeholder="Post (Optional)" />
+                <button style={{padding:'.5rem',border:'.5px solid grey',backgroundColor:'transparent',cursor:'pointer'}} onClick={()=>publishPost()}>Publish</button>
+            </Modal>
+        </>
+
     )
 }
 

@@ -30,7 +30,14 @@ function Header(props) {
             </select>
             <input placeholder="Search" className={styles.search} />
             <FaCheckCircle color="grey" size={20} />
-            <FaPen color="grey" size={20} />
+            {props.settings_link ? (
+                <Link to={props.settings_link} style={{textDecoration:'none',color:'black'}}>
+                    <FaPen color="grey" size={20} />
+                </Link>
+            ):(
+                <></>
+            )}
+           
             <div style={{display:'flex',flexDirection:'row',marginRight:'1rem'}}>
                 <div style={{display:'flex',flexDirection:'column',marginRight:'1rem'}}>
                     <p style={{fontSize:'.9rem',margin:'0',color:'grey'}}>{userDetails[0].email}</p>

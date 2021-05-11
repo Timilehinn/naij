@@ -31,6 +31,7 @@ function Room(props) {
     const [ photo, setPhoto ] = useState('');
     const [ photoBase64, setPhotoBase64 ] = useState('');
     const [ roomActivity, setRoomActivity ] = useState([])
+    console.log(props, 'props here')
 
     const topic = props.history.location.topic_info;
     const room = props.match.params.room;
@@ -114,7 +115,7 @@ function Room(props) {
                 <meta charSet="utf-8" />
                 <title>{topic.title}</title>
         </Helmet>
-        <Navbar />
+        <Navbar settings_link="" />
         <div className={styles.divBody}>
             <Chatheader title={topic.title} />
             <div className={styles.row1} style={{paddingTop:'1.6rem',}}>

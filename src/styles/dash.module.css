@@ -75,14 +75,16 @@
 }
 .row1{
     width:60%;
-
 }
+
+
 .topicDiv{
     margin-bottom:1rem;
     border-radius: .5rem;
     box-shadow: 1px 1px 3px 3px rgba(221, 210, 210, 0.596);
     padding-top:1.6rem;
     background-color: white;
+    padding:.5rem;
 }
 .topicDiv:hover{
     background-color:rgba(236, 231, 231, 0.2);
