@@ -37,7 +37,7 @@ function Room(props) {
     // console.log(props, 'props here')
     useEffect(()=>{
         async function reloadTopic(){
-            axios.get(`http://localhost:3333/refreshed-topic?slug=${props.match.params.room}`)
+            axios.get(`https://naij-react-backend.herokuapp.com/refreshed-topic?slug=${props.match.params.room}`)
             .then((res) => {
                 return res
             })

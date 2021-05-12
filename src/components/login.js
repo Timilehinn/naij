@@ -57,7 +57,7 @@ function Login(props) {
                     //     const session_Id = createId().substring(0,16);
                     //     Cookies.set('n_s_id', session_Id, { expires: 7 });
                     //     console.log(session_Id, ' my id')
-                    //     const sendSession = axios.post('http://localhost:3333/create-session-id',{email:loginRes.data.details[0].email,session_Id:session_Id})
+                    //     const sendSession = axios.post('https://naij-react-backend.herokuapp.com/create-session-id',{email:loginRes.data.details[0].email,session_Id:session_Id})
                     // }
     
                     // initSessionId();
