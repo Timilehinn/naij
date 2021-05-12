@@ -6,6 +6,7 @@ import {AuthContext} from '../../contexts/authContextApi'
 import { useMediaQuery } from 'react-responsive'
 import Logo from '../../images/logo1.png'
 import Cookies from 'js-cookie'
+import { IoMdAddCircle, IoMdAddCircleOutline } from 'react-icons/io'
 
 function Header(props) {
     const history = useHistory();
@@ -20,23 +21,29 @@ function Header(props) {
         // setShowSideBar('-100');
         // showBackModal('none');
     }
+    function signOut(){
+        history.push('/signin')
+        localStorage.removeItem('frse_token')
+        localStorage.removeItem('user_email')
+    }
     return (
         <div className={styles.nav}>
             <img src={Logo} width="40px" height="45px" />
+            {/* {userDetails} */}
+
             <select className={styles.select}  >
                 <option>lorem 1</option>
                 <option>lorem 2</option>
                 <option>lorem 4</option>
             </select>
+            <p onClick={()=>signOut()}  >logout</p>
             <input placeholder="Search" className={styles.search} />
-            <FaCheckCircle color="grey" size={20} />
-            {props.settings_link ? (
-                <Link to={props.settings_link} style={{textDecoration:'none',color:'black'}}>
-                    <FaPen color="grey" size={20} />
-                </Link>
-            ):(
-                <></>
-            )}
+            <Link>
+                <FaCheckCircle color="grey" size={20} />
+            </Link>
+            <Link to='/create-topic' style={{textDecoration:'none',color:'black'}}>
+                <IoMdAddCircleOutline color="grey" size={25} />
+            </Link>
            
             <div style={{display:'flex',flexDirection:'row',marginRight:'1rem'}}>
                 <div style={{display:'flex',flexDirection:'column',marginRight:'1rem'}}>

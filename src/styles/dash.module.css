@@ -79,15 +79,15 @@
 
 
 .topicDiv{
-    margin-bottom:1rem;
+    margin-bottom:.5rem;
     border-radius: .5rem;
-    box-shadow: 1px 1px 3px 3px rgba(221, 210, 210, 0.596);
     padding-top:1.6rem;
     background-color: white;
+    border:.5px solid lightgrey;
     padding:.5rem;
 }
 .topicDiv:hover{
-    background-color:rgba(236, 231, 231, 0.2);
+  border:.8px solid grey;
     transition:.3s;
 }
 .row2{
@@ -98,11 +98,10 @@
 .row2 div{
     flex-direction: column;
     height:300px;
-    box-shadow: 1px 5px 5px grey;
+    border:.5px solid lightgrey;
     padding:.5rem;
     width:25%;
     background-color: white;
-    box-shadow: 1px 1px 4px 4px rgba(221, 210, 210, 0.719);
     align-items:center;
     position: fixed;
 }

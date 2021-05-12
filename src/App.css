@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+
+.wrapper-class {
+  /* padding: 1rem; */
+  /* border: 1px solid #ccc; */
+}
+.editor-class {
+  background-color:rgb(255, 255, 255);
+  padding: 1rem;
+  border: 1px solid #ccc;
+  max-height:200px
+}
+.toolbar-class {
+  /* border: 1px solid #ccc; */
+}

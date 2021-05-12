@@ -12,6 +12,7 @@ import Bottomnav from './_bottomnav'
 import Chatheader from './chat-header'
 import Sidebar from './sidebar'
 import { FaImage, FaCheckCircle, FaPaperPlane, FaTimes } from 'react-icons/fa';
+import { IoMdSend } from 'react-icons/io'
 import TextareaAutosize from 'react-autosize-textarea';
 import ReactFileReader from 'react-file-reader';
 import userImg from '../../images/user-circle.svg'
@@ -27,25 +28,52 @@ function Room(props) {
     const [chat,setChat] = useState([]);
     const [ textABorder,setTextABorder ] = useState('0px');
     const [ preview_img_display, setPreview_img_display ] = useState('none')
-    const {auth, setAuth, width, setWidth, userDetails,setUserDetails} = useContext(AuthContext);
+    const {auth, setAuth, width, setWidth, userDetails,setUserDetails,refTopic, setRefTopic} = useContext(AuthContext);
     const [ photo, setPhoto ] = useState('');
     const [ photoBase64, setPhotoBase64 ] = useState('');
     const [ roomActivity, setRoomActivity ] = useState([])
-    console.log(props, 'props here')
+    const [loading, setLoading] = useState(true)
+    const [img,setImg] =useState('')
+    // console.log(props, 'props here')
+    useEffect(()=>{
+        async function reloadTopic(){
+            axios.get(`http://localhost:3333/refreshed-topic?slug=${props.match.params.room}`)
+            .then((res) => {
+                return res
+            })
+            .then((json) => {
+                setRefTopic(json.data.topic)
+                setImg(json.data.topic[0].img)
+                setLoading(false)
+                // return json.topic;
 
-    const topic = props.history.location.topic_info;
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+        reloadTopic()
+    },[])
+
+    const [ topic, setTopic ] = useState(!props.history.location.topic_info ? refTopic : props.history.location.topic_info);
     const room = props.match.params.room;
     const username = userDetails[0].fullname
     const user_img = userDetails[0].img
     let scroll    = Scroll.animateScroll;
 
-   
     function handleFiles(e){
         var pre_removed = e.base64.substring(e.base64.indexOf(",") + 1)
         setPhoto(e.base64)
         setPhotoBase64(pre_removed)
         setPreview_img_display('block')
     }
+    useEffect(()=>{
+      
+    },[])
+function openImg(){
+        var win = window.open();
+        win.document.write('<iframe src="' + img  + '" frameborder="0" style="margin-left:auto; margin-right:auto; border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+}
     useEffect(()=>{
         async function getMessages(){
             console.log(socket.id,' here')
@@ -113,29 +141,30 @@ function Room(props) {
         <>
         <Helmet>
                 <meta charSet="utf-8" />
-                <title>{topic.title}</title>
+                <title>{loading ? '' : refTopic[0].title}</title>
         </Helmet>
         <Navbar settings_link="" />
         <div className={styles.divBody}>
-            <Chatheader title={topic.title} />
+            <Chatheader title={loading ? '' : refTopic[0].title} />
             <div className={styles.row1} style={{paddingTop:'1.6rem',}}>
                 <div className={styles.topicWrapper} style={{borderBottom:'.5px solid #5cab7d'}}>
                     <div style={{display:'flex',alignItems:'center',flexDirection:'row',paddingLeft:'1rem',paddingRight:'1rem',}}>
-                        <img src={topic.creator_img} style={{width:'60px',height:'60px',marginRight:'.5rem',borderRadius:'50%'}} />
+                        <img src={loading ? '' : refTopic[0].creator_img} style={{width:'60px',height:'60px',marginRight:'.5rem',borderRadius:'50%'}} />
+                        {/* {JSON.stringify(refTopic)} */}
                         <div>
-                            <p style={{margin:0}}>{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
-                            <p style={{fontWeight:'bold',margin:0}}>{topic.title}</p>
+                            <p style={{margin:0}}>{loading ? '' : refTopic[0].creator} {loading ? '' : refTopic[0].is_poster_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
+                            <p style={{fontWeight:'bold',margin:0}}>{loading ? '' : refTopic[0].title}</p>
                         </div>
                     </div>
                     {/* <img src={topic.img} style={{width:'100%',borderRadius:'2rem'}} /> */}
                     {
-                        topic.img === 'data:image/png;base64,' ? <></> 
+                        loading ? '' : refTopic[0].img === 'data:image/png;base64,' ? <></> 
                         : 
-                        <img src ={topic.img} onClick={()=>window.open(`'${topic.img}'`)}
-                            style={{width:'95%',height:'300px', borderRadius:'.5rem', margin:'1rem'}}
+                        <img src ={loading ? '' : refTopic[0].img} onClick={()=>openImg()}
+                            style={{width:'95%',height:'100%', borderRadius:'.5rem', margin:'1rem'}}
                         />
                     }
-                    <p style={{marginLeft:'1rem'}}>{topic.topic_body}</p>
+                    {loading ? '' : <div style={{paddingLeft:'1rem',wordBreak:'break-all', textOverflow:'ellipsis'}} dangerouslySetInnerHTML={{__html: refTopic[0].topic_body}} ></div>}
                 </div>
                 {chat.map(msg=>(
                     <div key={msg.id} style={{display:'flex',flexDirection:'row',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>
@@ -185,11 +214,11 @@ function Room(props) {
                     <FaTimes size={30} onClick={()=>{setPreview_img_display('none'); setPhotoBase64(''); setPhoto('')}} color='grey' />
                 </div>
                 <div className={styles.chatInput} >
-                    <ReactFileReader handleFiles={e=>handleFiles(e)} base64={true}>
+                    {/* <ReactFileReader handleFiles={e=>handleFiles(e)} base64={true}>
                         <span style={{marginLeft:'5px'}}><FaImage color="#5cab7d" size={35} /></span>
-                    </ReactFileReader>
-                    <TextareaAutosize onChange={e=>setUserMsg(e.target.value)} style={{width:'80%',maxHeight:100,border:'0',outline:'none'}} rows="2" value={userMsg} maxLength={250} placeholder="start typing..." />
-                    <FaPaperPlane onClick={()=>submitMsg()} color="#5cab7d" size={30} style={{marginBottom:'5px',marginRight:'5px'}}/>
+                    </ReactFileReader> */}
+                    <input onChange={e=>setUserMsg(e.target.value)} style={{width:'85%',padding:'1rem',border:'0',outline:'none'}} value={userMsg} maxLength={250} placeholder="start typing..." />
+                    <IoMdSend onClick={()=>submitMsg()} color="#5cab7d" size={30} style={{cursor:'pointer',marginBottom:'8px',marginRight:'0px'}}/>
                 </div>
             </div>
             <div className={styles.row2}>

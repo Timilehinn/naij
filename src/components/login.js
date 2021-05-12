@@ -16,6 +16,7 @@ function Login(props) {
     const [isShowPwrd, setIsShowPwrd] = useState('password');
     const history = useHistory();
     const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
+    const [loginState , setLoginState] = useState(false);
 
     
     async function authenticateUser(e){
@@ -23,9 +24,6 @@ function Login(props) {
                 console.log('aw far')
                 var loginRes = await axios.post('https://naij-react-backend.herokuapp.com/api/login',{email,password})
                 const msg = <p style={{fontSize:'.85rem'}}>{loginRes.data.auth_msg}</p>
-                console.log(loginRes.data.session," ha ha")
-                setAuth(loginRes.data.session)
-                setUserDetails(loginRes.data.details);
                 toast.info(msg,{
                     position: "top-center",
                     autoClose: 3000,
@@ -37,25 +35,34 @@ function Login(props) {
                 })
                 console.log(loginRes)
                 if(loginRes.data.session){
+                    setLoginState(true)
                     //INITIATE SESSION ID
+                    localStorage.setItem("frse_token",loginRes.data.token);
+                    localStorage.setItem("user_email",loginRes.data.email);
+                    // localStorage.setItem("user_det",JSON.stringify(loginRes.data.details));
+                    setUserDetails(loginRes.data.details)
+                    setAuth(loginRes.data.authenticated)
+                    // history.push('/meet')
                     history.push(`/d/${loginRes.data.details[0].fullname}`)
-                    async function initSessionId(){
-                        function createId(){
-                            var chars = 'aABbCcDdEeFFGGHhIIJjKkLlMmNnOoPpQqSsTtUuVvWwXxYyZz1234567890_!';
-                            var id = ''
-                            for(var i=0; i < chars.length ; i++){
-                                id+= chars.charAt(Math.ceil(Math.random() * chars.length))
-                            }
-                            return id;
-                        }
-                        const session_Id = createId().substring(0,16);
-                        Cookies.set('n_s_id', session_Id, { expires: 7 });
-                        console.log(session_Id, ' my id')
-                        const sendSession = axios.post('https://naij-react-backend.herokuapp.com/create-session-id',{email:loginRes.data.details[0].email,session_Id:session_Id})
-                    }
+
+                    // async function initSessionId(){
+                    //     function createId(){
+                    //         var chars = 'aABbCcDdEeFFGGHhIIJjKkLlMmNnOoPpQqSsTtUuVvWwXxYyZz1234567890_!';
+                    //         var id = ''
+                    //         for(var i=0; i < chars.length ; i++){
+                    //             id+= chars.charAt(Math.ceil(Math.random() * chars.length))
+                    //         }
+                    //         return id;
+                    //     }
+                    //     const session_Id = createId().substring(0,16);
+                    //     Cookies.set('n_s_id', session_Id, { expires: 7 });
+                    //     console.log(session_Id, ' my id')
+                    //     const sendSession = axios.post('http://localhost:3333/create-session-id',{email:loginRes.data.details[0].email,session_Id:session_Id})
+                    // }
     
-                    initSessionId();
+                    // initSessionId();
                 }else{
+                    setLoginState(false)
                     history.push('/signin')
                 }
 

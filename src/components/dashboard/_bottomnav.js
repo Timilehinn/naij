@@ -1,6 +1,7 @@
 import React,{ useContext } from 'react'
 import styles from '../../styles/_bottomnav.module.css'
-import { FaHome, FaSearch, FaEnvelope, FaCog, FaBeer } from 'react-icons/fa';
+import { FaHome, FaSearch, FaEnvelope, FaCog, FaPlus, FaBeer } from 'react-icons/fa';
+import { IoMdAddCircle, IoMdAddCircleOutline } from 'react-icons/io'
 import { Link } from 'react-router-dom'
 import {AuthContext} from '../../contexts/authContextApi'
 
@@ -18,7 +19,11 @@ function Bottomnav() {
             <Link style={{color:'#5cab7d'}} to="/search">
                 <FaSearch size={23} />
             </Link>
-            <Link style={{color:'#5cab7d'}} to="/directmessage">
+
+            <Link style={{color:'#5cab7d'}} to="/create-topic">
+                    <IoMdAddCircleOutline size={50} style={{margin:'.3rem'}} />
+            </Link>
+            <Link style={{color:'#5cab7d'}} to="">
                 <FaEnvelope size={23} />
             </Link>
             <Link style={{color:'#5cab7d'}} to="/settings">
