@@ -12,6 +12,7 @@ import Bottomnav from './_bottomnav'
 import Chatheader from './chat-header'
 import Sidebar from './sidebar'
 import { FaImage, FaCheckCircle, FaPaperPlane, FaTimes } from 'react-icons/fa';
+import { IoMdSend } from 'react-icons/io'
 import TextareaAutosize from 'react-autosize-textarea';
 import ReactFileReader from 'react-file-reader';
 import userImg from '../../images/user-circle.svg'
@@ -213,11 +214,11 @@ function openImg(){
                     <FaTimes size={30} onClick={()=>{setPreview_img_display('none'); setPhotoBase64(''); setPhoto('')}} color='grey' />
                 </div>
                 <div className={styles.chatInput} >
-                    <ReactFileReader handleFiles={e=>handleFiles(e)} base64={true}>
+                    {/* <ReactFileReader handleFiles={e=>handleFiles(e)} base64={true}>
                         <span style={{marginLeft:'5px'}}><FaImage color="#5cab7d" size={35} /></span>
-                    </ReactFileReader>
-                    <TextareaAutosize onChange={e=>setUserMsg(e.target.value)} style={{width:'80%',maxHeight:100,border:'0',outline:'none'}} rows="2" value={userMsg} maxLength={250} placeholder="start typing..." />
-                    <FaPaperPlane onClick={()=>submitMsg()} color="#5cab7d" size={30} style={{marginBottom:'5px',marginRight:'5px'}}/>
+                    </ReactFileReader> */}
+                    <input onChange={e=>setUserMsg(e.target.value)} style={{width:'85%',padding:'1rem',border:'0',outline:'none'}} value={userMsg} maxLength={250} placeholder="start typing..." />
+                    <IoMdSend onClick={()=>submitMsg()} color="#5cab7d" size={30} style={{cursor:'pointer',marginBottom:'8px',marginRight:'0px'}}/>
                 </div>
             </div>
             <div className={styles.row2}>

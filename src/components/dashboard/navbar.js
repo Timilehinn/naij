@@ -6,6 +6,7 @@ import {AuthContext} from '../../contexts/authContextApi'
 import { useMediaQuery } from 'react-responsive'
 import Logo from '../../images/logo1.png'
 import Cookies from 'js-cookie'
+import { IoMdAddCircle, IoMdAddCircleOutline } from 'react-icons/io'
 
 function Header(props) {
     const history = useHistory();
@@ -37,14 +38,12 @@ function Header(props) {
             </select>
             <p onClick={()=>signOut()}  >logout</p>
             <input placeholder="Search" className={styles.search} />
-            <FaCheckCircle color="grey" size={20} />
-            {props.settings_link ? (
-                <Link to={props.settings_link} style={{textDecoration:'none',color:'black'}}>
-                    <FaPen color="grey" size={20} />
-                </Link>
-            ):(
-                <></>
-            )}
+            <Link>
+                <FaCheckCircle color="grey" size={20} />
+            </Link>
+            <Link to='/create-topic' style={{textDecoration:'none',color:'black'}}>
+                <IoMdAddCircleOutline color="grey" size={25} />
+            </Link>
            
             <div style={{display:'flex',flexDirection:'row',marginRight:'1rem'}}>
                 <div style={{display:'flex',flexDirection:'column',marginRight:'1rem'}}>

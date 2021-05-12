@@ -70,7 +70,7 @@ function Dashboard(props) {
 
     return (
         <>
-        <Navbar settings_link='/settings' />
+        <Navbar />
         <div className={styles.divBody}>
         <Header title="Recent topics" />
             <div className={styles.row1}>

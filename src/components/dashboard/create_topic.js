@@ -213,54 +213,36 @@ function Create_topic() {
             <div className={styles.row1}>
               <ToastContainer />
               <div>
-              <input placeholder="Search Rooms" style={{width:'100%',border:'.5px solid lightgrey',height:'30px',marginBottom:'1rem'}} />
-              <input
-                  style={{width:'100%',border:'.5px solid lightgrey',height:'30px',marginBottom:'1rem'}}
-                  placehoder="title" onChange={e=>setTitle(e.target.value)} maxLength="300" placehoder="Title" required />
-                  <Editor defaultEditorState={editorState} onEditorStateChange={setEditorState}
-                    wrapperClassName="wrapper-class"
-                    editorClassName="editor-class"
-                    toolbarClassName="toolbar-class"
-                 />
-                 <label for="img-up" >dfbdfbdf
-                <input style={{visibility:'hidden'}} type="file" id="img-up" onChange={e=>handleFiles(e)} accept="image/x-png,image/gif,image/jpeg" />
-                </label>
-                     <span style={{color:'grey',fontStyle:'italic'}}>{photoName}</span>
-                {/* </ReactFileReader> */}
-                {/* <textarea onChange={e=>setPost(e.target.value)} maxLength="350" style={{marginTop:".5rem",height:'150px',width:'100%'}}  placeholder="Post (Optional)" /> */}
-              </div>
-              <button style={{padding:'.5rem',zIndex:1, width:'100%',marginTop:'1rem',border:'.5px solid grey',backgroundColor:'transparent',cursor:'pointer'}} onClick={()=>publishPost()}>Publish</button>
+                <input placeholder="Search Rooms (...in production)" style={{width:'100%',border:'.5px solid lightgrey',height:'30px',marginBottom:'1rem'}} />
+                <input
+                    style={{width:'100%',border:'.5px solid lightgrey',height:'30px',marginBottom:'1rem'}}
+                    onChange={e=>setTitle(e.target.value)} maxLength="350" placeholder="Title" required />
 
+                    <Editor defaultEditorState={editorState} onEditorStateChange={setEditorState}
+                      wrapperClassName="wrapper-class"
+                      editorClassName="editor-class"
+                      toolbarClassName="toolbar-class"
+                  />
+                  <label style={{cursor:'pointer'}} for="img-up" >Choose Image
+                  <input style={{visibility:'hidden'}} type="file" id="img-up" onChange={e=>handleFiles(e)} accept="image/x-png,image/gif,image/jpeg" />
+                  </label>
+                      <span style={{color:'grey',fontStyle:'italic'}}>{photoName}</span>
+                  {/* </ReactFileReader> */}
+                  {/* <textarea onChange={e=>setPost(e.target.value)} maxLength="350" style={{marginTop:".5rem",height:'150px',width:'100%'}}  placeholder="Post (Optional)" /> */}
+              </div>
+              <button style={{padding:'.75rem',zIndex:1, color:'white', fontWeight:'bold', backgroundColor:'#5cab7d', width:'100%',marginTop:'1rem',border:'0px solid grey',cursor:'pointer'}} onClick={()=>publishPost()}>Publish</button>
             </div>
       
             <div className={styles.row2}>
                     {/* <input style={{width:'80%', height:'30px',borderRadius:'5rem',border:'.5px solid green'}} /> */}
-                    <div> 
-                    <h3>Your communities</h3>
-                    <p> lore ipsum dor itemt</p>
-                    <p> lore ipsum dor itemt</p>
-                    <p> lore ipsum dor itemt</p>
-                </div>
                 <div> 
                     <h3>Your communities</h3>
                     <p> lore ipsum dor itemt</p>
                     <p> lore ipsum dor itemt</p>
                     <p> lore ipsum dor itemt</p>
                 </div>
-                <div> 
-                    <h3>Your communities</h3>
-                    <p> lore ipsum dor itemt</p>
-                    <p> lore ipsum dor itemt</p>
-                    <p> lore ipsum dor itemt</p>
-                </div>
-                <div> 
-                    <h3>Your communities</h3>
-                    <p> lore ipsum dor itemt</p>
-                    <p> lore ipsum dor itemt</p>
-                    <p> lore ipsum dor itemt</p>
-                </div>
-                <div> 
-                    <h3>Naijchat giudelines</h3>
+                <div>
+                    <h3>Topic giudelines</h3>
                     <p>Post real content</p>
                     <p>You are solely repsonible for every post</p>
                     <p>Lorem ipsum</p>

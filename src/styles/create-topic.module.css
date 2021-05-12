@@ -45,8 +45,9 @@ margin:1rem;
 .row2{
     display:flex;
     flex-direction: column;
-    /* height:300px; */
-    width:30%
+    width:30%;
+    margin-left: auto;
+    margin-right: auto;
 }
 .row2 div:nth-child(1){
   box-shadow: 1px 1px 3px 3px rgba(221, 210, 210, 0.596);
@@ -128,6 +129,19 @@ margin:1rem;
 .createTopicDiv{
   display:none
 }
+.divBody{
+  flex-direction: column;
+}
+.row1{
+  width:90%;
+  box-shadow:0px 0px 0px 0px
+}
+.row2{
+  width:90%;
+  box-shadow:0px 0px 0px 0px
+}
+.row2 div:nth-child(1){ border:1px solid lightgrey; box-shadow: 0px 0px 0px 0px; }
+.row2 div:nth-child(2){ border:1px solid lightgrey; box-shadow: 0px 0px 0px 0px; }
   .divOne{ flex:0; display:none; }
   .divTwo{ flex:1; max-width:100%;padding-top:45px }
   .divThree{ flex:0; display:none; }
