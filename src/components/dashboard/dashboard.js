@@ -52,6 +52,8 @@ function Dashboard(props) {
        
     },[])
 
+    
+
     useLayoutEffect(()=>{
         const handleScroll = () => {
             const position = window.pageYOffset;
@@ -72,7 +74,6 @@ function Dashboard(props) {
         <div className={styles.divBody}>
         <Header title="Recent topics" />
             <div className={styles.row1}>
-                <Create_topic />
                 {/* create topic div */}
                 
                {
@@ -96,7 +97,8 @@ function Dashboard(props) {
                                 : 
                                 <img src={topic.img} style={{borderRadius:'.5rem'}} width="auto" height="300px" />
                             }
-                                {topic.topic_body ? <p>{topic.topic_body}</p> :''  }
+                            {/* MARKDOWN SAVED IN THE DATABSE IS CONVERTED TO HTML HERE */}
+                                {topic.topic_body ? ( <div style={{paddingLeft:'1rem',wordBreak:'break-all', textOverflow:'ellipsis'}} dangerouslySetInnerHTML={{__html: topic.topic_body}} ></div> ) :''  }
                                 <p style={{fontSize:'.8rem',color:'grey'}}>{topic.date} {topic.time}</p>
                             </div>
                             <TopicFunction comments={topic.comment_count} />

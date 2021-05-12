@@ -6,16 +6,19 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AuthContextApi from './contexts/authContextApi'
 import SocketContextApi from './contexts/socketContextApi'
+import ThemeContextApi from './contexts/themeContextApi'
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthContextApi>
-      <SocketContextApi>
-      <BrowserRouter >
-        <App />
-      </BrowserRouter>
-      </SocketContextApi>
-    </AuthContextApi>
+    <ThemeContextApi>
+      <AuthContextApi>
+        <SocketContextApi>
+        <BrowserRouter >
+          <App />
+        </BrowserRouter>
+        </SocketContextApi>
+      </AuthContextApi>
+    </ThemeContextApi>
   </React.StrictMode>,
   document.getElementById('root')
 );

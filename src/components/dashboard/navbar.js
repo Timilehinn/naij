@@ -20,14 +20,22 @@ function Header(props) {
         // setShowSideBar('-100');
         // showBackModal('none');
     }
+    function signOut(){
+        history.push('/signin')
+        localStorage.removeItem('frse_token')
+        localStorage.removeItem('user_email')
+    }
     return (
         <div className={styles.nav}>
             <img src={Logo} width="40px" height="45px" />
+            {/* {userDetails} */}
+
             <select className={styles.select}  >
                 <option>lorem 1</option>
                 <option>lorem 2</option>
                 <option>lorem 4</option>
             </select>
+            <p onClick={()=>signOut()}  >logout</p>
             <input placeholder="Search" className={styles.search} />
             <FaCheckCircle color="grey" size={20} />
             {props.settings_link ? (
