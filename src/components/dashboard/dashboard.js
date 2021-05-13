@@ -45,7 +45,7 @@ function Dashboard(props) {
     
     // GET NEWER TOPICS
     async function getNewerTopics(){
-        const res = await axios.get(`http://localhost:3333/topics?offset=0`);
+        const res = await axios.get(`https://naij-react-backend.herokuapp.com/topics?offset=0`);
         console.log(res.data)
         setTopics(res.data);
         setLoading(false)
@@ -57,7 +57,7 @@ function Dashboard(props) {
     // OLDER TOPICS
     function olderTopics(){
         async function getTopics(){
-            const res = await axios.get(`http://localhost:3333/topics?offset=${offset}`);
+            const res = await axios.get(`https://naij-react-backend.herokuapp.com/topics?offset=${offset}`);
             console.log(res.data)
             setTopics((prevTopics)=>{
                 return [...prevTopics, ...res.data]
@@ -72,7 +72,7 @@ function Dashboard(props) {
 
     useEffect(()=>{
         async function getTopics(){
-            const res = await axios.get(`http://localhost:3333/topics?offset=0`);
+            const res = await axios.get(`https://naij-react-backend.herokuapp.com/topics?offset=0`);
             console.log(res.data)
             setTopics(res.data);
             setLoading(false)
