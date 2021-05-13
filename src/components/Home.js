@@ -38,7 +38,7 @@ function Home() {
                     setAuth(true);
                     setUserDetails(json.data.details)
                     // console.log(json.data.details,' the new logs i want to see')
-                    history.push(`/d/${json.data.details[0].fullname}`)
+                    history.push(`/timeline`)
                   }else{
                     setAuth(false);
                     localStorage.removeItem("frse_token");

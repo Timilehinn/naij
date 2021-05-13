@@ -12,10 +12,12 @@ import Header from './header'
 import Sidebar from './sidebar'
 import { FaCheckCircle, FaChartLine, FaArrowUp, FaArrowDown, FaComment } from 'react-icons/fa';
 import  { MdBookmarkBorder } from 'react-icons/md'
-import { IoMdChatboxes,IoMdHeart,IoIosImage, IoMdArrowDown,IoMdArrowUp, IoIosChatbubbles } from 'react-icons/io'
+import { IoMdChatboxes,IoMdHeart,IoIosImage, IoMdArrowDown,IoMdArrowUp,IoMdRefresh, IoIosChatbubbles } from 'react-icons/io'
 import userImg from '../../images/user-circle.svg'
 import Navbar from './navbar'
 import * as Scroll from 'react-scroll';
+import Preview from '../utils/preview'
+
 
 function TopicFunction(prop){
     return (
@@ -32,23 +34,55 @@ function Dashboard(props) {
     const history = useHistory();
     const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos} = useContext(AuthContext);
     const [ topics, setTopics ] = useState([]);
+    // const [ olderTopics, setOlderTopics ] = useState([]);
     const [ switchPage, setSwitchPage ] = useState('home')
-    const [ loader, setLoader ] = useState(true)
+    const [ loading, setLoading ] = useState(true)
+    const [ offset, setOffset ] = useState(15)
+    const [ nextBtnDisabled , setNextBtnDisabled ] = useState(false)
+    const [ prevBtnDisabled , setPrevBtnDisabled ] = useState(false)
 
     let scroll    = Scroll.animateScroll;
+    
+    // GET NEWER TOPICS
+    async function getNewerTopics(){
+        const res = await axios.get(`http://localhost:3333/topics?offset=0`);
+        console.log(res.data)
+        setTopics(res.data);
+        setLoading(false)
+        setOffset(15)
+    }
+    // setPage(page + 1)
+
+
+    // OLDER TOPICS
+    function olderTopics(){
+        async function getTopics(){
+            const res = await axios.get(`http://localhost:3333/topics?offset=${offset}`);
+            console.log(res.data)
+            setTopics((prevTopics)=>{
+                return [...prevTopics, ...res.data]
+            })
+            setLoading(false)
+            setPrevBtnDisabled(false)
+        }
+        getTopics();
+        setOffset(offset + 15)
+    }
     
 
     useEffect(()=>{
         async function getTopics(){
-            const res = await axios.get('http://localhost:3333/topics');
+            const res = await axios.get(`http://localhost:3333/topics?offset=0`);
             console.log(res.data)
             setTopics(res.data);
-            setLoader(false)
+            setLoading(false)
         }
+        // setPage(page + 1)
         getTopics();
 
         //to scroll back to previou position
         scroll.scrollTo(scrollPos);
+        console.log('are you tunnin?')
        
     },[])
 
@@ -67,22 +101,23 @@ function Dashboard(props) {
        
     },[])
 
-
+    function backToTop(){
+        scroll.scrollTo(0,0);
+    }
     return (
         <>
         <Navbar />
         <div className={styles.divBody}>
         <Header title="Recent topics" />
+        
             <div className={styles.row1}>
-                {/* create topic div */}
-                
+            <p style={{display:'flex',alignItems:'center',flexDirection:'row',marginBottom:'.25rem'}} onClick={()=>getNewerTopics()}>refresh <IoMdRefresh/></p>
+
                {
-                   loader ? <div className={styles.the_box}>
-                       <div className={styles.loader}></div>
-                   </div>
+                   loading ? <><Preview/><Preview/></>
                    :
                    topics.map(topic=>(
-                   <Link to={{ pathname:`/topic/${topic.slug}`, topic_info:topic }} 
+                   <Link key={topic.id} to={{ pathname:`/topic/${topic.slug}`, topic_info:topic }} 
                          style={{color:'black',textDecoration:'none'}}>
                         <div className={styles.topicDiv} key={topic.id} key={topic.id}>
                             <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'.5rem'}}>
@@ -108,6 +143,13 @@ function Dashboard(props) {
                         </div>
                    </Link>
                ))}
+               {!loading ? (<>
+                {/* <button onClick={()=>prevPage()} disabled={prevBtnDisabled}>prev</button> */}
+                <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <button style={{cursor:'pointer',width:'65%',borderRadius:'1rem',padding:'.5rem',background:'transparent',border:'.5px solid lightgrey'}} onClick={()=>olderTopics()}>Load more ...</button>
+                    <button style={{cursor:'pointer', width:'30%',borderRadius:'1rem',padding:'.5rem',background:'transparent',border:'.5px solid lightgrey'}} onClick={()=>backToTop()}><IoMdArrowUp size={15}/></button>
+               </div>
+               </>):('')}
             </div>
             <div className={styles.row2}>
                 <div> 

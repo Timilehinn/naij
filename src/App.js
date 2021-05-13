@@ -33,7 +33,7 @@ function App() {
           <Route path='/search' render={(props) => !auth ? <Redirect to="/" /> : <Search {...props}/> } />
           <Route path='/topic/:room' render={(props) => !auth ? <Redirect to="/" /> : <Room {...props}/> } />
           <Route component={Four} /> */}
-          <ProtectedRoute path='/d/:user' component={Dash} />
+          <ProtectedRoute path='/timeline' component={Dash} />
           <ProtectedRoute path='/create-topic' component={Create_topic} />
           <ProtectedRoute path='/settings' component={Settings} />
           <ProtectedRoute path='/search' component={Search} />

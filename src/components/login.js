@@ -43,29 +43,11 @@ function Login(props) {
                     setUserDetails(loginRes.data.details)
                     setAuth(loginRes.data.authenticated)
                     // history.push('/meet')
-                    history.push(`/d/${loginRes.data.details[0].fullname}`)
-
-                    // async function initSessionId(){
-                    //     function createId(){
-                    //         var chars = 'aABbCcDdEeFFGGHhIIJjKkLlMmNnOoPpQqSsTtUuVvWwXxYyZz1234567890_!';
-                    //         var id = ''
-                    //         for(var i=0; i < chars.length ; i++){
-                    //             id+= chars.charAt(Math.ceil(Math.random() * chars.length))
-                    //         }
-                    //         return id;
-                    //     }
-                    //     const session_Id = createId().substring(0,16);
-                    //     Cookies.set('n_s_id', session_Id, { expires: 7 });
-                    //     console.log(session_Id, ' my id')
-                    //     const sendSession = axios.post('http://localhost:3333/create-session-id',{email:loginRes.data.details[0].email,session_Id:session_Id})
-                    // }
-    
-                    // initSessionId();
+                    history.push(`/timeline`)
                 }else{
                     setLoginState(false)
                     history.push('/signin')
                 }
-
     }
 
     return (

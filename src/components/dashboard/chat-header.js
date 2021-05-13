@@ -22,7 +22,7 @@ function Chatheader(props) {
     return (
         <>
             <div className={styles.header}>
-                <IoIosArrowBack size={35} color="#5cab7d" onClick={()=>history.push(`/d/${userDetails[0].fullname}`)} />
+                <IoIosArrowBack size={35} color="#5cab7d" onClick={()=>history.push('/timeline')} />
                 <p style={{marginRight:'.5rem'}}>{props.title}</p>
                 <IoIosInformationCircleOutline size={30} color="#5cab7d" onClick={()=>alert('Every naijchat user isolely responsible for his or her messages and posts.')} />
             </div>

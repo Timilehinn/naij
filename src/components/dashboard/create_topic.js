@@ -223,14 +223,14 @@ function Create_topic() {
                       editorClassName="editor-class"
                       toolbarClassName="toolbar-class"
                   />
-                  <label style={{cursor:'pointer'}} for="img-up" >Choose Image
+                  <label style={{cursor:'pointer',fontSize:'.75rem'}} for="img-up">Tap to choose an image from device
                   <input style={{visibility:'hidden'}} type="file" id="img-up" onChange={e=>handleFiles(e)} accept="image/x-png,image/gif,image/jpeg" />
                   </label>
                       <span style={{color:'grey',fontStyle:'italic'}}>{photoName}</span>
                   {/* </ReactFileReader> */}
                   {/* <textarea onChange={e=>setPost(e.target.value)} maxLength="350" style={{marginTop:".5rem",height:'150px',width:'100%'}}  placeholder="Post (Optional)" /> */}
               </div>
-              <button style={{padding:'.75rem',zIndex:1, color:'white', fontWeight:'bold', backgroundColor:'#5cab7d', width:'100%',marginTop:'1rem',border:'0px solid grey',cursor:'pointer'}} onClick={()=>publishPost()}>Publish</button>
+              <button style={{padding:'.75rem',zIndex:0, color:'white', fontWeight:'bold', backgroundColor:'#5cab7d', width:'100%',marginTop:'1rem',border:'0px solid grey',cursor:'pointer'}} onClick={()=>publishPost()}>Publish</button>
             </div>
       
             <div className={styles.row2}>
