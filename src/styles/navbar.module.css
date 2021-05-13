@@ -26,3 +26,8 @@
     width:20%;
     height:25px;
 }
+@media (min-width: 0px) and (max-width: 767px) { 
+    .nav{
+        display:none;
+    }
+}

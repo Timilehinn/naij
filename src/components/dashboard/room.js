@@ -145,17 +145,20 @@ function openImg(){
         </Helmet>
         <Navbar settings_link="" />
         <div className={styles.divBody}>
-            <Chatheader title={loading ? '' : refTopic[0].title} />
+            <Chatheader />
             <div className={styles.row1} style={{paddingTop:'1.6rem',}}>
-                <div className={styles.topicWrapper} style={{borderBottom:'.5px solid #5cab7d'}}>
+                <div className={styles.topicWrapper}>
                     <div style={{display:'flex',alignItems:'center',flexDirection:'row',paddingLeft:'1rem',paddingRight:'1rem',}}>
                         <img src={loading ? '' : refTopic[0].creator_img} style={{width:'60px',height:'60px',marginRight:'.5rem',borderRadius:'50%'}} />
                         {/* {JSON.stringify(refTopic)} */}
                         <div>
-                            <p style={{margin:0}}>{loading ? '' : refTopic[0].creator} {loading ? '' : refTopic[0].is_poster_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
-                            <p style={{fontWeight:'bold',margin:0}}>{loading ? '' : refTopic[0].title}</p>
+                            <p style={{margin:0}}>@{loading ? '' : refTopic[0].creator} {loading ? '' : refTopic[0].is_poster_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
                         </div>
                     </div>
+                    <div style={{paddingLeft:'1rem',marginTop:'.5rem'}}>
+                        <p style={{fontStyle:'italic',fontWeight:'bold',fontSize:'.85rem',margin:0}}>{loading ? '' : refTopic[0].title}</p>
+                    </div>
+
                     {/* <img src={topic.img} style={{width:'100%',borderRadius:'2rem'}} /> */}
                     {
                         loading ? '' : refTopic[0].img === 'data:image/png;base64,' ? <></> 
@@ -164,8 +167,13 @@ function openImg(){
                             style={{width:'95%',height:'100%', borderRadius:'.5rem', margin:'1rem'}}
                         />
                     }
-                    {loading ? '' : <div style={{paddingLeft:'1rem',wordBreak:'break-all', textOverflow:'ellipsis'}} dangerouslySetInnerHTML={{__html: refTopic[0].topic_body}} ></div>}
+                    {loading ? '' : <div style={{margin:'.5rem',paddingLeft:'.5rem',wordBreak:'break-all', textOverflow:'ellipsis'}} dangerouslySetInnerHTML={{__html: refTopic[0].topic_body}} ></div>}
+                    {/* TIME AND DATE */}
+                    <div style={{paddingLeft:'1rem',}}>
+                        <p style={{fontSize:'.7rem',color:'grey'}}>{loading ? '' : `${refTopic[0].time} - ${refTopic[0].date}`}</p>
+                    </div>
                 </div>
+                <hr style={{color:'#5cab7d'}} />
                 {chat.map(msg=>(
                     <div key={msg.id} style={{display:'flex',flexDirection:'row',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>
                         {/* this shows the default profile image if the user has not set a profile image yet (default is 'user-img') */}
