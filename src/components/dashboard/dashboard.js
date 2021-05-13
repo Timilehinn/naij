@@ -91,14 +91,14 @@ function Dashboard(props) {
                                     <p style={{fontSize:'.75rem',color:'grey'}}>Posted by @{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={12} color='#5cab7d'/> : <></>}</p>
                                 </div>
                             </div>
-                            <p style={{fontWeight:'bold',marginLeft:'.5rem'}}>{topic.title}</p>
+                            <p style={{fontWeight:'bold',marginLeft:'.5rem',marginBottom:'0rem'}}>{topic.title}</p>
                             <div style={{display:'flex',flexDirection:'column',marginLeft:'0rem',padding:'.5rem'}}>
                             {topic.img === 'data:image/png;base64,' ? <div style={{height:'0px'}}></div> 
                                 : 
                                 <img src={topic.img} style={{borderRadius:'.5rem'}} width="auto" height="300px" />
                             }
                             {/* MARKDOWN SAVED IN THE DATABSE IS CONVERTED TO HTML HERE */}
-                                {topic.topic_body ? ( <div style={{paddingLeft:'1rem',wordBreak:'break-all', textOverflow:'ellipsis'}} dangerouslySetInnerHTML={{__html: topic.topic_body}} ></div> ) :''  }
+                                {topic.topic_body ? ( <div style={{paddingLeft:'0rem',wordBreak:'break-all', textOverflow:'ellipsis'}} dangerouslySetInnerHTML={{__html: topic.topic_body}} ></div> ) :''  }
                                 <p style={{fontSize:'.8rem',color:'grey'}}>{topic.date} {topic.time}</p>
                             </div>
                             <TopicFunction comments={topic.comment_count} />
