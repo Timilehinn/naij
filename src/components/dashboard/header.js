@@ -82,7 +82,7 @@ function Header(props) {
                     <div className={styles.lowerSideBar}>
                         <h3 onClick={()=>alert('fuck u')}>About</h3>
                         <h3 onClick={()=>alert('fuck u')}>Policy</h3>
-                        <h3 style={{color:'orange'}} onClick={()=>{Cookies.remove('n_s_id'); history.push('/')}}>logout</h3>
+                        <h3 style={{color:'orange'}} onClick={()=>{localStorage.removeItem('frse_token');localStorage.removeItem('user_email'); history.push('/')}}>logout</h3>
                         {/* <h3 onClick={()=>alert(Cookies.get('n_s_id'))}>chaeck state</h3> */}
                     </div>
                 
