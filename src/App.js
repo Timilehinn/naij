@@ -12,6 +12,7 @@ import Settings from './components/dashboard/settings'
 import Create_topic from './components/dashboard/create_topic'
 import Room from './components/dashboard/room';
 import Search from './components/dashboard/search';
+// import SharedTopic from './components/shared-topc';
 import ProtectedRoute from './components/protectedRoute'
 import axios from 'axios'
 function App() {

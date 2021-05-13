@@ -15,8 +15,9 @@ import {AuthContext} from '../contexts/authContextApi'
     useEffect(() => {
       // send jwt to API to see if it's valid
       let token = localStorage.getItem("frse_token");
-      if (token) {
-        axios.get(`http://localhost:3333/api/isUserAuth?email=${localStorage.getItem('user_email')}`, {
+      let email = localStorage.getItem("user_email");
+      if (token && email ) {
+        axios.get(`http://localhost:3333/api/isUserAuth?email=${email}`, {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

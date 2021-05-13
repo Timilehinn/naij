@@ -14,25 +14,51 @@ function Home() {
     
     const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
     const [ loading, setLoading ] = useState(false)
+    const [isTokenValidated, setIsTokenValidated] = useState(false);
     const history = useHistory();
-    // useEffect(()=>{
-    //     const msg = <p style={{fontSize:'.85rem'}}>This app is still in production :)</p>
-    //     toast.info(msg)
-    //     async function getUserByCookie(){
-    //         const res= await axios.get(`http://localhost:3333/get-session-id?n_s_id=${Cookies.get('n_s_id')}`);
-    //         console.log(res.data.session)
-    //         setAuth(res.data.session);
-    //         setUserDetails(res.data.details)
-    //         if(res.data.session){
-    //             setLoading(false)
-    //             history.push(`/d/${res.data.details[0].fullname}`);
-    //         }else{
-    //             setLoading(false)
-    //             history.push('/');
-    //         }
-    //     }
-    //     getUserByCookie();
-    // },[])
+    useEffect(()=>{
+        let token = localStorage.getItem("frse_token");
+      let email = localStorage.getItem("user_email");
+        async function checkIsLoggedIn(e){
+            if (token && email ) {
+                axios.get(`http://localhost:3333/api/isUserAuth?email=${email}`, {
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "x-access-token":token,
+                  },
+                  // body: JSON.stringify({ token })
+                })
+                .then((res) => {
+                  return res
+                })
+                .then((json) => {
+                  console.log(json)
+                  if (json.data.authenticated) {
+                    setAuth(true);
+                    setUserDetails(json.data.details)
+                    // console.log(json.data.details,' the new logs i want to see')
+                    history.push(`/d/${json.data.details[0].fullname}`)
+                  }else{
+                    setAuth(false);
+                    localStorage.removeItem("frse_token");
+                    localStorage.removeItem("user_email");
+                  }
+                })
+                .catch((err) => {
+                  setAuth(false);
+                  console.log(err)
+                  localStorage.removeItem("frse_token");
+                })
+                .then(() => setIsTokenValidated(true));
+              } else {
+                setIsTokenValidated(true); // in case there is no token
+              }
+        
+
+        }
+        checkIsLoggedIn();
+    },[])
    if(loading){
        return <div style={{
             backgroundColor:'#f5f9e9',
