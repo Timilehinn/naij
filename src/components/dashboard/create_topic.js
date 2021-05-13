@@ -216,7 +216,7 @@ function Create_topic() {
                 <input placeholder="Search Rooms (...in production)" style={{width:'100%',border:'.5px solid lightgrey',height:'30px',marginBottom:'1rem'}} />
                 <input
                     style={{width:'100%',border:'.5px solid lightgrey',height:'30px',marginBottom:'1rem'}}
-                    onChange={e=>setTitle(e.target.value)} maxLength="350" placeholder="Title" required />
+                    onChange={e=>setTitle(e.target.value)} maxLength="190" placeholder="Title" required />
 
                     <Editor defaultEditorState={editorState} onEditorStateChange={setEditorState}
                       wrapperClassName="wrapper-class"

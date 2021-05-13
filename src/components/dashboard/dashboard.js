@@ -85,13 +85,13 @@ function Dashboard(props) {
                    <Link to={{ pathname:`/topic/${topic.slug}`, topic_info:topic }} 
                          style={{color:'black',textDecoration:'none'}}>
                         <div className={styles.topicDiv} key={topic.id} key={topic.id}>
-                            <div style={{display:'flex',flexDirection:'row',marginLeft:'1rem'}}>
+                            <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'.5rem'}}>
                                 <img src={topic.creator_img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
-                                <div style={{marginLeft:'1rem'}}>
+                                <div style={{marginLeft:'.5rem'}}>
                                     <p style={{fontSize:'.75rem',color:'grey'}}>Posted by @{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={12} color='#5cab7d'/> : <></>}</p>
-                                    <p style={{fontWeight:'bold',margin:0}}>{topic.title}</p>
                                 </div>
                             </div>
+                            <p style={{fontWeight:'bold',marginLeft:'.5rem'}}>{topic.title}</p>
                             <div style={{display:'flex',flexDirection:'column',marginLeft:'0rem',padding:'.5rem'}}>
                             {topic.img === 'data:image/png;base64,' ? <div style={{height:'0px'}}></div> 
                                 : 

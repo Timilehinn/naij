@@ -9,7 +9,7 @@ body{
     justify-content: center;
     margin:auto;
     justify-content: space-around;
-    margin-top:70px;
+    margin-top:100px;
 }
 .divOne{
     display:flex;
@@ -35,7 +35,6 @@ body{
     width:60%;
     background-color: white;
     padding-bottom:5rem;
-    border:.5px solid lightgrey;
 }
 .topicDiv:hover{
     background-color:rgba(190, 190, 190, 0.2);
@@ -68,7 +67,6 @@ body{
     background-color: white;
     align-items:center;
     overflow-y: scroll;
-    border:.5px solid lightgrey;
     position: fixed;
 }
 
@@ -79,9 +77,9 @@ body{
 /* Media Query for low resolution  Tablets, Ipads */ 
 @media (min-width: 0px) and (max-width: 767px) { 
     body { /* background-color: red;  */ } 
-    .row1{ flex:1; width:100%;padding-top:0px;border:0px }
-    .topicWrapper{padding-top:40px;width:95% }
-    .divBody{ margin-top:70px; width:100% }
+    .row1{ flex:1; width:95%;padding-top:0px }
+    .topicWrapper{padding-top:40px}
+    .divBody{ margin-top:70px }
     .topicDiv{ box-shadow: 0px 0px 0px 0px }
     .row2{ flex:0; display:none; }
     .chatInput{
