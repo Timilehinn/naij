@@ -19,6 +19,9 @@ import userImg from '../../images/user-circle.svg'
 import Navbar from './navbar'
 import * as Scroll from 'react-scroll';
 import {Helmet} from "react-helmet";
+import Preview from '../utils/preview'
+
+
 
 function Room(props) {
 
@@ -147,7 +150,7 @@ function openImg(){
         <div className={styles.divBody}>
             <Chatheader />
             <div className={styles.row1} style={{paddingTop:'1.6rem',}}>
-                <div className={styles.topicWrapper}>
+                {loading? <Preview/> : (<div className={styles.topicWrapper}>
                     <div style={{display:'flex',alignItems:'center',flexDirection:'row',paddingLeft:'1rem',paddingRight:'1rem',}}>
                         <img src={loading ? '' : refTopic[0].creator_img} style={{width:'60px',height:'60px',marginRight:'.5rem',borderRadius:'50%'}} />
                         {/* {JSON.stringify(refTopic)} */}
@@ -172,7 +175,7 @@ function openImg(){
                     <div style={{paddingLeft:'1rem',}}>
                         <p style={{fontSize:'.7rem',color:'grey'}}>{loading ? '' : `${refTopic[0].time} - ${refTopic[0].date}`}</p>
                     </div>
-                </div>
+                </div>)}
                 <hr style={{color:'#5cab7d'}} />
                 {chat.map(msg=>(
                     <div key={msg.id} style={{display:'flex',flexDirection:'row',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>

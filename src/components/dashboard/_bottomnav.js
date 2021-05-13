@@ -13,7 +13,7 @@ function Bottomnav() {
 
     return (
         <div className={styles.bottomnav}>
-            <Link style={{color:'#5cab7d'}} to={`/d/${userDetails[0].fullname}`}>
+            <Link style={{color:'#5cab7d'}} to={'/timeline'}>
                 <FaHome size={23} />
             </Link>
             <Link style={{color:'#5cab7d'}} to="/search">

@@ -1,10 +1,11 @@
 import React,{ useState, useContext } from 'react'
 import styles from '../../styles/header.module.css'
-import { FaHome, FaSearch, FaEnvelope, FaCog, FaBeer } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
 import { Link, useHistory } from 'react-router-dom'
 import {AuthContext} from '../../contexts/authContextApi'
 import {ThemeContext} from '../../contexts/themeContextApi'
 import { useMediaQuery } from 'react-responsive'
+import { IoMdStar } from 'react-icons/io'
 import Cookies from 'js-cookie'
 
 function Header(props) {
@@ -60,18 +61,18 @@ function Header(props) {
                     {userDetails.map(dets=>(
                         <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
                             <img src={userDetails[0].img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
-                                <h4>@{dets.fullname}</h4>
+                                <h4>@{dets.fullname}  {dets.verified ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
                                 <p style={{fontSize:'.9rem',color:'grey'}}>{dets.email}</p>
                              
                         </div>
                     ))}
                     {/* <p>{Cookies.get('n_s_id')}</p> */}
                     
-                    <div style={{display:'flex',flexDirection:'row'}}>
-                        <h4 style={{fontWeight:'lighter'}}>followers - </h4>
-                        <h4 style={{fontWeight:'lighter'}}>following - </h4>
+                    <div style={{display:'flex',alignItems:'center',flexDirection:'row'}}>
+                        <h4 style={{fontWeight:'bold', color:"#5cab7d", fontStyle:"italic"}}>karma - 79  </h4>
+                        <IoMdStar color="#5cab7d" size={15} />
                     </div>
-                        <Link style={{textDecoration:'none',color:'black'}} to={`/d/${userDetails[0].fullname}`}><h2>Home</h2></Link>
+                        <Link style={{textDecoration:'none',color:'black'}} to={'/timeline'}><h2>Home</h2></Link>
                         {/* <Link to="/create-topic" style={{textDecoration:'none',color:'black'}}><h2>Create Topic</h2></Link> */}
                         <Link style={{textDecoration:'none',color:'black'}}><h2>Your Topics</h2></Link>
                         <Link style={{textDecoration:'none',color:'black'}}><h2>Get Verified</h2></Link>
