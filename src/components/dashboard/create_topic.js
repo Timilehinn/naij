@@ -21,8 +21,9 @@ import { convertToRaw, EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import 'draft-js/dist/Draft.css';
-import draftToHtml from 'draftjs-to-html';
 import '../../App.css';
+import Chatheader from './chat-header'
+
 
 
 function MyEditor() {
@@ -40,7 +41,7 @@ function Create_topic() {
     const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
     const [ topics, setTopics ] = useState([]);
     const [ title,setTitle ] = useState('');
-    // const [ post, setPost ] = useState('');
+    const [ post, setPost ] = useState('');
     const [ photo, setPhoto ] = useState('');
     const [ photoName, setPhotoName ] = useState('');
     const [ photoBase64, setPhotoBase64 ] = useState('');
@@ -61,13 +62,13 @@ function Create_topic() {
   
     const rawContentState = convertToRaw(editorState.getCurrentContent());
     
-    const post = draftToHtml(
-      rawContentState, 
-      // hashtagConfig, 
-      // directional, 
-      // customEntityTransform
-    );
-    console.log(post)
+    // const post = draftToHtml(
+    //   rawContentState, 
+    //   // hashtagConfig, 
+    //   // directional, 
+    //   // customEntityTransform
+    // );
+    // console.log(post)
 
     function createWidth(){
         if(isMobile){
@@ -177,7 +178,8 @@ function Create_topic() {
     }
 
 
-    const publishPost= async ()=>{
+    const publishPost= async (e)=>{
+      e.preventDefault();
         if(title || post ){
             // console.log(title)
             // console.log(post)
@@ -189,13 +191,30 @@ function Create_topic() {
             console.log(res.data)
             // setIsUploaded(res.data);
                 if(res.data.success){
-                    toast.info(res.data.msg);
+                    toast.dark(res.data.msg, {
+                      position: "bottom-center",
+                      autoClose: 3000,
+                      hideProgressBar: true,
+                      closeOnClick: true,
+                      pauseOnHover: false,
+                      draggable: true,
+                      progress: false,
+                  });
                     setPhoto(null)
                     setTitle('')
-                    // setPost('')
+                    setPost('')
                     closeModal();
+                    // history.push('/timeline')
                 }else{
-                    toast.error(res.data.msg);
+                    toast.error(res.data.msg, {
+                      position: "bottom-center",
+                      autoClose: 3000,
+                      hideProgressBar: true,
+                      closeOnClick: true,
+                      pauseOnHover: false,
+                      draggable: true,
+                      progress: false,
+                    });
                 }
             }
             
@@ -208,29 +227,39 @@ function Create_topic() {
                 <title>Create a topic.</title>
         </Helmet>
         <Navbar />
-        <Header title="Recent topics" />
+        <Chatheader title="Create topic" />
         <div className={styles.divBody}>
             <div className={styles.row1}>
               <ToastContainer />
-              <div>
+              <form onSubmit={(e)=>publishPost(e)}>
                 <input placeholder="Search Rooms (...in production)" style={{width:'100%',border:'.5px solid lightgrey',height:'30px',marginBottom:'1rem'}} />
                 <input
                     style={{width:'100%',border:'.5px solid lightgrey',height:'30px',marginBottom:'1rem'}}
                     onChange={e=>setTitle(e.target.value)} maxLength="190" placeholder="Title" required />
 
-                    <Editor defaultEditorState={editorState} onEditorStateChange={setEditorState}
+                    {/* <Editor defaultEditorState={editorState} onEditorStateChange={setEditorState}
                       wrapperClassName="wrapper-class"
                       editorClassName="editor-class"
                       toolbarClassName="toolbar-class"
-                  />
+                      toolbar={{
+                      options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign','link','embedded'],
+                      inline: { inDropdown: true },
+                      list: { inDropdown: true },
+                      textAlign: { inDropdown: true },
+                      link: { inDropdown: true },
+                      embedded:{ inDropdown:true }
+                  }}
+                  /> */}
+                  <TextareaAutosize placeholder="Text (optional)" className={styles.post_input} value={post}  onChange={(e)=>setPost(e.target.value)}  />
                   <label style={{cursor:'pointer',fontSize:'.75rem'}} for="img-up">Tap to choose an image from device
                   <input style={{visibility:'hidden'}} type="file" id="img-up" onChange={e=>handleFiles(e)} accept="image/x-png,image/gif,image/jpeg" />
                   </label>
                       <span style={{color:'grey',fontStyle:'italic'}}>{photoName}</span>
                   {/* </ReactFileReader> */}
                   {/* <textarea onChange={e=>setPost(e.target.value)} maxLength="350" style={{marginTop:".5rem",height:'150px',width:'100%'}}  placeholder="Post (Optional)" /> */}
-              </div>
-              <button style={{padding:'.75rem',zIndex:0, color:'white', fontWeight:'bold', backgroundColor:'#5cab7d', width:'100%',marginTop:'1rem',border:'0px solid grey',cursor:'pointer'}} onClick={()=>publishPost()}>Publish</button>
+                  <button style={{padding:'.75rem',zIndex:0, color:'white', fontWeight:'bold', backgroundColor:'#5cab7d', width:'100%',marginTop:'1rem',border:'0px solid grey',cursor:'pointer'}} >Publish</button>
+              
+              </form>
             </div>
       
             <div className={styles.row2}>

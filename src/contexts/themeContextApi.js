@@ -5,14 +5,14 @@ export const ThemeContext = createContext();
 
 function ThemeContextApi(props) {
 
-    const [ darkMode, setDarkMode ] = useState({
+    const [ themeMode, setThemeMode ] = useState({
         backgroundColor:'white',
         color:'black',
         border:'lightgrey'
     })
     const [isEnabled, setIsEnabled] = useState(false);
 
-    const themeProviderValues = {darkMode,setDarkMode,isEnabled,setIsEnabled}
+    const themeProviderValues = {themeMode,setThemeMode,isEnabled,setIsEnabled}
 
     return (
         <ThemeContext.Provider value={themeProviderValues} >

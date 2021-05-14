@@ -1,0 +1,21 @@
+.blink_1 {
+    animation: blinker 2s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+}
+.blink_2 {
+    animation: blinker2 2s linear infinite;
+}
+.blink_3 {
+    animation: blinker 2s linear infinite;
+}
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0.5;
+    }
+  }
+  @keyframes blinker2 {
+    20% {
+      opacity: 0.5;
+    }
+  }
+

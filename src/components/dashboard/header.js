@@ -61,7 +61,7 @@ function Header(props) {
                     {userDetails.map(dets=>(
                         <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
                             <img src={userDetails[0].img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
-                                <h4>@{dets.fullname}  {dets.verified ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
+                                <h4>@{dets.fullname}  {dets.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
                                 <p style={{fontSize:'.9rem',color:'grey'}}>{dets.email}</p>
                              
                         </div>

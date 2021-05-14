@@ -4,7 +4,7 @@ import './App.css';
 import Home from './components/Home'
 import Login from './components/login'
 import Register from './components/register'
-import Dash from './components/dashboard/dashboard'
+import Timeline from './components/dashboard/timeline'
 import Four from './components/404'
 import { BrowserRouter, Route, Switch ,Redirect} from 'react-router-dom';
 import {AuthContext} from './contexts/authContextApi'
@@ -33,7 +33,7 @@ function App() {
           <Route path='/search' render={(props) => !auth ? <Redirect to="/" /> : <Search {...props}/> } />
           <Route path='/topic/:room' render={(props) => !auth ? <Redirect to="/" /> : <Room {...props}/> } />
           <Route component={Four} /> */}
-          <ProtectedRoute path='/timeline' component={Dash} />
+          <ProtectedRoute path='/timeline' component={Timeline} />
           <ProtectedRoute path='/create-topic' component={Create_topic} />
           <ProtectedRoute path='/settings' component={Settings} />
           <ProtectedRoute path='/search' component={Search} />

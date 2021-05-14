@@ -11,8 +11,12 @@ import Settings from './settings';
 import Bottomnav from './_bottomnav'
 import Chatheader from './chat-header'
 import Sidebar from './sidebar'
-import { FaImage, FaCheckCircle, FaPaperPlane, FaTimes } from 'react-icons/fa';
 import { IoMdSend } from 'react-icons/io'
+import { FaCheckCircle,FaEllipsisV,FaRegCommentAlt, FaTimes, FaChartLine, FaArrowUp, FaArrowDown, FaComment } from 'react-icons/fa';
+import  { MdBookmarkBorder } from 'react-icons/md'
+import { TiArrowDownOutline, TiArrowUpOutline } from 'react-icons/ti'
+import { BiCommentDetail } from 'react-icons/bi'
+import { FiHeart } from 'react-icons/fi'
 import TextareaAutosize from 'react-autosize-textarea';
 import ReactFileReader from 'react-file-reader';
 import userImg from '../../images/user-circle.svg'
@@ -21,6 +25,57 @@ import * as Scroll from 'react-scroll';
 import {Helmet} from "react-helmet";
 import Preview from '../utils/preview'
 
+
+// like, comment, save, hide and report functions
+function TopicFunction(prop){
+
+    const [moreModal, setMoreModal] = useState('none')
+
+    
+    const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos, topics, setTopics} = useContext(AuthContext);
+    // const {themeMode,setThemeMode,isEnabled,setIsEnabled} = useContext(ThemeContext)
+    const [ isUpVoted, setIsUpVoted ] = useState(false)
+    const [ isDownVoted, setIsDownVoted ] = useState(false)
+
+      
+    //Upvote
+    async function upVoteState(){
+        setIsUpVoted(true)
+        setIsDownVoted(false)
+        const res = await axios.post(`http://localhost:3333/api/upvote-topic?user=${userDetails[0].email}&topic_id=${prop.topic_id}`);
+        console.log(res)
+    }
+    async function downVoteState(){
+        setIsUpVoted(false)
+        setIsDownVoted(true)
+        const res = await axios.post(`http://localhost:3333/api/downvote-topic?user=${userDetails[0].email}&topic_id=${prop.topic_id}`);
+    }
+    console.log(isUpVoted,'isn v')   
+    
+
+    return (
+        <div style={{width:'100%',display:'flex',justifyContent:'space-between', alignItems:'flex-end'}}> 
+
+            <div style={{height:'30px',minWidth:'120px', display:'flex',justifyContent:'space-around', alignItems:'center',backgroundColor:'rgba(223,223,223,.3)',borderRadius:'1rem'}}>
+                <span style={{color:isUpVoted ?'#5cab7d':'black',fontSize:'.8rem'}}>
+                    <FiHeart 
+                        color={isUpVoted ?'#5cab7d':'black'} 
+                        onClick={()=>upVoteState()} size={17}
+                    />
+                    {prop.upvotes}
+                </span>
+                {/* <TiArrowDownOutline color={isDownVoted ? '5cab7d':'black'} onClick={()=>downVoteState()} size={20}/> */}
+                <span style={{fontSize:'.8rem'}}><MdBookmarkBorder size={20}/></span>
+                <span style={{fontSize:'.8rem'}}><FaRegCommentAlt size={15}/> {prop.comments}</span>
+            </div>
+            {/* back modal */}
+        {/* <div onClick={()=>setMoreModal('none')} style={{zIndex:2,width:"100%",height:'100%',position:'fixed',top:0,bottom:0,left:0,right:0}}></div> */}
+            {/* <span style={{display:"flex",alignItems:'flex-end', flexDirection:"column"}}><MoreModal  topic_id={prop.topic_id} set={setMoreModal} mod={moreModal} state={moreModal} />
+                <span className={styles.more_ellipsis}><FaEllipsisV style={{padding:'.25rem'}} onClick={()=>setMoreModal('block')} size={13} /></span>
+            </span> */}
+        </div>
+    )
+}
 
 
 function Room(props) {
@@ -176,6 +231,7 @@ function openImg(){
                         <p style={{fontSize:'.7rem',color:'grey'}}>{loading ? '' : `${refTopic[0].time} - ${refTopic[0].date}`}</p>
                     </div>
                 </div>)}
+                <TopicFunction upvotedby={refTopic[0].upvoted_by} upvotes={refTopic[0].upvotes} topic_id={refTopic[0].id} comments={refTopic[0].comment_count} />
                 <hr style={{color:'#5cab7d'}} />
                 {chat.map(msg=>(
                     <div key={msg.id} style={{display:'flex',flexDirection:'row',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>
