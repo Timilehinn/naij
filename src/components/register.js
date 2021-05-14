@@ -38,7 +38,7 @@ function Register() {
         if(registerRes.data.success){
                 console.log('aw far')
                 setIsLoading(false)
-                const loginRes = await axios.post('http://localhost:3333/api/login',{email,password})
+                const loginRes = await axios.post('https://naij-react-backend.herokuapp.com/api/login',{email,password})
                 setAuth(loginRes.data.session)
                 setUserDetails(loginRes.data.details)
                 console.log(loginRes.data.auth_msg)
