@@ -228,9 +228,9 @@ function openImg(){
                     {loading ? '' : <div style={{margin:'.5rem',paddingLeft:'.5rem',wordBreak:'break-all', textOverflow:'ellipsis'}} dangerouslySetInnerHTML={{__html: refTopic[0].topic_body}} ></div>}
                     {/* TIME AND DATE */}
                     <div style={{paddingLeft:'1rem',}}>
-                        <p style={{fontSize:'.7rem',color:'grey'}}>{loading ? '' : `${refTopic[0].time} - ${refTopic[0].date}`}</p>
+                        <p style={{fontSize:'.7rem',marginBottom:'.5rem',color:'grey'}}>{loading ? '' : `${refTopic[0].time} - ${refTopic[0].date}`}</p>
+                        <TopicFunction upvotedby={refTopic[0].upvoted_by} upvotes={refTopic[0].upvotes} topic_id={refTopic[0].id} comments={refTopic[0].comment_count} />
                     </div>
-                    <TopicFunction upvotedby={refTopic[0].upvoted_by} upvotes={refTopic[0].upvotes} topic_id={refTopic[0].id} comments={refTopic[0].comment_count} />
                 </div>)}
                 <hr style={{color:'#5cab7d'}} />
                 {chat.map(msg=>(
