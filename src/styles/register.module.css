@@ -25,13 +25,13 @@
     padding-left:1rem;
     outline: none;
 }
-form button{
+.form button{
     width:370px;
     height:50px;
     margin-top:1rem;
     border-radius:5rem;
-    border:0px solid;
-    background-color: white;
+    border:1px solid white;
+    background-color: #5cab7d;
 }
 @media only screen and (max-width:700px){
     .form input{

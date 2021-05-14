@@ -7,6 +7,7 @@ import axios from 'axios';
 import {AuthContext} from '../contexts/authContextApi'
 import Cookies from 'js-cookie';
 import naijIcon from '../images/logo2.png'
+import Preloader from './utils/preloader'
 
 
 function Register() {
@@ -16,8 +17,10 @@ function Register() {
     const [isShowPwrd, setIsShowPwrd] = useState('password');
     const history = useHistory();
     const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
+    const [ isLoading, setIsLoading ] = useState(false)
 
     async function authenticateUser(e){
+        setIsLoading(true)
         e.preventDefault();
         const registerRes = await axios.post('https://naij-react-backend.herokuapp.com/register',{email,name,password});
         console.log(registerRes.data)
@@ -26,7 +29,7 @@ function Register() {
         toast.info(msg,{
             position: "top-center",
             autoClose: 3000,
-            hideProgressBar: true,
+            hideProgressBar: true, 
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
@@ -34,7 +37,8 @@ function Register() {
         })
         if(registerRes.data.success){
                 console.log('aw far')
-                const loginRes = await axios.post('https://naij-react-backend.herokuapp.com/api/login',{email,password})
+                setIsLoading(false)
+                const loginRes = await axios.post('http://localhost:3333/api/login',{email,password})
                 setAuth(loginRes.data.session)
                 setUserDetails(loginRes.data.details)
                 console.log(loginRes.data.auth_msg)
@@ -65,7 +69,9 @@ function Register() {
                 <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" required/>
                 <input type="name" value={name} onChange={e=>setName(e.target.value)} placeholder="name (display name)" required/>
                 <input minLength="6" value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" type={isShowPwrd} required/>
-                <button  style={{color:'#5cab7d',fontWeight:'bold'}}>Sign Up</button>
+                <button style={{display:'flex',justifyContent:'center',flexDirection:"row",alignItems:'center',color:'white',fontWeight:'bold'}}>
+                    Sign Up {isLoading? <Preloader /> :''}
+                </button>
                 <Link to="/signin" style={{textDecoration:'none',color:'white'}}>
                     <p style={{textAlign:'center',fontSize:'1rem'}}>Already registered? Sign In</p></Link>
                 

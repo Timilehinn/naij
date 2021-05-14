@@ -7,7 +7,7 @@
   ::-webkit-scrollbar-track {
     background: #f1f1f1;
   }
-  
+  /* {backgroundColor:'#101820ff',color:'white',border:'#01452c',enabled:true}) */
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background: #888;
@@ -87,6 +87,11 @@
     background-color: white;
     border:.5px solid lightgrey;
     padding:.5rem;
+}
+.more_ellipsis:hover{
+  cursor: pointer;
+  background-color: rgb(224, 224, 224);
+  border-radius: .3rem;
 }
 .topicDiv:hover{
   border:.8px solid grey;

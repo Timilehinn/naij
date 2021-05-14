@@ -1,8 +1,9 @@
 import React,{ useEffect,useLayoutEffect, useState, useContext } from 'react'
 import {AuthContext} from '../../contexts/authContextApi'
+import {ThemeContext} from '../../contexts/themeContextApi'
 import Cookies from 'js-cookie';
 import { useHistory, Link, Switch } from 'react-router-dom';
-import styles from '../../styles/dash.module.css';
+import styles from '../../styles/timeline.module.css';
 import axios from 'axios';
 import User_home from './user_home'
 import Create_topic from './create_topic';
@@ -10,30 +11,76 @@ import Settings from './settings';
 import Bottomnav from './_bottomnav'
 import Header from './header'
 import Sidebar from './sidebar'
-import { FaCheckCircle, FaChartLine, FaArrowUp, FaArrowDown, FaComment } from 'react-icons/fa';
+import { FaCheckCircle,FaEllipsisV,FaRegCommentAlt, FaChartLine, FaArrowUp, FaArrowDown, FaComment } from 'react-icons/fa';
 import  { MdBookmarkBorder } from 'react-icons/md'
-import { IoMdChatboxes,IoMdHeart,IoIosImage, IoMdArrowDown,IoMdArrowUp,IoMdRefresh, IoIosChatbubbles } from 'react-icons/io'
+import { TiArrowDownOutline, TiArrowUpOutline } from 'react-icons/ti'
+import { BiCommentDetail } from 'react-icons/bi'
+import { IoMdChatboxes, IoEllipsisVerticalOutline,IoMdHeart,IoIosImage, IoMdArrowDown,IoMdArrowUp,IoMdRefresh, IoIosChatbubbles } from 'react-icons/io'
+import { FiHeart } from 'react-icons/fi'
 import userImg from '../../images/user-circle.svg'
 import Navbar from './navbar'
 import * as Scroll from 'react-scroll';
 import Preview from '../utils/preview'
+import Linkify from 'react-linkify';
+import Modal from 'react-modal';
+import MoreModal from '../utils/moreModal'
+import { ToastContainer, toast } from 'react-toastify';
 
 
+// like, comment, save, hide and report functions
 function TopicFunction(prop){
+
+    const [moreModal, setMoreModal] = useState('none')
+
+    
+    const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos, topics, setTopics} = useContext(AuthContext);
+    const {themeMode,setThemeMode,isEnabled,setIsEnabled} = useContext(ThemeContext)
+    const [ isUpVoted, setIsUpVoted ] = useState(false)
+    const [ isDownVoted, setIsDownVoted ] = useState(false)
+
+      
+    //Upvote
+    async function upVoteState(){
+        setIsUpVoted(true)
+        setIsDownVoted(false)
+        const res = await axios.post(`http://localhost:3333/api/upvote-topic?user=${userDetails[0].email}&topic_id=${prop.topic_id}`);
+        console.log(res)
+    }
+    async function downVoteState(){
+        setIsUpVoted(false)
+        setIsDownVoted(true)
+        const res = await axios.post(`http://localhost:3333/api/downvote-topic?user=${userDetails[0].email}&topic_id=${prop.topic_id}`);
+    }
+    console.log(isUpVoted,'isn v')   
+    
+
     return (
-        <div style={{width:'100px',display:'flex',alignItems:'center',height:'30px',backgroundColor:'rgba(223,223,223,.5)',borderRadius:'1rem'}}> 
-            <IoMdArrowUp size={20}/>
-            <IoMdArrowDown size={20}/> 
-            <MdBookmarkBorder size={25}/>
-            <IoMdChatboxes size={20}/> {prop.comments}
+        <div style={{width:'100%',display:'flex',justifyContent:'space-between', alignItems:'flex-end'}}> 
+
+            <div style={{height:'30px',minWidth:'120px', display:'flex',justifyContent:'space-around', alignItems:'center',backgroundColor:'rgba(223,223,223,.3)',borderRadius:'1rem'}}>
+                <span style={{color:isUpVoted ?'#5cab7d':'black',fontSize:'.8rem'}}>
+                    <FiHeart 
+                        color={isUpVoted ?'#5cab7d':'black'} 
+                        onClick={()=>upVoteState()} size={17}
+                    />
+                    {prop.upvotes}
+                </span>
+                {/* <TiArrowDownOutline color={isDownVoted ? '5cab7d':'black'} onClick={()=>downVoteState()} size={20}/> */}
+                <span style={{fontSize:'.8rem'}}><MdBookmarkBorder size={20}/></span>
+                <span style={{fontSize:'.8rem'}}><FaRegCommentAlt size={15}/> {prop.comments}</span>
+            </div>
+            {/* back modal */}
+        {/* <div onClick={()=>setMoreModal('none')} style={{zIndex:2,width:"100%",height:'100%',position:'fixed',top:0,bottom:0,left:0,right:0}}></div> */}
+            <span style={{display:"flex",alignItems:'flex-end', flexDirection:"column"}}><MoreModal  topic_id={prop.topic_id} set={setMoreModal} mod={moreModal} state={moreModal} />
+                <span className={styles.more_ellipsis}><FaEllipsisV style={{padding:'.25rem'}} onClick={()=>setMoreModal('block')} size={13} /></span>
+            </span>
         </div>
     )
 }
 
 function Dashboard(props) {  
     const history = useHistory();
-    const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos} = useContext(AuthContext);
-    const [ topics, setTopics ] = useState([]);
+    const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos, topics, setTopics} = useContext(AuthContext);
     // const [ olderTopics, setOlderTopics ] = useState([]);
     const [ switchPage, setSwitchPage ] = useState('home')
     const [ loading, setLoading ] = useState(true)
@@ -81,7 +128,7 @@ function Dashboard(props) {
         getTopics();
 
         //to scroll back to previou position
-        scroll.scrollTo(scrollPos);
+        scroll.scrollTo(scrollPos); 
         console.log('are you tunnin?')
        
     },[])
@@ -104,22 +151,27 @@ function Dashboard(props) {
     function backToTop(){
         scroll.scrollTo(0,0);
     }
+
+
     return (
         <>
+              <ToastContainer />
+
         <Navbar />
         <div className={styles.divBody}>
         <Header title="Recent topics" />
         
             <div className={styles.row1}>
-            <p style={{display:'flex',alignItems:'center',flexDirection:'row',marginBottom:'.25rem'}} onClick={()=>getNewerTopics()}>refresh <IoMdRefresh/></p>
+            <p style={{display:'flex',cursor:'pointer', alignItems:'center',flexDirection:'row',marginBottom:'.25rem'}} onClick={()=>getNewerTopics()}>refresh <IoMdRefresh/></p>
 
                {
                    loading ? <><Preview/><Preview/></>
                    :
                    topics.map(topic=>(
-                   <Link key={topic.id} to={{ pathname:`/topic/${topic.slug}`, topic_info:topic }} 
-                         style={{color:'black',textDecoration:'none'}}>
+
                         <div className={styles.topicDiv} key={topic.id} key={topic.id}>
+                        <Link key={topic.id} to={{ pathname:`/topic/${topic.slug}`, topic_info:topic }} 
+                         style={{color:'black',textDecoration:'none'}}>
                             <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'.5rem'}}>
                                 <img src={topic.creator_img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
                                 <div style={{marginLeft:'.5rem'}}>
@@ -133,15 +185,16 @@ function Dashboard(props) {
                                 <img src={topic.img} style={{borderRadius:'.5rem'}} width="auto" height="300px" />
                             }
                             {/* MARKDOWN SAVED IN THE DATABSE IS CONVERTED TO HTML HERE */}
-                                {topic.topic_body ? ( <div style={{paddingLeft:'0rem',wordBreak:'break-all', textOverflow:'ellipsis'}} dangerouslySetInnerHTML={{__html: topic.topic_body}} ></div> ) :''  }
+                                {topic.topic_body ? ( <Linkify><div style={{paddingLeft:'0rem',wordBreak:'break-all'}}>{topic.topic_body.length > 200 ? topic.topic_body.substring(0,200) + ' ...' : topic.topic_body }</div></Linkify> ) :''  }
                                 <p style={{fontSize:'.8rem',color:'grey'}}>{topic.date} {topic.time}</p>
                             </div>
-                            <TopicFunction comments={topic.comment_count} />
                             {/* <div> <FaArrowUp onClick={()=>alert(scrollPos)} size={20}/> <FaArrowDown size={20}/> <MdBookmarkBorder size={25}/>
                                 <IoMdChatboxes size={20}/> {topic.comment_count}
                             </div> */}
-                        </div>
                    </Link>
+                   <TopicFunction upvotedby={topic.upvoted_by} upvotes={topic.upvotes} topic_id={topic.id} comments={topic.comment_count} />
+
+                        </div>
                ))}
                {!loading ? (<>
                 {/* <button onClick={()=>prevPage()} disabled={prevBtnDisabled}>prev</button> */}

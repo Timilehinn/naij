@@ -1,5 +1,5 @@
 import React,{ useEffect, useState, useContext } from 'react'
-import styles from '../../styles/dash.module.css';
+import styles from '../../styles/timeline.module.css';
 import {AuthContext} from '../../contexts/authContextApi'
 import axios from 'axios';
 

@@ -9,6 +9,7 @@ function AuthContextApi(props) {
     const [ userDetails, setUserDetails ] = useState([]);
     const [ showSideBar,setShowSideBar ] = useState('100%')
     const [refTopic, setRefTopic] =useState([])
+    const [ topics, setTopics ] = useState([]);
 
    
 
@@ -17,7 +18,7 @@ function AuthContextApi(props) {
 
     //new contect for scroll position ***
     const [ scrollPos, setScrollPos ] = useState(0)
-    const allValues = {auth, setAuth, showSideBar, setShowSideBar, userDetails, setUserDetails, scrollPos, setScrollPos, refTopic, setRefTopic};
+    const allValues = {auth, setAuth, showSideBar, setShowSideBar, userDetails, setUserDetails, scrollPos, setScrollPos,topics, setTopics, refTopic, setRefTopic};
      
     
     return (
