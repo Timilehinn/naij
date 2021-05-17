@@ -42,13 +42,13 @@ function TopicFunction(prop){
     async function likeUnlike(){
         setIsUpVoted(true)
         setIsDownVoted(false)
-        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetails[0].email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetailsemail}&topic_id=${prop.topic_id}`);
         console.log(res)
     }
     async function downVoteState(){
         setIsUpVoted(false)
         setIsDownVoted(true)
-        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/downvote-topic?user=${userDetails[0].email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/downvote-topic?user=${userDetailsemail}&topic_id=${prop.topic_id}`);
     }
     console.log(isUpVoted,'isn v')   
     

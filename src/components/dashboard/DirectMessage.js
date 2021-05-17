@@ -47,7 +47,7 @@ function DirectMessage() {
                 <h4 style={{fontWeight:'lighter'}}>following - </h4>
             </div>
             <div style={{paddingLeft:'3rem',borderBottom:'1px solid grey'}}>
-                <Link style={{textDecoration:'none',color:'black'}} to={`/d/${userDetails[0].fullname}`}><h2>Home</h2></Link>
+                <Link style={{textDecoration:'none',color:'black'}} to={`/d/${userDetailsfullname}`}><h2>Home</h2></Link>
                 <Link style={{textDecoration:'none',color:'black'}}><h2>Create Topic</h2></Link>
                 <Link style={{textDecoration:'none',color:'black'}}><h2>Your Topics</h2></Link>
                 <Link style={{textDecoration:'none',color:'black'}}><h2>Get Verified</h2></Link>
