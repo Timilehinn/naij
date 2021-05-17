@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import naijIcon from '../images/logo2.png'
 import Preloader from './utils/preloader'
 import rug from 'random-username-generator';
-import { css } from 'glamor'
+// import { css } from 'glamor'
 
 
 function Register() {

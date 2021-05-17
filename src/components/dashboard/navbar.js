@@ -34,7 +34,7 @@ function Header(props) {
         <div className={styles.nav}>
             <img src={whitelogo} width="40px" height="45px" />
             {/* {userDetails} */}
-
+            <h2>Test</h2>
             <select className={styles.select}  >
                 <option>lorem 1</option>
                 <option>lorem 2</option>
