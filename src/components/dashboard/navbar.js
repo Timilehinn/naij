@@ -6,7 +6,8 @@ import {AuthContext} from '../../contexts/authContextApi'
 import { useMediaQuery } from 'react-responsive'
 import Logo from '../../images/logo1.png'
 import Cookies from 'js-cookie'
-import { IoMdAddCircle, IoMdAddCircleOutline } from 'react-icons/io'
+import { IoMdAddCircle, IoMdAddCircleOutline} from 'react-icons/io'
+import { BiLogOutCircle } from 'react-icons/bi'
 import loupe from '../../images/loupe.png'
 import check from '../../images/check.png'
 import whitelogo from '../../images/whitelogo.png'
@@ -26,20 +27,20 @@ function Header(props) {
     }
     function signOut(){
         history.push('/signin')
-        localStorage.removeItem('frse_token')
-        localStorage.removeItem('user_email')
+        localStorage.removeItem('frse_token');
+        localStorage.removeItem('user_email');
     }
     return (
         
         <div className={styles.nav}>
             <img src={whitelogo} width="40px" height="45px" />
             {/* {userDetails} */}
-            <h2>Test</h2>
-            <select className={styles.select}  >
+            
+            {/* <select className={styles.select}  >
                 <option>lorem 1</option>
                 <option>lorem 2</option>
                 <option>lorem 4</option>
-            </select>
+            </select> */}
            
             <div className={styles.inputBox}>
                 <img src={loupe} alt=""/>
@@ -56,7 +57,8 @@ function Header(props) {
                     <h4 style={{margin:'0'}}>@{userDetails.username} {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
                 </div>
                 <img src={userDetails.img} style={{width:'40px',height:"40px",borderRadius:'50%' }}/>
-                 <p style={{marginLeft:"20px"}} onClick={()=>signOut()}  >logout</p>
+                 {/* <p style={{marginLeft:"20px"}} onClick={()=>signOut()}  >logout </p> */}
+                 <BiLogOutCircle color="white" size="30" style={{marginLeft:"20px",cursor:"pointer"}} />
             </div>
         </div>
     )
