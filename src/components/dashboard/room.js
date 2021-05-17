@@ -142,7 +142,7 @@ function Room(props) {
         //get messages
         async function getMessages(){
             console.log(socket.id,' here')
-            const res = await axios.get(`http://localhost:3333/api/messages?slug=${props.match.params.room}`);
+            const res = await axios.get(`ttps://naij-react-backend.herokuapp.com/api/messages?slug=${props.match.params.room}`);
             setMesages(res.data);
             console.log('refreshed')         
             setChat([])   

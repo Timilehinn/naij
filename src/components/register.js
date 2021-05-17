@@ -45,13 +45,13 @@ function Register() {
     async function authenticateUser(e){
         setIsLoading(true)
         e.preventDefault();
-        const registerRes = await axios.post('http://localhost:3333/api/register',{email,username,password});
+        const registerRes = await axios.post('ttps://naij-react-backend.herokuapp.com/api/register',{email,username,password});
         console.log(registerRes.data)
         const msg = <p style={{fontSize:'.85rem'}}>{registerRes.data.msg+' new'}</p>
         if(registerRes.data.success){
                 console.log('aw far')
                 setIsLoading(false)
-                const loginRes = await axios.post('http://localhost:3333/api/login',{email,username,password})
+                const loginRes = await axios.post('ttps://naij-react-backend.herokuapp.com/api/login',{email,username,password})
                 setAuth(loginRes.data.session)
                 setUserDetails(loginRes.data.details)
                 console.log(loginRes.data.auth_msg)
