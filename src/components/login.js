@@ -24,15 +24,15 @@ function Login(props) {
                 setIsLoading(true)
                 e.preventDefault();
                 console.log('aw far')
-                var loginRes = await axios.post('https://naij-react-backend.herokuapp.com/api/login',{email,password})
+                var loginRes = await axios.post('http://localhost:3333/api/login',{email,password})
                 const msg = <p style={{fontSize:'.85rem'}}>{loginRes.data.auth_msg}</p>
-                toast.info(msg,{
-                    position: "top-center",
+                toast.dark(msg,{
+                    position: "bottom-center",
                     autoClose: 3000,
-                    hideProgressBar: true,
+                    hideProgressBar: true, 
                     closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
+                    pauseOnHover: false,
+                    draggable: false,
                     progress: undefined,
                 })
                 console.log(loginRes)

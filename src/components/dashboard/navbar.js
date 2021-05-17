@@ -53,7 +53,7 @@ function Header(props) {
             <div style={{display:'flex',alignItems:"center", flexDirection:'row',marginRight:'1rem'}}>
                 <div style={{display:'flex',flexDirection:'column',marginRight:'1rem'}}>
                     {/* <p style={{fontSize:'.9rem',margin:'0',color:'grey'}}>{userDetails.email}</p> */}
-                    <h4 style={{margin:'0'}}>@{userDetails.fullname} {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
+                    <h4 style={{margin:'0'}}>@{userDetails.username} {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
                 </div>
                 <img src={userDetails.img} style={{width:'40px',height:"40px",borderRadius:'50%' }}/>
                  <p style={{marginLeft:"20px"}} onClick={()=>signOut()}  >logout</p>

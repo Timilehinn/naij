@@ -50,20 +50,20 @@ function TopicFunction(prop){
     
     //Upvote
     async function likeUnlike(){
-        socket.emit('likeUnlike',{msg:`a user liked, ${prop.topic_id}`,id:prop.topic_id})
-        socket.on('new-like',val=>{
-            setLikeCount(likeCount+1);
-        })
+        // socket.emit('likeUnlike',{msg:`a user liked, ${prop.topic_id}`,id:prop.topic_id})
+        // socket.on('new-like',val=>{
+        //     setLikeCount(likeCount+1);
+        // })
         setIsUpVoted(true)
         setIsDownVoted(false)
         setLikeCount(likeCount+1)
-        const res = await axios.post(`ttps://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`http://localhost:3333/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
        
     }
     async function downVoteState(){
         setIsUpVoted(false)
         setIsDownVoted(true)
-        const res = await axios.post(`ttps://naij-react-backend.herokuapp.com/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`http://localhost:3333/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
     }
    
 
@@ -76,7 +76,7 @@ function TopicFunction(prop){
                         color={isUpVoted ?'#5cab7d':'black'} 
                         onClick={()=>likeUnlike()} size={17}
                     />
-                    {prop.likes + likeCount}
+                    {prop.likes}
                 </span>
                 {/* <TiArrowDownOutline color={isDownVoted ? '5cab7d':'black'} onClick={()=>downVoteState()} size={20}/> */}
                 <span style={{fontSize:'.8rem'}}><AiOutlineRetweet size={20}/></span>
@@ -106,7 +106,7 @@ function Dashboard(props) {
     // GET NEWER TOPICS
     
     async function getNewerTopics(){
-        const res = await axios.get(`ttps://naij-react-backend.herokuapp.com/api/topics?offset=0`);
+        const res = await axios.get(`http://localhost:3333/api/topics?offset=0`);
         console.log('refreshed')
         setTopics(res.data);
         setLoading(false)
@@ -118,7 +118,7 @@ function Dashboard(props) {
     // OLDER TOPICS
     function olderTopics(){
         async function getTopics(){
-            const res = await axios.get(`ttps://naij-react-backend.herokuapp.com/api/topics?offset=${offset}`);
+            const res = await axios.get(`http://localhost:3333/api/topics?offset=${offset}`);
             console.log(res.data)
             setTopics((prevTopics)=>{
                 return [...prevTopics, ...res.data]
@@ -133,7 +133,7 @@ function Dashboard(props) {
 
     useEffect(()=>{
         async function getTopics(){
-            const res = await axios.get(`ttps://naij-react-backend.herokuapp.com/api/topics?offset=0`);
+            const res = await axios.get(`http://localhost:3333/api/topics?offset=0`);
             console.log(res.data)
             setTopics(res.data);
             setLoading(false)
