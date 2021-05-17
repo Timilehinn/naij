@@ -27,7 +27,8 @@ import Linkify from 'react-linkify';
 import Modal from 'react-modal';
 import MoreModal from '../utils/moreModal'
 import { ToastContainer, toast } from 'react-toastify';
-import addTopic from '../../images/addTopicButton.png'
+import addTopic from '../../images/addTopicButton.png';
+import Report from '../report.js'
 
 
 // like, comment, save, hide and report functions
@@ -166,75 +167,83 @@ function Dashboard(props) {
         scroll.scrollTo(0,0);
     }
 
+    const {toggle,setToggle} = useContext(ThemeContext);
+
 
     return (
         <>
-        <ToastContainer />
+            <ToastContainer />
 
-        <Navbar />
-        <div className={styles.divBody}>
-        <Header title="Recent topics" />
-        
-            <div className={styles.row1}>
-            <p style={{display:'flex',cursor:'pointer', alignItems:'center',flexDirection:'row',marginBottom:'.25rem'}} onClick={()=>getNewerTopics()}>refresh <IoMdRefresh/></p>
-
-               {
-                   loading ? <><Preview/><Preview/></>
-                   :
-                   topics.map(topic=>(
-
-                        <div className={styles.topicDiv} key={topic.id} key={topic.id}>
-                        <Link key={topic.id} to={{ pathname:`/topic/${topic.slug}`, topic_info:topic }} 
-                         style={{color:'black',textDecoration:'none'}}>
-                            <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'.5rem'}}>
-                                <img src={topic.creator_img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
-                                <div style={{marginLeft:'.5rem'}}>
-                                    <p style={{fontSize:'.75rem',color:'grey'}}>Posted by @{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={12} color='#5cab7d'/> : <></>}</p>
-                                </div>
-                            </div>
-                            <p style={{fontWeight:'bold',marginLeft:'.5rem',marginBottom:'0rem'}}>{topic.title}</p>
-                            <div style={{display:'flex',flexDirection:'column',marginLeft:'0rem',padding:'.5rem'}}>
-                            {topic.img === 'data:image/png;base64,' ? <div style={{height:'0px'}}></div> 
-                                : 
-                                <img src={topic.img} style={{borderRadius:'.5rem'}} width="auto" height="300px" />
-                            }
-                            {/* MARKDOWN SAVED IN THE DATABSE IS CONVERTED TO HTML HERE */}
-                                {topic.topic_body ? ( <Linkify><div style={{paddingLeft:'0rem',wordBreak:'break-all'}}>{topic.topic_body.length > 200 ? topic.topic_body.substring(0,200) + ' ...' : topic.topic_body }</div></Linkify> ) :''  }
-                                <p style={{fontSize:'.8rem',color:'grey'}}>{topic.date} {topic.time}</p>
-                            </div>
-                            {/* <div> <FaArrowUp onClick={()=>alert(scrollPos)} size={20}/> <FaArrowDown size={20}/> <MdBookmarkBorder size={25}/>
-                                <IoMdChatboxes size={20}/> {topic.comment_count}
-                            </div> */}
-                   </Link>
-                   <TopicFunction likedby={topic.liked_by} likes={topic.likes} topic_id={topic.id} comments={topic.comment_count} />
-
-                        </div>
-               ))}
-               {!loading ? (<>
-                {/* <button onClick={()=>prevPage()} disabled={prevBtnDisabled}>prev</button> */}
-                <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                    <button style={{cursor:'pointer',width:'65%',borderRadius:'1rem',padding:'.5rem',background:'transparent',border:'.5px solid lightgrey'}} onClick={()=>olderTopics()}>Load more ...</button>
-                    <button style={{cursor:'pointer', width:'30%',borderRadius:'1rem',padding:'.5rem',background:'transparent',border:'.5px solid lightgrey'}} onClick={()=>backToTop()}><IoMdArrowUp size={15}/></button>
-               </div>
-               </>):('')}
-            </div>
-            <div className={styles.row2}>
-                <div> 
-                    <h3>Top trending</h3>
-                    <p> <FaChartLine />lore ipsum dor itemt</p>
-                    <p> <FaChartLine />lore ipsum dor itemt</p>
-                    <p> <FaChartLine />lore ipsum dor itemt</p>
-                </div>
-            </div>
-            {/* BOTTOM NAV */}
-            <Bottomnav />
+            <Navbar />
+            <div className={styles.divBody}>
+            <Header title="Recent topics" />
             
-        </div>
-        {/* Add topic button */}
-        <Link to='/create-topic'>
-           <img className={styles.addTopic} src={addTopic} alt=""/>     
-        </Link>
-        
+                <div className={styles.row1}>
+                <p style={{display:'flex',cursor:'pointer', alignItems:'center',flexDirection:'row',marginBottom:'.25rem'}} onClick={()=>getNewerTopics()}>refresh <IoMdRefresh/></p>
+
+                {
+                    loading ? <><Preview/><Preview/></>
+                    :
+                    topics.map(topic=>(
+
+                            <div className={styles.topicDiv} key={topic.id} key={topic.id}>
+                            <Link key={topic.id} to={{ pathname:`/topic/${topic.slug}`, topic_info:topic }} 
+                                 style={{color:'black',textDecoration:'none'}}>
+                                <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'.5rem'}}>
+                                    <img src={topic.creator_img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
+                                    <div style={{marginLeft:'.5rem'}}>
+                                        <p style={{fontSize:'.75rem',color:'grey'}}>Posted by @{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={12} color='#5cab7d'/> : <></>}</p>
+                                    </div>
+                                </div>
+                                <p style={{fontWeight:'bold',marginLeft:'.5rem',marginBottom:'0rem'}}>{topic.title}</p>
+                                <div style={{display:'flex',flexDirection:'column',marginLeft:'0rem',padding:'.5rem'}}>
+                                {topic.img === 'data:image/png;base64,' ? <div style={{height:'0px'}}></div> 
+                                    : 
+                                    <img src={topic.img} style={{borderRadius:'.5rem'}} width="auto" height="300px" />
+                                }
+                                {/* MARKDOWN SAVED IN THE DATABSE IS CONVERTED TO HTML HERE */}
+                                    {topic.topic_body ? ( <Linkify><div style={{paddingLeft:'0rem',wordBreak:'break-all'}}>{topic.topic_body.length > 200 ? topic.topic_body.substring(0,200) + ' ...' : topic.topic_body }</div></Linkify> ) :''  }
+                                    <p style={{fontSize:'.8rem',color:'grey'}}>{topic.date} {topic.time}</p>
+                                </div>
+                                {/* <div> <FaArrowUp onClick={()=>alert(scrollPos)} size={20}/> <FaArrowDown size={20}/> <MdBookmarkBorder size={25}/>
+                                    <IoMdChatboxes size={20}/> {topic.comment_count}
+                                </div> */}
+                            </Link>
+                    <TopicFunction likedby={topic.liked_by} likes={topic.likes} topic_id={topic.id} comments={topic.comment_count} />
+                        {/* report component */}
+                        <Report />
+                    
+
+                    </div>
+                ))}
+                {!loading ? (<>
+                    {/* <button onClick={()=>prevPage()} disabled={prevBtnDisabled}>prev</button> */}
+                    <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                        <button style={{cursor:'pointer',width:'65%',borderRadius:'1rem',padding:'.5rem',background:'transparent',border:'.5px solid lightgrey'}} onClick={()=>olderTopics()}>Load more ...</button>
+                        <button style={{cursor:'pointer', width:'30%',borderRadius:'1rem',padding:'.5rem',background:'transparent',border:'.5px solid lightgrey'}} onClick={()=>backToTop()}><IoMdArrowUp size={15}/></button>
+                </div>
+                </>):('')}
+                </div>
+                <div className={styles.row2}>
+                    <div> 
+                        <h3>Top trending</h3>
+                        <p> <FaChartLine />lore ipsum dor itemt</p>
+                        <p> <FaChartLine />lore ipsum dor itemt</p>
+                        <p> <FaChartLine />lore ipsum dor itemt</p>
+                    </div>
+                </div>
+                {/* BOTTOM NAV */}
+                <Bottomnav />
+                
+            </div>
+
+            {/* Add topic button */}
+            <Link to='/create-topic'>
+            <img className={styles.addTopic} src={addTopic} alt=""/>     
+            </Link>
+            <div className={toggle ? styles.reportModal + styles.active : styles.reportModal }>
+
+            </div>
         </>
     )
 }

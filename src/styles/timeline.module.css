@@ -122,6 +122,21 @@
   cursor: pointer;
 }
 
+/* report modal */
+.reportModal{
+  /* visibility: visible; */
+  height: 100vh;
+  position: fixed;
+  width: 100%;
+  /* z-index: 1; */
+  top: 0px;
+  background:rgba(0,0,0,0.6);
+}
+
+.reportModal.active{
+  display: none;
+}
+
 
  /* Media Query for Mobile Devices */ 
 
