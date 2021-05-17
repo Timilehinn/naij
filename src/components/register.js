@@ -45,7 +45,7 @@ function Register() {
     async function authenticateUser(e){
         setIsLoading(true)
         e.preventDefault();
-        const registerRes = await axios.post('ttps://naij-react-backend.herokuapp.com/api/register',{email,username,password});
+        const registerRes = await axios.post('https://naij-react-backend.herokuapp.com/api/register',{email,username,password});
         console.log(registerRes.data)
         const msg = <p style={{fontSize:'.85rem'}}>{registerRes.data.msg}</p>
 
@@ -112,7 +112,6 @@ function Register() {
                 </button>
                 <Link to="/signin" style={{textDecoration:'none',color:'white'}}>
                     <p style={{textAlign:'center',fontSize:'1rem'}}>Already registered? Sign In</p></Link>
-                
             </form>
             <div style={{position:'absolute'}}><ToastContainer position="top-center"/></div>
 
