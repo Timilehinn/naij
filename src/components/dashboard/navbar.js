@@ -7,6 +7,9 @@ import { useMediaQuery } from 'react-responsive'
 import Logo from '../../images/logo1.png'
 import Cookies from 'js-cookie'
 import { IoMdAddCircle, IoMdAddCircleOutline } from 'react-icons/io'
+import loupe from '../../images/loupe.png'
+import check from '../../images/check.png'
+import whitelogo from '../../images/whitelogo.png'
 
 function Header(props) {
     const history = useHistory();
@@ -27,8 +30,9 @@ function Header(props) {
         localStorage.removeItem('user_email')
     }
     return (
+        
         <div className={styles.nav}>
-            <img src={Logo} width="40px" height="45px" />
+            <img src={whitelogo} width="40px" height="45px" />
             {/* {userDetails} */}
 
             <select className={styles.select}  >
@@ -36,21 +40,23 @@ function Header(props) {
                 <option>lorem 2</option>
                 <option>lorem 4</option>
             </select>
-            <p onClick={()=>signOut()}  >logout</p>
-            <input placeholder="Search" className={styles.search} />
-            <Link>
-                <FaCheckCircle color="grey" size={20} />
-            </Link>
-            <Link to='/create-topic' style={{textDecoration:'none',color:'black'}}>
-                <IoMdAddCircleOutline color="grey" size={25} />
-            </Link>
            
-            <div style={{display:'flex',flexDirection:'row',marginRight:'1rem'}}>
+            <div className={styles.inputBox}>
+                <img src={loupe} alt=""/>
+                <input placeholder="Search" className={styles.search} />  
+            </div>
+            <img className={styles.check} src={check} alt=""/>
+            {/* <Link to='/create-topic' style={{textDecoration:'none',color:'black'}}>
+                <IoMdAddCircleOutline color="grey" size={25} />
+            </Link> */}
+           
+            <div style={{display:'flex',alignItems:"center", flexDirection:'row',marginRight:'1rem'}}>
                 <div style={{display:'flex',flexDirection:'column',marginRight:'1rem'}}>
-                    <p style={{fontSize:'.9rem',margin:'0',color:'grey'}}>{userDetails.email}</p>
-                    <h4 style={{margin:'0'}}>@{userDetails.username} {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
+                    {/* <p style={{fontSize:'.9rem',margin:'0',color:'grey'}}>{userDetails.email}</p> */}
+                    <h4 style={{margin:'0'}}>@{userDetails.fullname} {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
                 </div>
                 <img src={userDetails.img} style={{width:'40px',height:"40px",borderRadius:'50%' }}/>
+                 <p style={{marginLeft:"20px"}} onClick={()=>signOut()}  >logout</p>
             </div>
         </div>
     )

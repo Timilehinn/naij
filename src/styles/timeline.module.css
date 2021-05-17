@@ -113,6 +113,15 @@
     position: fixed;
 }
 
+/* add topic button */
+.addTopic{
+  height: 80px;
+  position: fixed;
+  bottom: 5vh;
+  right: 5vh;
+  cursor: pointer;
+}
+
 
  /* Media Query for Mobile Devices */ 
 
@@ -125,6 +134,7 @@
     .topicDiv{ box-shadow: 0px 0px 0px 0px }
     .row1{ flex:1; max-width:95%;padding-top:0px }
     .row2{ flex:0; display:none; }
+    .addTopic{display: none;}
 } 
   
 /* Media Query for Tablets Ipads portrait mode */ 

@@ -24,13 +24,14 @@ function App() {
     <div> 
       <Switch>
           <Route path='/' component={Home} exact />
-          {/* <Route path='http://localhost:3333/api/download-the-app' component={Home} /> */}
+          {/* <Route path='https://naij-react-backend.herokuapp.com/api/download-the-app' component={Home} /> */}
           <Route path='/signin' component={Login} />
           <Route path='/signup' component={Register} />
           {/* <Route path='/d/:user' render={(props) => !auth ? <Redirect to="/" /> : <Dash {...props}/> }/>
           <Route path='/create-topic' render={(props) => !auth ? <Redirect to="/" /> : <Create_topic {...props}/> } />
           <Route path='/settings' render={(props) => !auth ? <Redirect to="/" /> : <Settings {...props}/> } />
           <Route path='/search' render={(props) => !auth ? <Redirect to="/" /> : <Search {...props}/> } />
+          <Route path='/directmessage' render={(props) => !auth ? <Redirect to="/" /> : <DirectMessage {...props}/> } />
           <Route path='/topic/:room' render={(props) => !auth ? <Redirect to="/" /> : <Room {...props}/> } />
           <Route component={Four} /> */}
           <ProtectedRoute path='/timeline' component={Timeline} />

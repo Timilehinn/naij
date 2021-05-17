@@ -10,10 +10,10 @@ import TextareaAutosize from 'react-autosize-textarea';
 import Header from './header'
 import { ToastContainer, toast } from 'react-toastify';
 import ReactFileReader from 'react-file-reader';
-import Bottomnav from './_bottomnav'
+import Bottomnav from './_bottomnav';
 
 
-function Search() {
+function DirectMessage() {
 
     const history = useHistory();
     const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
@@ -28,7 +28,7 @@ function Search() {
  
     return (
         <div className={styles.divBody}>
-        <Header title="Search" />                             
+        <Header title="Direct Message" />                             
         <ToastContainer />
         <div className={styles.divOne}>
             {userDetails.map(dets=>(
@@ -47,7 +47,7 @@ function Search() {
                 <h4 style={{fontWeight:'lighter'}}>following - </h4>
             </div>
             <div style={{paddingLeft:'3rem',borderBottom:'1px solid grey'}}>
-                <Link style={{textDecoration:'none',color:'black'}} to={'/timeline'}><h2>Home</h2></Link>
+                <Link style={{textDecoration:'none',color:'black'}} to={`/d/${userDetailsfullname}`}><h2>Home</h2></Link>
                 <Link style={{textDecoration:'none',color:'black'}}><h2>Create Topic</h2></Link>
                 <Link style={{textDecoration:'none',color:'black'}}><h2>Your Topics</h2></Link>
                 <Link style={{textDecoration:'none',color:'black'}}><h2>Get Verified</h2></Link>
@@ -65,9 +65,9 @@ function Search() {
         </div>
 
         <div className={styles.divTwo}>
-        <br/>
-        <br/>
-           Search
+                <br/>
+                <br/>
+           Direct Message, coming soon :/
         </div>
         <div className={styles.divThree}>
                 <input style={{width:'80%', height:'30px',borderRadius:'5rem',border:'.5px solid green'}} />
@@ -77,4 +77,4 @@ function Search() {
     )
 }
 
-export default Search
+export default DirectMessage;
