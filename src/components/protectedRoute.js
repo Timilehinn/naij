@@ -10,10 +10,7 @@ import {AuthContext} from '../contexts/authContextApi'
     const [isTokenValidated, setIsTokenValidated] = useState(false);
     const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
 
-
-
-    useEffect(() => {
-      // send jwt to API to see if it's valid
+    function refreshValidatePage(){
       let token = localStorage.getItem("frse_token");
       let email = localStorage.getItem("user_email");
       if (token && email ) {
@@ -36,7 +33,7 @@ import {AuthContext} from '../contexts/authContextApi'
             // console.log(json.data.details,' the new logs i want to see')
           }else{
             setAuth(false);
-            localStorage.removeItem("frse_token");
+            localStorage.removeItem("frse_token"); 
             localStorage.removeItem("user_email");
           }
         })
@@ -48,7 +45,12 @@ import {AuthContext} from '../contexts/authContextApi'
       } else {
         setIsTokenValidated(true); // in case there is no token
       }
+    }
 
+    
+      // send jwt to API to see if it's valid when navigating to a protected route
+    useEffect(() => {
+      refreshValidatePage();
   }, [])
 
  if (!isTokenValidated) return <p>loading</p> //loader

@@ -14,7 +14,7 @@ import Sidebar from './sidebar'
 import { IoMdSend } from 'react-icons/io'
 import { FaCheckCircle,FaEllipsisV,FaRegCommentAlt, FaTimes, FaChartLine, FaArrowUp, FaArrowDown, FaComment } from 'react-icons/fa';
 import  { MdBookmarkBorder } from 'react-icons/md'
-import { TiArrowDownOutline, TiArrowUpOutline } from 'react-icons/ti'
+import { TiArrowDownOutline,TiArrowBack, TiArrowUpOutline } from 'react-icons/ti'
 import { BiCommentDetail } from 'react-icons/bi'
 import { FiHeart } from 'react-icons/fi'
 import TextareaAutosize from 'react-autosize-textarea';
@@ -39,10 +39,10 @@ function TopicFunction(prop){
 
       
     //Upvote
-    async function upVoteState(){
+    async function likeUnlike(){
         setIsUpVoted(true)
         setIsDownVoted(false)
-        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/upvote-topic?user=${userDetails[0].email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetails[0].email}&topic_id=${prop.topic_id}`);
         console.log(res)
     }
     async function downVoteState(){
@@ -60,9 +60,9 @@ function TopicFunction(prop){
                 <span style={{color:isUpVoted ?'#5cab7d':'black',fontSize:'.8rem'}}>
                     <FiHeart 
                         color={isUpVoted ?'#5cab7d':'black'} 
-                        onClick={()=>upVoteState()} size={17}
+                        onClick={()=>likeUnlike()} size={17}
                     />
-                    {prop.upvotes}
+                    {prop.likes}
                 </span>
                 {/* <TiArrowDownOutline color={isDownVoted ? '5cab7d':'black'} onClick={()=>downVoteState()} size={20}/> */}
                 <span style={{fontSize:'.8rem'}}><MdBookmarkBorder size={20}/></span>
@@ -92,6 +92,13 @@ function Room(props) {
     const [ roomActivity, setRoomActivity ] = useState([])
     const [loading, setLoading] = useState(true)
     const [img,setImg] =useState('')
+    const [ replyMessage, setReplyMessage ] = useState([])
+    const [ replyingTo, setReplyingTo ] = useState('')
+    const [ replyState, setReplyState ] = useState(false)
+    const [ replyDetails, setReplyDetails ] = useState([])
+    const [ replies, setReplies ] = useState([])
+
+
     // console.log(props, 'props here')
     useEffect(()=>{
         async function reloadTopic(){
@@ -101,7 +108,7 @@ function Room(props) {
             })
             .then((json) => {
                 setRefTopic(json.data.topic)
-                setImg(json.data.topic[0].img)
+                setImg(json.data.topic.img)
                 setLoading(false)
                 // return json.topic;
 
@@ -115,8 +122,8 @@ function Room(props) {
 
     const [ topic, setTopic ] = useState(!props.history.location.topic_info ? refTopic : props.history.location.topic_info);
     const room = props.match.params.room;
-    const username = userDetails[0].fullname
-    const user_img = userDetails[0].img
+    const username = userDetails.fullname
+    const user_img = userDetails.img
     let scroll    = Scroll.animateScroll;
 
     function handleFiles(e){
@@ -125,23 +132,29 @@ function Room(props) {
         setPhotoBase64(pre_removed)
         setPreview_img_display('block')
     }
+   
+    function openImg(){
+            var win = window.open();
+            win.document.write('<iframe src="' + img  + '" frameborder="0" style="margin-left:auto; margin-right:auto; border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+    }
+
     useEffect(()=>{
-      
-    },[])
-function openImg(){
-        var win = window.open();
-        win.document.write('<iframe src="' + img  + '" frameborder="0" style="margin-left:auto; margin-right:auto; border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
-}
-    useEffect(()=>{
+        //get messages
         async function getMessages(){
             console.log(socket.id,' here')
-            const res = await axios.get(`https://naij-react-backend.herokuapp.com/messages?slug=${props.match.params.room}`);
+            const res = await axios.get(`http://localhost:3333/api/messages?slug=${props.match.params.room}`);
             setMesages(res.data);
+            console.log('refreshed')         
+            setChat([])   
         }
         getMessages()
+
+        // refreshing the page every 15 seconds to get new message replys
+        setInterval(getMessages,15000)
+
         scroll.scrollTo(0);
         socket.emit("usr-joined", {username,room,user_img});
-        
+
         socket.on("app-msg", msgFromServer => {
             // console.log(socket.id)
             setChat((prevChat)=>{
@@ -150,6 +163,16 @@ function openImg(){
               ]
             })
         });
+        //reply message from the server
+        socket.on('reply-msg-server',replyMsg=>{
+            setReplyMessage((prevMsg)=>{
+                return [replyMsg, ...prevMsg]
+            })
+        // getMessages()
+            
+
+          
+        })
 
         //user joined from server
         socket.on('room-bot-msg',activity=>{
@@ -169,37 +192,70 @@ function openImg(){
         socket.emit("usr-disconn",{username,room,user_img});
         // setAllMessages([])
         socket.off('app-msg')
+        clearInterval(getMessages())
     }
     },[])
 
 
     const submitMsg=()=>{
-        if(userMsg || photo){
-          socket.emit('the-msg',{
-            msg:userMsg,
-            user_name:userDetails[0].fullname,
-            img:userDetails[0].img,
-            room:room,
-            verified:userDetails[0].verified,
-            email:userDetails[0].email,
-            photoBase64
-          })
-          setUserMsg('')
-          setPhoto(null)
-          setPhotoBase64('')
-          setPreview_img_display('none')
+
+        if(replyState){
+            if(userMsg){
+                socket.emit('reply-msg', {
+                    msg_id:replyDetails.id,
+                    reply_to:replyDetails.username,
+                    reply_from:userDetails.username,
+                    img:userDetails.img,
+                    verified:userDetails.verified,
+                    email:userDetails.email,
+                    msg:userMsg,
+                    room:room,
+                })
+                setReplyDetails([])
+                setReplyState(false)
+                setReplyingTo('')
+                setUserMsg('')
+            }
         }else{
-          console.log('nope')
+            if(userMsg || photo){
+                socket.emit('the-msg',{
+                  msg:userMsg,
+                  user_name:userDetails.username,
+                  img:userDetails.img,
+                  room:room,
+                  verified:userDetails.verified,
+                  email:userDetails.email,
+                  photoBase64
+                })
+                setUserMsg('')
+                setPhoto(null)
+                setPhotoBase64('')
+                setPreview_img_display('none')
+            }else{
+            console.log('nope')
+            }
         }
+      
       }
 
+      // reply message
+      const messageReply = (msg) => {
+        setReplyDetails(msg)
+        setReplyState(true)
+        setReplyingTo(`replying to @${msg.sender_name}`)
+      }
 
+      const resetMessage=()=>{
+        setReplyDetails([])
+        setReplyState(false)
+        setReplyingTo('')
+      }
 
     return (
         <>
         <Helmet>
                 <meta charSet="utf-8" />
-                <title>{loading ? '' : refTopic[0].title}</title>
+                <title>{loading ? '' : refTopic.title}</title>
         </Helmet>
         <Navbar settings_link="" />
         <div className={styles.divBody}>
@@ -207,45 +263,41 @@ function openImg(){
             <div className={styles.row1} style={{paddingTop:'1.6rem',}}>
                 {loading? <Preview/> : (<div className={styles.topicWrapper}>
                     <div style={{display:'flex',alignItems:'center',flexDirection:'row',paddingLeft:'1rem',paddingRight:'1rem',}}>
-                        <img src={loading ? '' : refTopic[0].creator_img} style={{width:'60px',height:'60px',marginRight:'.5rem',borderRadius:'50%'}} />
+                        <img src={loading ? '' : refTopic.creator_img} style={{width:'60px',height:'60px',marginRight:'.5rem',borderRadius:'50%'}} />
                         {/* {JSON.stringify(refTopic)} */}
                         <div>
-                            <p style={{margin:0}}>@{loading ? '' : refTopic[0].creator} {loading ? '' : refTopic[0].is_poster_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
+                            <p style={{margin:0}}>@{loading ? '' : refTopic.creator} {loading ? '' : refTopic.is_poster_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
                         </div>
                     </div>
                     <div style={{paddingLeft:'1rem',marginTop:'.5rem'}}>
-                        <p style={{fontStyle:'italic',fontWeight:'bold',fontSize:'.85rem',margin:0}}>{loading ? '' : refTopic[0].title}</p>
+                        <p style={{fontStyle:'italic',fontWeight:'bold',fontSize:'.85rem',margin:0}}>{loading ? '' : refTopic.title}</p>
                     </div>
 
                     {/* <img src={topic.img} style={{width:'100%',borderRadius:'2rem'}} /> */}
                     {
-                        loading ? '' : refTopic[0].img === 'data:image/png;base64,' ? <></> 
+                        loading ? '' : refTopic.img === 'data:image/png;base64,' ? <></> 
                         : 
-                        <img src ={loading ? '' : refTopic[0].img} onClick={()=>openImg()}
+                        <img src ={loading ? '' : refTopic.img} onClick={()=>openImg()}
                             style={{width:'95%',height:'100%', borderRadius:'.5rem', margin:'1rem'}}
                         />
                     }
-                    {loading ? '' : <div style={{margin:'.5rem',paddingLeft:'.5rem',wordBreak:'break-all', textOverflow:'ellipsis'}} dangerouslySetInnerHTML={{__html: refTopic[0].topic_body}} ></div>}
+                    {loading ? '' : <div style={{margin:'.5rem',paddingLeft:'.5rem',wordBreak:'break-all', textOverflow:'ellipsis'}} dangerouslySetInnerHTML={{__html: refTopic.topic_body}} ></div>}
                     {/* TIME AND DATE */}
                     <div style={{paddingLeft:'1rem',}}>
-                        <p style={{fontSize:'.7rem',marginBottom:'.5rem',color:'grey'}}>{loading ? '' : `${refTopic[0].time} - ${refTopic[0].date}`}</p>
-                        <TopicFunction upvotedby={refTopic[0].upvoted_by} upvotes={refTopic[0].upvotes} topic_id={refTopic[0].id} comments={refTopic[0].comment_count} />
+                        <p style={{fontSize:'.7rem',color:'grey'}}>{loading ? '' : `${refTopic.time} - ${refTopic.date}`}</p>
                     </div>
                 </div>)}
+                <TopicFunction likedby={refTopic.liked_by} likes={refTopic.likes} topic_id={refTopic.id} comments={refTopic.comment_count} />
                 <hr style={{color:'#5cab7d'}} />
                 {chat.map(msg=>(
                     <div key={msg.id} style={{display:'flex',flexDirection:'row',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>
-                        {/* this shows the default profile image if the user has not set a profile image yet (default is 'user-img') */}
-                        {/* <span style={{display:"flex",flexDirection:'row',alignItems:'center'}}>
-                            <img src={msg.img} style={{width:'30px',height:'30px',borderRadius:'50%',marginRight:'.5rem'}} />
-                            <p style={{fontSize:'.75rem',color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
-                        </span> */}
+                       
                         {
                             msg.img === 'user-img' ? <img src={userImg} style={{width:'25px',height:"25px",borderRadius:'50%' }} />
                             :
                             <img src={msg.img} style={{width:'30px',height:"30px",borderRadius:'50%' }}/>
                         }
-                        <div>
+                        <div style={{width:'100%'}}>
                             <p style={{fontSize:'.75rem',margin:0,marginRight:'.5rem',color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
                             <p>{msg.text}</p>
                             {
@@ -255,15 +307,29 @@ function openImg(){
                                     style={{width:'90%',maxWidth:600,marginLeft:15,marginTop:5,marginBottom:5,height:150}}
                                 />
                             }
-                            <p style={{fontSize:'.75rem',color:'grey'}}>{msg.date} - {msg.time}</p>
+                            {/* <div style={{display:'flex',width:'100%', alignItems:'center',justifyContent:"space-between" }}>
+                                <p style={{fontSize:'.75rem',color:'grey'}}>{msg.date} - {msg.time} </p>
+                                <TiArrowBack onClick={()=>messageReply(msg)} style={{marginRight:"1rem",cursor:'pointer'}} color='grey' size={20}/>
+                            </div>  */}
+                            {/* <div style={{backgroundColor:'red',width:'95%'}}>
+                                {replyMessage.map(msg=>(
+                                    <>
+                                        <img src={msg.img} style={{width:'30px',height:"30px",borderRadius:'50%' }}/>
+                                        <p style={{fontSize:'.75rem',margin:0,marginRight:'.5rem',color:'red'}}>@{msg.reply_from} replying {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}
+                                        </p>
+                                        <p>{msg.text}</p>
+                                    </>
+                                ))} 
+                            </div> */}
                         </div>
+                        
                     </div>
                 ))}
                 {messages.map(msg=>(
                     <div key={msg.id} style={{display:'flex',flexDirection:'row',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>
                         <img src={msg.img} style={{width:'30px',height:'30px',borderRadius:'50%',marginRight:'.5rem'}} />
-                        <div>
-                            <p style={{fontSize:'.75rem',margin:0,color:'grey'}}>@{msg.name} {msg.is_msg_sender_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
+                        <div style={{width:'100%'}}>
+                            <p style={{fontSize:'.75rem',margin:0,color:'grey'}}>@{msg.sender_name} {msg.is_msg_sender_verified == 'true' ? <FaCheckCircle size={10} color='#5cab7d'/> : <></>}</p>
                             <p>{msg.messages}</p>
                             {
                                 msg.messages_with_img === 'data:image/png;base64,' ? <></> 
@@ -272,7 +338,22 @@ function openImg(){
                                     style={{width:'90%',maxWidth:600,marginLeft:15,marginTop:5,marginBottom:5,height:150}}
                                 />
                             }
-                            <p style={{fontSize:'.75rem',color:'grey'}}>{msg.date} - {msg.time}</p>
+                            <div style={{display:'flex',width:'100%', alignItems:'center',justifyContent:"space-between" }}>
+                                <p style={{fontSize:'.75rem',color:'grey'}}>{msg.date} - {msg.time} </p>
+                                <TiArrowBack onClick={()=>messageReply(msg)} style={{cursor:'pointer',marginRight:"1rem"}} color='#5cab7d' size={20}/>
+                            </div>
+                            <p style={{color:'grey',fontSize:'.7rem',display:'flex',alignItems:'center'}}>replies <TiArrowBack/> </p>
+                            {msg.replies.map(reply=>(
+                                <div style={{paddingTop:".25rem"}}  key={reply.id}>
+                                    <div style={{display:"flex",alignItems:'center'}}>
+                                        <img src={reply.img} style={{width:'30px',height:"30px",borderRadius:'50%' }}/>
+                                        <p style={{fontSize:'.75rem',margin:0,marginRight:'1rem',color:'grey'}}> {reply.reply_from == userDetails.username ? 'you' : '@'+reply.reply_from}{reply.is_reply_sender_verified === 'true' ? <FaCheckCircle size={10} color='#5cab7d'/> : <></>}
+                                        <span style={{fontSize:'.7rem',fontWeight:'bold',fontStyle:'italic'}}> replied</span> 
+                                        </p>
+                                    </div>
+                                    <p style={{marginLeft:"2rem",fontSize:".8rem"}}>{reply.msg}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 ))}
@@ -284,19 +365,14 @@ function openImg(){
                     {/* <ReactFileReader handleFiles={e=>handleFiles(e)} base64={true}>
                         <span style={{marginLeft:'5px'}}><FaImage color="#5cab7d" size={35} /></span>
                     </ReactFileReader> */}
+                    <p onClick={()=>resetMessage()} style={{fontSize:'.7rem',padding:'.1rem',backgroundColor:'grey',color:'white'}}>{replyingTo}</p>
                     <input onChange={e=>setUserMsg(e.target.value)} style={{width:'85%',padding:'1rem',border:'0',outline:'none'}} value={userMsg} maxLength={250} placeholder="start typing..." />
                     <IoMdSend onClick={()=>submitMsg()} color="#5cab7d" size={30} style={{cursor:'pointer',marginBottom:'8px',marginRight:'0px'}}/>
                 </div>
             </div>
             <div className={styles.row2}>
                 <div> 
-                    <h3>Room activity.</h3>
-                    {roomActivity.map(activity=>(
-                        <span style={{display:'flex',flexDirection:'row',fontSize:'.75rem',alignItems:'center'}}>
-                            <img src={activity.img} height="20px" width="20px" style={{borderRadius:'50%'}} />
-                            <span style={{color:'grey',fontStyle:'italic',marginRight:'.5rem'}}>@{activity.username}</span> {activity.msg}
-                        </span>
-                    ))}
+                    <h3>Lorem ipsum.</h3>
                 </div>
             </div>
             {/* <p>room page</p>

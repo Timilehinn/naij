@@ -12,7 +12,7 @@ function Sidebar() {
 
     return (
         <div className={styles.sidebar} style={{transform:`translateX(${showSideBar})`}}>
-            {/* <img src={userDetails[0].img} style={{backgroundColor:'violet',width:'35px',height:'35px',borderRadius:'50%'}} /> */}
+            {/* <img src={userDetails.img} style={{backgroundColor:'violet',width:'35px',height:'35px',borderRadius:'50%'}} /> */}
         </div>
     )
 }

@@ -48,6 +48,7 @@ function Login(props) {
                     // history.push('/meet')
                     history.push(`/timeline`)
                 }else{
+                    setIsLoading(false)
                     setLoginState(false)
                     history.push('/signin')
                 }
@@ -58,7 +59,7 @@ function Login(props) {
             <form className={styles.form} onSubmit={(e)=>authenticateUser(e)}>
                  <img src={naijIcon} width="60px" height="70px" style={{alignSelf:'center'}} />
                 <h2 style={{textAlign:'center',userSelect:'none',color:'#5cab7d'}}>Sign In</h2>
-                <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" required />
+                <input type="text" value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" required />
                 <input value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" type={isShowPwrd} required />
                 <button style={{display:'flex',justifyContent:'center',flexDirection:"row",alignItems:'center',color:'white',fontWeight:'bold'}}>
                     Sign In {isLoading? <Preloader /> :''}

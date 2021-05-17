@@ -52,20 +52,20 @@ function Header(props) {
     return (
         <>
             <div className={styles.header}>
-                <img onClick={()=>{setShowSideBar('0'); showBackModal('visible')}} src={userDetails[0].img} style={{marginLeft:'.5rem',backgroundColor:'violet',width:'35px',height:'35px',borderRadius:'50%'}} />
+                <img onClick={()=>{setShowSideBar('0'); showBackModal('visible')}} src={userDetails.img} style={{marginLeft:'.5rem',backgroundColor:'violet',width:'35px',height:'35px',borderRadius:'50%'}} />
                 <h3 style={{marginRight:'.5rem'}}>{props.title}</h3>
             </div>
             
             <div className={styles.sidebar} style={{zIndex:'1',overflowX:'scroll',transform:`translateX(${showSideBar}%)`}}>
                 <div style={{display:'flex',marginLeft:'auto',marginRight:'auto',marginTop:'2rem',flexDirection:'column',alignItems:"center"}}>
-                    {userDetails.map(dets=>(
+                    {/* {userDetails.map(dets=>( */}
                         <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-                            <img src={userDetails[0].img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
-                                <h4>@{dets.fullname}  {dets.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
-                                <p style={{fontSize:'.9rem',color:'grey'}}>{dets.email}</p>
+                            <img src={userDetails.img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
+                                <h4>@{userDetails.username}  {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
+                                <p style={{fontSize:'.9rem',color:'grey'}}>{userDetails.email}</p>
                              
                         </div>
-                    ))}
+                    {/* ))} */}
                     {/* <p>{Cookies.get('n_s_id')}</p> */}
                     
                     <div style={{display:'flex',alignItems:'center',flexDirection:'row'}}>
