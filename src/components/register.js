@@ -47,16 +47,26 @@ function Register() {
         e.preventDefault();
         const registerRes = await axios.post('ttps://naij-react-backend.herokuapp.com/api/register',{email,username,password});
         console.log(registerRes.data)
-        const msg = <p style={{fontSize:'.85rem'}}>{registerRes.data.msg+' new'}</p>
+        const msg = <p style={{fontSize:'.85rem'}}>{registerRes.data.msg}</p>
+
+        toast.info(msg,{
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: true, 
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
         if(registerRes.data.success){
                 console.log('aw far')
                 setIsLoading(false)
-                const loginRes = await axios.post('ttps://naij-react-backend.herokuapp.com/api/login',{email,username,password})
-                setAuth(loginRes.data.session)
-                setUserDetails(loginRes.data.details)
-                console.log(loginRes.data.auth_msg)
-                console.log(auth,' this is my auth')
-                console.log(loginRes.data.session,' this is my session')
+                const loginRes = await axios.post('https://naij-react-backend.herokuapp.com/api/login',{email,password})
+                setAuth(loginRes.data.session);
+                setUserDetails(loginRes.data.details);
+                // console.log(loginRes.data.auth_msg);
+                // console.log(auth,' this is my auth');
+                // console.log(loginRes.data.session,' this is my session');
 
                 if(loginRes.data.session){
                     // setLoginState(true)

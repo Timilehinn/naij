@@ -27,6 +27,7 @@ import Linkify from 'react-linkify';
 import Modal from 'react-modal';
 import MoreModal from '../utils/moreModal'
 import { ToastContainer, toast } from 'react-toastify';
+import addTopic from '../../images/addTopicButton.png'
 
 
 // like, comment, save, hide and report functions
@@ -82,7 +83,7 @@ function TopicFunction(prop){
                 <span style={{fontSize:'.8rem'}}><FaRegCommentAlt size={15}/> {prop.comments}</span>
             </div>
             {/* back modal */}
-        {/* <div onClick={()=>setMoreModal('none')} style={{zIndex:2,width:"100%",height:'100%',position:'fixed',top:0,bottom:0,left:0,right:0}}></div> */}
+            {/* <div onClick={()=>setMoreModal('none')} style={{zIndex:2,width:"100%",height:'100%',position:'fixed',top:0,bottom:0,left:0,right:0}}></div> */}
             <span style={{display:"flex",alignItems:'flex-end', flexDirection:"column"}}><MoreModal  topic_id={prop.topic_id} set={setMoreModal} mod={moreModal} state={moreModal} />
                 <span className={styles.more_ellipsis}><FaEllipsisV style={{padding:'.25rem'}} onClick={()=>setMoreModal('block')} size={13} /></span>
             </span>
@@ -168,7 +169,7 @@ function Dashboard(props) {
 
     return (
         <>
-              <ToastContainer />
+        <ToastContainer />
 
         <Navbar />
         <div className={styles.divBody}>
@@ -229,6 +230,11 @@ function Dashboard(props) {
             <Bottomnav />
             
         </div>
+        {/* Add topic button */}
+        <Link to='/create-topic'>
+           <img className={styles.addTopic} src={addTopic} alt=""/>     
+        </Link>
+        
         </>
     )
 }
