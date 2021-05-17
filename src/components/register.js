@@ -8,9 +8,13 @@ import {AuthContext} from '../contexts/authContextApi'
 import Cookies from 'js-cookie';
 import naijIcon from '../images/logo2.png'
 import Preloader from './utils/preloader'
+import rug from 'random-username-generator';
+import { css } from 'glamor'
 
 
 function Register() {
+
+    rug.setSeperator('_');  
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
@@ -18,27 +22,36 @@ function Register() {
     const history = useHistory();
     const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
     const [ isLoading, setIsLoading ] = useState(false)
+    const [ username, setUsername ] = useState(rug.generate().substring(0,15)) 
+    const [ isUsernameValid, setIsUsernameValid ] = useState(true) 
+    const [ btnState, setBtnState ] = useState(false)
+
+
+    function validateUsername(e){
+        setUsername(e)
+        // to make sure the username is valid
+        if(e.match(/^[a-zA-Z0-9_]{1,15}$/)){
+            console.log('matcch')
+            setIsUsernameValid(true)
+            setBtnState(false)
+        }else{
+            console.log('no match')
+            setIsUsernameValid(false)
+            setBtnState(true)
+        }
+    }
+
 
     async function authenticateUser(e){
         setIsLoading(true)
         e.preventDefault();
-        const registerRes = await axios.post('http://localhost:3333/register',{email,name,password});
+        const registerRes = await axios.post('http://localhost:3333/api/register',{email,username,password});
         console.log(registerRes.data)
-        const msg = <p style={{fontSize:'.85rem'}}>{registerRes.data.msg}</p>
-
-        toast.info(msg,{
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: true, 
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        })
+        const msg = <p style={{fontSize:'.85rem'}}>{registerRes.data.msg+' new'}</p>
         if(registerRes.data.success){
                 console.log('aw far')
                 setIsLoading(false)
-                const loginRes = await axios.post('http://localhost:3333/api/login',{email,password})
+                const loginRes = await axios.post('http://localhost:3333/api/login',{email,username,password})
                 setAuth(loginRes.data.session)
                 setUserDetails(loginRes.data.details)
                 console.log(loginRes.data.auth_msg)
@@ -59,6 +72,18 @@ function Register() {
                     history.push('/signup')
                 }
                 
+        }else{
+
+            setIsLoading(false)
+            toast.dark(msg,{
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: true, 
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+            })
         }
     }
     return (
@@ -67,9 +92,12 @@ function Register() {
                 <img src={naijIcon} width="80px" height="90px" style={{alignSelf:'center'}} />
                 <h2 style={{textAlign:'center',userSelect:'none',color:'white'}}>Sign Up</h2>
                 <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" required/>
-                <input type="name" value={name} onChange={e=>setName(e.target.value)} placeholder="name (display name)" required/>
+                <input type="text" value={username} maxLength={15} onChange={e=>validateUsername(e.target.value)} placeholder="username" required/>
+                <div style={{width:"300px",paddingLeft:'1rem', wordBreak:'break-word'}}>
+                    <p style={{fontSize:'.7rem',color:isUsernameValid ? 'grey' : 'red'}}>{isUsernameValid ? 'A randomly generated usename.' : 'Your username must be 15 characters or less and contain ony letters, numbers, and underscores and no spaces'}</p>
+                </div>
                 <input minLength="6" value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" type={isShowPwrd} required/>
-                <button style={{display:'flex',justifyContent:'center',flexDirection:"row",alignItems:'center',color:'white',fontWeight:'bold'}}>
+                <button disabled={btnState} style={{cursor:btnState ? 'not-allowed! important' : 'pointer', display:'flex',justifyContent:'center',flexDirection:"row",alignItems:'center',color:'white',fontWeight:'bold'}}>
                     Sign Up {isLoading? <Preloader /> :''}
                 </button>
                 <Link to="/signin" style={{textDecoration:'none',color:'white'}}>

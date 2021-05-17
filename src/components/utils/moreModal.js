@@ -20,7 +20,6 @@ export default function MoreModal(e){
             progress: false,
         });
     }
-    console.log(e)
     return(
         <>
         <div className={styles.main}

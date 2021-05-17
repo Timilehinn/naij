@@ -184,9 +184,9 @@ function Create_topic() {
             // console.log(title)
             // console.log(post)
             // console.log(photoBase64)
-            const res = await axios.post('http://localhost:3333/create-topic',{
-                title,post,photoBase64,creator:userDetails[0].fullname,creator_img:userDetails[0].img,verified:userDetails[0].verified,
-                creator_email:userDetails[0].email
+            const res = await axios.post('http://localhost:3333/api/create-topic',{
+                title,post,photoBase64,creator:userDetails.username,creator_img:userDetails.img,verified:userDetails.verified,
+                creator_email:userDetails.email
             })
             console.log(res.data)
             // setIsUploaded(res.data);

@@ -1,6 +1,7 @@
 import React,{ useEffect,useLayoutEffect, useState, useContext } from 'react'
 import {AuthContext} from '../../contexts/authContextApi'
 import {ThemeContext} from '../../contexts/themeContextApi'
+import {SocketContext} from '../../contexts/socketContextApi'
 import Cookies from 'js-cookie';
 import { useHistory, Link, Switch } from 'react-router-dom';
 import styles from '../../styles/timeline.module.css';
@@ -15,6 +16,7 @@ import { FaCheckCircle,FaEllipsisV,FaRegCommentAlt, FaChartLine, FaArrowUp, FaAr
 import  { MdBookmarkBorder } from 'react-icons/md'
 import { TiArrowDownOutline, TiArrowUpOutline } from 'react-icons/ti'
 import { BiCommentDetail } from 'react-icons/bi'
+import { AiOutlineRetweet } from 'react-icons/ai'
 import { IoMdChatboxes, IoEllipsisVerticalOutline,IoMdHeart,IoIosImage, IoMdArrowDown,IoMdArrowUp,IoMdRefresh, IoIosChatbubbles } from 'react-icons/io'
 import { FiHeart } from 'react-icons/fi'
 import userImg from '../../images/user-circle.svg'
@@ -30,29 +32,39 @@ import { ToastContainer, toast } from 'react-toastify';
 // like, comment, save, hide and report functions
 function TopicFunction(prop){
 
+   
+
+
     const [moreModal, setMoreModal] = useState('none')
+    const {socket} = useContext(SocketContext);
 
     
     const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos, topics, setTopics} = useContext(AuthContext);
     const {themeMode,setThemeMode,isEnabled,setIsEnabled} = useContext(ThemeContext)
     const [ isUpVoted, setIsUpVoted ] = useState(false)
     const [ isDownVoted, setIsDownVoted ] = useState(false)
-
-      
+    const [ likeCount, setLikeCount ] = useState(0)
+    
+   
+    
     //Upvote
-    async function upVoteState(){
+    async function likeUnlike(){
+        socket.emit('likeUnlike',{msg:`a user liked, ${prop.topic_id}`,id:prop.topic_id})
+        socket.on('new-like',val=>{
+            setLikeCount(likeCount+1);
+        })
         setIsUpVoted(true)
         setIsDownVoted(false)
-        const res = await axios.post(`http://localhost:3333/api/upvote-topic?user=${userDetails[0].email}&topic_id=${prop.topic_id}`);
-        console.log(res)
+        setLikeCount(likeCount+1)
+        const res = await axios.post(`http://localhost:3333/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+       
     }
     async function downVoteState(){
         setIsUpVoted(false)
         setIsDownVoted(true)
-        const res = await axios.post(`http://localhost:3333/api/downvote-topic?user=${userDetails[0].email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`http://localhost:3333/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
     }
-    console.log(isUpVoted,'isn v')   
-    
+   
 
     return (
         <div style={{width:'100%',display:'flex',justifyContent:'space-between', alignItems:'flex-end'}}> 
@@ -61,12 +73,12 @@ function TopicFunction(prop){
                 <span style={{color:isUpVoted ?'#5cab7d':'black',fontSize:'.8rem'}}>
                     <FiHeart 
                         color={isUpVoted ?'#5cab7d':'black'} 
-                        onClick={()=>upVoteState()} size={17}
+                        onClick={()=>likeUnlike()} size={17}
                     />
-                    {prop.upvotes}
+                    {prop.likes + likeCount}
                 </span>
                 {/* <TiArrowDownOutline color={isDownVoted ? '5cab7d':'black'} onClick={()=>downVoteState()} size={20}/> */}
-                <span style={{fontSize:'.8rem'}}><MdBookmarkBorder size={20}/></span>
+                <span style={{fontSize:'.8rem'}}><AiOutlineRetweet size={20}/></span>
                 <span style={{fontSize:'.8rem'}}><FaRegCommentAlt size={15}/> {prop.comments}</span>
             </div>
             {/* back modal */}
@@ -91,9 +103,10 @@ function Dashboard(props) {
     let scroll    = Scroll.animateScroll;
     
     // GET NEWER TOPICS
+    
     async function getNewerTopics(){
-        const res = await axios.get(`http://localhost:3333/topics?offset=0`);
-        console.log(res.data)
+        const res = await axios.get(`http://localhost:3333/api/topics?offset=0`);
+        console.log('refreshed')
         setTopics(res.data);
         setLoading(false)
         setOffset(15)
@@ -104,7 +117,7 @@ function Dashboard(props) {
     // OLDER TOPICS
     function olderTopics(){
         async function getTopics(){
-            const res = await axios.get(`http://localhost:3333/topics?offset=${offset}`);
+            const res = await axios.get(`http://localhost:3333/api/topics?offset=${offset}`);
             console.log(res.data)
             setTopics((prevTopics)=>{
                 return [...prevTopics, ...res.data]
@@ -119,7 +132,7 @@ function Dashboard(props) {
 
     useEffect(()=>{
         async function getTopics(){
-            const res = await axios.get(`http://localhost:3333/topics?offset=0`);
+            const res = await axios.get(`http://localhost:3333/api/topics?offset=0`);
             console.log(res.data)
             setTopics(res.data);
             setLoading(false)
@@ -192,7 +205,7 @@ function Dashboard(props) {
                                 <IoMdChatboxes size={20}/> {topic.comment_count}
                             </div> */}
                    </Link>
-                   <TopicFunction upvotedby={topic.upvoted_by} upvotes={topic.upvotes} topic_id={topic.id} comments={topic.comment_count} />
+                   <TopicFunction likedby={topic.liked_by} likes={topic.likes} topic_id={topic.id} comments={topic.comment_count} />
 
                         </div>
                ))}
