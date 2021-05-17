@@ -63,16 +63,16 @@ function Header(props) {
                             
                             <img src={userDetails.poster_img} style={{width:'100%',margin:'0rem',height:"100px"}}/>
                             <img src={userDetails.img} style={{width:'70px',height:"70px",marginTop:'-2.3rem',borderRadius:'50%' }}/>
-                            <h4>@{userDetails.username}  {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
-                            <p style={{fontSize:'.9rem',color:'grey'}}>{userDetails.email}</p>
+                            <h4><span style={{color:'grey'}}>@{userDetails.username}</span>  {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
+                            {/* <p style={{fontSize:'.9rem',color:'grey'}}>{userDetails.email}</p> */}
                              
                         </div>
                     {/* ))} */}
                     {/* <p>{Cookies.get('n_s_id')}</p> */}
                     
                     <div style={{display:'flex',alignItems:'center',flexDirection:'row'}}>
-                        <h4 style={{fontWeight:'bold', color:"#5cab7d", fontStyle:"italic"}}>karma - 79  </h4>
-                        <IoMdStar color="#5cab7d" size={15} />
+                        {/* <h4 style={{fontWeight:'bold', color:"#5cab7d", fontStyle:"italic"}}>karma - 79  </h4> */}
+                        {/* <IoMdStar color="#5cab7d" size={15} /> */}
                     </div>
                         <Link style={{textDecoration:'none',color:'black'}} to={'/timeline'}><h3 style={{marginBottom:'.5rem'}}>Home</h3></Link>
                         <Link to="/create-topic" style={{textDecoration:'none',color:'black'}}><h3 style={{marginBottom:'.5rem'}}>Create Topic</h3></Link>
