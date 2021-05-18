@@ -98,8 +98,11 @@ function Dashboard(props) {
     async function getNewerTopics(){
         const res = await axios.get(`http://localhost:3333/api/topics?offset=0`);
         console.log('refreshed')
-        setTopics(res.data);
-        setLoading(false)
+        if(res.data.success){
+            setLoading(false)
+        }
+        setTopics(res.data.details);
+        
         setOffset(15)
     }
     // setPage(page + 1)
@@ -110,10 +113,13 @@ function Dashboard(props) {
         async function getTopics(){
             const res = await axios.get(`http://localhost:3333/api/topics?offset=${offset}`);
             console.log(res.data)
+            if(res.data.success){
+                setLoading(false)
+            }
             setTopics((prevTopics)=>{
-                return [...prevTopics, ...res.data]
+                return [...prevTopics, ...res.data.details]
             })
-            setLoading(false)
+           
             setPrevBtnDisabled(false)
         }
         getTopics();
@@ -124,9 +130,12 @@ function Dashboard(props) {
         async function getTopics(){
             const res = await axios.get(`http://localhost:3333/api/topics?offset=0`);
             console.log(res.data)
-            setTopics(res.data);
-            setLoading(false)
+            if(res.data.success){
+                setLoading(false)
+            }
+            setTopics(res.data.details);
         }
+        getTopics();
 
         //REFRESH TIMELINE EVERY 15 SECONDS
         const interval = setInterval(()=>{
