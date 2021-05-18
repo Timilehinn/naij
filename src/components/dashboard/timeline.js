@@ -127,6 +127,7 @@ function Dashboard(props) {
             setTopics(res.data);
             setLoading(false)
         }
+        getTopics();
 
         //REFRESH TIMELINE EVERY 15 SECONDS
         const interval = setInterval(()=>{
