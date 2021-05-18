@@ -7,6 +7,10 @@
     width:100vw;
     height:50px;
     background-color:white;
+    border-top:.5px solid #84b899a8;
+}
+.item:focus{
+    background-color: red;
 }
 @media (min-width: 0px) and (max-width: 767px) { 
     .bottomnav{

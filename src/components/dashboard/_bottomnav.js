@@ -1,33 +1,31 @@
-import React,{ useContext } from 'react'
+import React from 'react'
 import styles from '../../styles/_bottomnav.module.css'
-import { FaHome, FaSearch, FaEnvelope, FaCog, FaPlus, FaBeer } from 'react-icons/fa';
-import { IoMdAddCircle, IoMdAddCircleOutline } from 'react-icons/io'
+import { IoIosList, IoMdNotificationsOutline } from 'react-icons/io'
+import { BiUser } from 'react-icons/bi'
+import { HiOutlineSearch } from 'react-icons/hi'
+import { AiOutlinePlus } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
-import {AuthContext} from '../../contexts/authContextApi'
 
 
 function Bottomnav() {
 
-    const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
-
-
     return (
         <div className={styles.bottomnav}>
-            <Link style={{color:'#5cab7d'}} to='/timeline'>
-                <FaHome size={23} />
+            <Link to='/timeline'>
+                <IoIosList color="#5cba7d" size={23} />
             </Link>
-            <Link style={{color:'#5cab7d'}} >
-                <FaSearch size={23} />
+            <Link to="/search">
+                <HiOutlineSearch color="#5cba7d" size={23} />
             </Link>
 
-            <Link style={{color:'#5cab7d'}} to="/create-topic">
-                    <IoMdAddCircleOutline size={50} style={{margin:'.3rem'}} />
+            <Link to="/create-topic">
+                    <AiOutlinePlus size={25} color="#5cba7d" />
             </Link>
-            <Link style={{color:'#5cab7d'}} to="">
-                <FaEnvelope size={23} />
+            <Link to="/notifications">
+                <IoMdNotificationsOutline size={23} color="#5cba7d"/>
             </Link>
-            <Link style={{color:'#5cab7d'}} to="/settings">
-                <FaCog size={23} />
+            <Link to="/profile">
+                <BiUser color="#5cba7d" size={22} />
             </Link>
         </div>
     )
