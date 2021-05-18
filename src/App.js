@@ -24,7 +24,7 @@ function App() {
     <div> 
       <Switch>
           <Route path='/' component={Home} exact />
-          {/* <Route path='http://localhost:3333/api/download-the-app' component={Home} /> */}
+          {/* <Route path='https://naij-react-backend.herokuapp.com/api/download-the-app' component={Home} /> */}
           <Route path='/signin' component={Login} />
           <Route path='/signup' component={Register} />
           {/* <Route path='/d/:user' render={(props) => !auth ? <Redirect to="/" /> : <Dash {...props}/> }/>
