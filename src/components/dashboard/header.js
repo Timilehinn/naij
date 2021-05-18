@@ -82,8 +82,8 @@ function Header(props) {
                     <br/>
                     {/*  */}
                     <div className={styles.lowerSideBar}>
-                        <h3 onClick={()=>alert('fuck u')}>About</h3>
-                        <h3 onClick={()=>alert('fuck u')}>Policy</h3>
+                        <h3 onClick={()=>alert('Naijchat is a topic sharing and group messaging platform ...')}>About</h3>
+                        <h3 onClick={()=>alert('Lorem ipsum')}>Policy</h3>
                         <h3 style={{color:'orange'}} onClick={()=>{localStorage.removeItem('frse_token');localStorage.removeItem('user_email'); history.push('/')}}>logout</h3>
                         {/* <h3 onClick={()=>alert(Cookies.get('n_s_id'))}>chaeck state</h3> */}
                     </div>
