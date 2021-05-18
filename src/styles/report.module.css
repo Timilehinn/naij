@@ -50,7 +50,14 @@ header{
     border-radius: 0px;
     padding: 5px 10px;
     font-weight: 600;
+    transition: .1s;
 }
+.report button:hover{
+    background-color: #5cab7d;
+    color:white;
+    transition: .1s;
+}
+
 
 @media (min-width: 0px) and (max-width: 1024px) { 
     .report{
