@@ -42,13 +42,13 @@ function TopicFunction(prop){
     async function likeUnlike(){
         setIsUpVoted(true)
         setIsDownVoted(false)
-        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`http://localhost:3333/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
         console.log(res)
     }
     async function downVoteState(){
         setIsUpVoted(false)
         setIsDownVoted(true)
-        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`http://localhost:3333/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
     }
     console.log(isUpVoted,'isn v')   
     
@@ -102,7 +102,7 @@ function Room(props) {
     // console.log(props, 'props here')
     useEffect(()=>{
         async function reloadTopic(){
-            axios.get(`https://naij-react-backend.herokuapp.com/api/refreshed-topic?slug=${props.match.params.room}`)
+            axios.get(`http://localhost:3333/api/refreshed-topic?slug=${props.match.params.room}`)
             .then((res) => {
                 return res
             })
@@ -142,7 +142,7 @@ function Room(props) {
         //get messages
         async function getMessages(){
             console.log(socket.id,' here')
-            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/messages?slug=${props.match.params.room}`);
+            const res = await axios.get(`http://localhost:3333/api/messages?slug=${props.match.params.room}`);
             setMesages(res.data);
             console.log('refreshed')         
             setChat([])   
@@ -287,26 +287,27 @@ function Room(props) {
                         <p style={{fontSize:'.7rem',color:'grey'}}>{loading ? '' : `${refTopic.time} - ${refTopic.date}`}</p>
                     </div>
                 </div>)}
-                <TopicFunction likedby={refTopic.liked_by} likes={refTopic.likes} topic_id={refTopic.id} comments={refTopic.comment_count} />
+                <div style={{marginLeft:'1rem'}}>
+                    <TopicFunction likedby={refTopic.liked_by} likes={refTopic.likes} topic_id={refTopic.id} comments={refTopic.comment_count} />
+                </div>
                 <hr style={{color:'#5cab7d'}} />
                 {chat.map(msg=>(
                     <div key={msg.id} style={{display:'flex',flexDirection:'row',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>
-                       
-                        {
-                            msg.img === 'user-img' ? <img src={userImg} style={{width:'25px',height:"25px",borderRadius:'50%' }} />
-                            :
-                            <img src={msg.img} style={{width:'30px',height:"30px",borderRadius:'50%' }}/>
-                        }
                         <div style={{width:'100%'}}>
-                            <p style={{fontSize:'.75rem',margin:0,marginRight:'.5rem',color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
-                            <p>{msg.text}</p>
-                            {
-                                msg.msg_w_img === 'data:image/png;base64,' ? <></> 
-                                : 
-                                <img src ={msg.msg_w_img} 
-                                    style={{width:'90%',maxWidth:600,marginLeft:15,marginTop:5,marginBottom:5,height:150}}
-                                />
-                            }
+                            <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+                                <img src={msg.img} style={{width:'30px',height:'30px',borderRadius:'50%',marginRight:'.5rem'}} />
+                                <p style={{fontSize:'.75rem',margin:0,color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={10} color='#5cab7d'/> : <></>}</p>
+                            </div>
+                            <div style={{marginLeft:'2.5rem',width:'80%',wordBreak:'break-word'}}>
+                                <p style={{margin:'0rem'}}>{msg.text}</p>
+                            </div>
+                            <div style={{display:'flex',width:'90%', marginLeft:'2.5rem',alignItems:'center',justifyContent:"space-between" }}>
+                                <p style={{fontSize:'.7rem',color:'grey'}}>{msg.time} </p>
+                                {/* <TiArrowBack onClick={()=>messageReply(msg)} style={{cursor:'pointer',marginRight:"1rem"}} color='#5cab7d' size={20}/> */}
+                            </div>
+                            {/* <p style={{fontSize:'.75rem',margin:0,marginRight:'.5rem',color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
+                            <p>{msg.text}</p> */}
+                            
                             {/* <div style={{display:'flex',width:'100%', alignItems:'center',justifyContent:"space-between" }}>
                                 <p style={{fontSize:'.75rem',color:'grey'}}>{msg.date} - {msg.time} </p>
                                 <TiArrowBack onClick={()=>messageReply(msg)} style={{marginRight:"1rem",cursor:'pointer'}} color='grey' size={20}/>
@@ -326,27 +327,24 @@ function Room(props) {
                     </div>
                 ))}
                 {messages.map(msg=>(
-                    <div key={msg.id} style={{display:'flex',flexDirection:'row',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>
-                        <img src={msg.img} style={{width:'30px',height:'30px',borderRadius:'50%',marginRight:'.5rem'}} />
+                    <div key={msg.id} style={{display:'flex',flexDirection:'column',alignItems:'flex-start',paddingTop:'1rem',borderBottom:'.5px solid #5cab7d',paddingLeft:'1rem'}}>
                         <div style={{width:'100%'}}>
-                            <p style={{fontSize:'.75rem',margin:0,color:'grey'}}>@{msg.sender_name} {msg.is_msg_sender_verified == 'true' ? <FaCheckCircle size={10} color='#5cab7d'/> : <></>}</p>
-                            <p>{msg.messages}</p>
-                            {
-                                msg.messages_with_img === 'data:image/png;base64,' ? <></> 
-                                : 
-                                <img src ={msg.messages_with_img} 
-                                    style={{width:'90%',maxWidth:600,marginLeft:15,marginTop:5,marginBottom:5,height:150}}
-                                />
-                            }
-                            <div style={{display:'flex',width:'100%', alignItems:'center',justifyContent:"space-between" }}>
-                                <p style={{fontSize:'.75rem',color:'grey'}}>{msg.date} - {msg.time} </p>
+                            <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+                                <img src={msg.img} style={{width:'30px',height:'30px',borderRadius:'50%',marginRight:'.5rem'}} />
+                                <p style={{fontSize:'.75rem',margin:0,color:'grey'}}>@{msg.sender_name} {msg.is_msg_sender_verified == 'true' ? <FaCheckCircle size={10} color='#5cab7d'/> : <></>}</p>
+                            </div>
+                            <div style={{marginLeft:'2.5rem',width:'80%',wordBreak:'break-word'}}>
+                                <p style={{margin:'0rem'}}>{msg.messages}</p>
+                            </div>
+                            <div style={{display:'flex',width:'90%', marginLeft:'2rem',alignItems:'center',justifyContent:"space-between" }}>
+                                <p style={{fontSize:'.75rem',color:'grey', marginLeft:'.5rem'}}>{msg.date} - {msg.time} </p>
                                 <TiArrowBack onClick={()=>messageReply(msg)} style={{cursor:'pointer',marginRight:"1rem"}} color='#5cab7d' size={20}/>
                             </div>
-                            <p style={{color:'grey',fontSize:'.7rem',display:'flex',alignItems:'center'}}>replies <TiArrowBack/> </p>
+                            <p style={{marginLeft:'2rem',color:'grey',fontSize:'.7rem',display:'flex',alignItems:'center'}}>replies <TiArrowBack/> </p>
                             {msg.replies.map(reply=>(
-                                <div style={{paddingTop:".25rem"}}  key={reply.id}>
+                                <div style={{marginLeft:'2rem',paddingTop:".25rem"}}  key={reply.id}>
                                     <div style={{display:"flex",alignItems:'center'}}>
-                                        <img src={reply.img} style={{width:'30px',height:"30px",borderRadius:'50%' }}/>
+                                        <img src={reply.img} style={{width:'30px',marginRight:'.5rem',height:"30px",borderRadius:'50%' }}/>
                                         <p style={{fontSize:'.75rem',margin:0,marginRight:'1rem',color:'grey'}}> {reply.reply_from == userDetails.username ? 'you' : '@'+reply.reply_from}{reply.is_reply_sender_verified === 'true' ? <FaCheckCircle size={10} color='#5cab7d'/> : <></>}
                                         <span style={{fontSize:'.7rem',fontWeight:'bold',fontStyle:'italic'}}> replied</span> 
                                         </p>
