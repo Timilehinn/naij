@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import naijIcon from '../images/logo2.png'
 import Preloader from './utils/preloader'
 import rug from 'random-username-generator';
-import { css } from 'glamor'
+// import { css } from 'glamor'
 
 
 function Register() {
@@ -45,7 +45,7 @@ function Register() {
     async function authenticateUser(e){
         setIsLoading(true)
         e.preventDefault();
-        const registerRes = await axios.post('http://localhost:3333/api/register',{email,username,password});
+        const registerRes = await axios.post('https://naij-react-backend.herokuapp.com/api/register',{email,username,password});
         console.log(registerRes.data)
         const msg = <p style={{fontSize:'.85rem'}}>{registerRes.data.msg}</p>
 
@@ -53,7 +53,7 @@ function Register() {
         if(registerRes.data.success){
                 console.log('aw far')
                 setIsLoading(false)
-                const loginRes = await axios.post('http://localhost:3333/api/login',{email,password})
+                const loginRes = await axios.post('https://naij-react-backend.herokuapp.com/api/login',{email,password})
                 setAuth(loginRes.data.session);
                 setUserDetails(loginRes.data.details);
                 // console.log(loginRes.data.auth_msg);

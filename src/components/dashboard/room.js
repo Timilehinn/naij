@@ -42,13 +42,13 @@ function TopicFunction(prop){
     async function likeUnlike(){
         setIsUpVoted(true)
         setIsDownVoted(false)
-        const res = await axios.post(`http://localhost:3333/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
         console.log(res)
     }
     async function downVoteState(){
         setIsUpVoted(false)
         setIsDownVoted(true)
-        const res = await axios.post(`http://localhost:3333/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
     }
     console.log(isUpVoted,'isn v')   
     
@@ -102,7 +102,7 @@ function Room(props) {
     // console.log(props, 'props here')
     useEffect(()=>{
         async function reloadTopic(){
-            axios.get(`http://localhost:3333/api/refreshed-topic?slug=${props.match.params.room}`)
+            axios.get(`https://naij-react-backend.herokuapp.com/api/refreshed-topic?slug=${props.match.params.room}`)
             .then((res) => {
                 return res
             })
@@ -142,7 +142,7 @@ function Room(props) {
         //get messages
         async function getMessages(){
             console.log(socket.id,' here')
-            const res = await axios.get(`http://localhost:3333/api/messages?slug=${props.match.params.room}`);
+            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/messages?slug=${props.match.params.room}`);
             setMesages(res.data);
             console.log('refreshed')         
             setChat([])   

@@ -57,26 +57,27 @@ function Header(props) {
             </div>
             
             <div className={styles.sidebar} style={{zIndex:'1',overflowX:'scroll',transform:`translateX(${showSideBar}%)`}}>
-                <div style={{display:'flex',marginLeft:'auto',marginRight:'auto',marginTop:'2rem',flexDirection:'column',alignItems:"center"}}>
+                <div style={{display:'flex',marginLeft:'auto',marginRight:'auto',marginTop:'0rem',flexDirection:'column',alignItems:"center"}}>
                     {/* {userDetails.map(dets=>( */}
                         <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-                            <img src={userDetails.img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
-                                <h4>@{userDetails.username}  {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
-                                <p style={{fontSize:'.9rem',color:'grey'}}>{userDetails.email}</p>
+                            
+                            <img src={userDetails.poster_img} style={{width:'100%',margin:'0rem',height:"100px"}}/>
+                            <img src={userDetails.img} style={{width:'70px',height:"70px",marginTop:'-2.3rem',borderRadius:'50%' }}/>
+                            <h4><span style={{color:'grey'}}>@{userDetails.username}</span>  {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
+                            {/* <p style={{fontSize:'.9rem',color:'grey'}}>{userDetails.email}</p> */}
                              
                         </div>
                     {/* ))} */}
                     {/* <p>{Cookies.get('n_s_id')}</p> */}
                     
                     <div style={{display:'flex',alignItems:'center',flexDirection:'row'}}>
-                        <h4 style={{fontWeight:'bold', color:"#5cab7d", fontStyle:"italic"}}>karma - 79  </h4>
-                        <IoMdStar color="#5cab7d" size={15} />
+                        {/* <h4 style={{fontWeight:'bold', color:"#5cab7d", fontStyle:"italic"}}>karma - 79  </h4> */}
+                        {/* <IoMdStar color="#5cab7d" size={15} /> */}
                     </div>
-                        <Link style={{textDecoration:'none',color:'black'}} to={'/timeline'}><h2>Home</h2></Link>
-                        {/* <Link to="/create-topic" style={{textDecoration:'none',color:'black'}}><h2>Create Topic</h2></Link> */}
-                        <Link style={{textDecoration:'none',color:'black'}}><h2>Your Topics</h2></Link>
-                        <Link style={{textDecoration:'none',color:'black'}}><h2>Get Verified</h2></Link>
-                        <Link style={{textDecoration:'none',color:'black'}} to="/settings"><h2>Settings</h2></Link>
+                        <Link style={{textDecoration:'none',color:'black'}} to={'/timeline'}><h3 style={{marginBottom:'.5rem'}}>Home</h3></Link>
+                        <Link to="/create-topic" style={{textDecoration:'none',color:'black'}}><h3 style={{marginBottom:'.5rem'}}>Create Topic</h3></Link>
+                        <Link style={{textDecoration:'none',color:'black'}}><h3 style={{marginBottom:'.5rem'}}>Get Verified</h3></Link>
+                        <Link style={{textDecoration:'none',color:'black'}} to="/settings"><h3 style={{marginBottom:'.5rem'}}>Settings</h3></Link>
                     <br/>
                     {/*  */}
                     <div className={styles.lowerSideBar}>

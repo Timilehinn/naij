@@ -31,7 +31,7 @@ function Search() {
         <Header title="Search" />                             
         <ToastContainer />
         <div className={styles.divOne}>
-            {userDetails.map(dets=>(
+            {/* {userDetails.map(dets=>(
                 <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
                     <img src={dets.img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
                     <div style={{marginLeft:'.5rem'}}>
@@ -40,7 +40,7 @@ function Search() {
                     </div>
                     
                 </div>
-            ))}
+            ))} */}
             {/* <p>{Cookies.get('n_s_id')}</p> */}
             <div style={{display:'flex',flexDirection:'row', marginLeft:'3rem'}}>
                 <h4 style={{fontWeight:'lighter'}}>followers - </h4>
