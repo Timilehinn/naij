@@ -48,7 +48,7 @@ function TopicFunction(prop){
         }else{
             setIsLiked(false)
         }
-        const res = await axios.post(`http://localhost:3333/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
     }
     
     async function downVoteState(){

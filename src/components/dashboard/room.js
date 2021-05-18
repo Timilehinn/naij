@@ -141,7 +141,7 @@ function Room(props) {
     useEffect(()=>{
         //get messages
         async function getMessages(){
-            const res = await axios.get(`http://localhost:3333/api/messages?slug=${props.match.params.room}`);
+            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/messages?slug=${props.match.params.room}`);
             setMesages(res.data);
             console.log('refreshed')         
             setChat([])   
