@@ -174,11 +174,11 @@ function Profile(props) {
     return (
         <div className={styles.divBody}>
         <Navbar />
-        <Header title="Settings" />                             
+        <Header title="Profile" />                             
         <ToastContainer />
             <div className={styles.row1}>
                 <ReactFileReader handleFiles={e=>changePosterImage(e)} base64={true}>
-                    <img src={posterProfileImg} width="100%" height='150px' />
+                    <img src={posterProfileImg} width="100%" height='170px' />
                 </ReactFileReader>
                 <div style={{display:'flex',marginTop:'-3rem',flexDirection:'row',alignItems:'flex-end'}}>
                     <img src={profileImg} width="100px" height="100px" style={{borderRadius:'50%',backgroundColor:'white'}} />

@@ -29,7 +29,7 @@ body{
     align-items:center;
     height:100vh;
     box-shadow: 1px 1px 3px 3px rgba(221, 210, 210, 0.596);
-    width:60%
+    /* width:60% */
 }
 .detailsForm{
     display:flex;
