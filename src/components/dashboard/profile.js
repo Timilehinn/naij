@@ -2,7 +2,7 @@ import React,{ useEffect, useState, useContext } from 'react'
 import {AuthContext} from '../../contexts/authContextApi'
 import Cookies from 'js-cookie';
 import { useHistory, Link, Switch } from 'react-router-dom';
-import styles from '../../styles/settings.module.css';
+import styles from '../../styles/profile.module.css';
 import axios from 'axios';
 import User_home from './user_home'
 import Create_topic from './create_topic';
@@ -16,7 +16,7 @@ import { BsEye , BsEyeSlash } from 'react-icons/bs'
 import Navbar from './navbar'
 
 
-function Settings(props) {
+function Profile(props) {
 
     const [ photo, setPhoto ] = useState('');
     const [ photoBase64, setPhotoBase64 ] = useState('');
@@ -176,9 +176,7 @@ function Settings(props) {
         <Navbar />
         <Header title="Settings" />                             
         <ToastContainer />
-            
             <div className={styles.row1}>
-                <h4>Change Picture</h4>
                 <ReactFileReader handleFiles={e=>changePosterImage(e)} base64={true}>
                     <img src={posterProfileImg} width="100%" height='150px' />
                 </ReactFileReader>
@@ -190,7 +188,7 @@ function Settings(props) {
                 </div>
                 <button onClick={()=>updateProfileImage()} style={{marginTop:'1.7rem',border:'5px solid green',fontWeight:'bold',borderRadius:'3rem',padding:'.6rem',backgroundColor:'#5cab7d'}}>Update Image</button>
                  <p>Edit Details</p>
-                 <div className={styles.detaislForm}>
+                 <div className={styles.detailsForm}>
                     <input 
                         style={{width:'auto',paddingLeft:'15px',height:'40px',border:'.5px solid #5cab7d',borderRadius:'30px',marginBottom:'10px'}}
                         name="username"
@@ -233,4 +231,4 @@ function Settings(props) {
     )
 }
 
-export default Settings
+export default Profile

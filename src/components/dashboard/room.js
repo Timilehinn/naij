@@ -7,7 +7,7 @@ import styles from '../../styles/room.module.css';
 import axios from 'axios';
 import User_home from './user_home'
 import Create_topic from './create_topic';
-import Settings from './settings';
+import Settings from './profile';
 import Bottomnav from './_bottomnav'
 import Chatheader from './chat-header'
 import Sidebar from './sidebar'
@@ -141,8 +141,7 @@ function Room(props) {
     useEffect(()=>{
         //get messages
         async function getMessages(){
-            console.log(socket.id,' here')
-            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/messages?slug=${props.match.params.room}`);
+            const res = await axios.get(`http://localhost:3333/api/messages?slug=${props.match.params.room}`);
             setMesages(res.data);
             console.log('refreshed')         
             setChat([])   
@@ -150,7 +149,9 @@ function Room(props) {
         getMessages()
 
         // refreshing the page every 15 seconds to get new message replys
-        setInterval(getMessages,15000)
+        const interval = setInterval(()=>{
+            getMessages()
+        },15000)
 
         scroll.scrollTo(0);
         socket.emit("usr-joined", {username,room,user_img});
@@ -192,7 +193,7 @@ function Room(props) {
         socket.emit("usr-disconn",{username,room,user_img});
         // setAllMessages([])
         socket.off('app-msg')
-        clearInterval(getMessages())
+        clearInterval(interval)
     }
     },[])
 

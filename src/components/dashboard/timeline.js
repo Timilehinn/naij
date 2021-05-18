@@ -8,7 +8,7 @@ import styles from '../../styles/timeline.module.css';
 import axios from 'axios';
 import User_home from './user_home'
 import Create_topic from './create_topic';
-import Settings from './settings';
+import Profile from './profile';
 import Bottomnav from './_bottomnav'
 import Header from './header'
 import Sidebar from './sidebar'
@@ -37,20 +37,22 @@ function TopicFunction(prop){
     const {socket} = useContext(SocketContext);
     const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos, topics, setTopics} = useContext(AuthContext);
     const {themeMode,setThemeMode,isEnabled,setIsEnabled} = useContext(ThemeContext)
-    const [ isUpVoted, setIsUpVoted ] = useState(false)
+    const [ isLiked, setIsLiked ] = useState(false)
     const [ isDownVoted, setIsDownVoted ] = useState(false)
     const [ likeCount, setLikeCount ] = useState(0)
     
     //Like and unlike post
     async function likeUnlike(){
-        setIsUpVoted(true)
-        setIsDownVoted(false)
-        setLikeCount(likeCount+1)
-        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+        if(isLiked == false){
+            setIsLiked(true)
+        }else{
+            setIsLiked(false)
+        }
+        const res = await axios.post(`http://localhost:3333/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
     }
     
     async function downVoteState(){
-        setIsUpVoted(false)
+        setIsLiked(false)
         setIsDownVoted(true)
         const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
     }
@@ -59,16 +61,16 @@ function TopicFunction(prop){
         <div style={{width:'100%',display:'flex',justifyContent:'space-between', alignItems:'flex-end'}}> 
 
             <div style={{height:'30px',minWidth:'120px', display:'flex',justifyContent:'space-around', alignItems:'center',backgroundColor:'rgba(223,223,223,.3)',borderRadius:'1rem'}}>
-                <span style={{color:isUpVoted ?'#5cab7d':'black',fontSize:'.8rem'}}>
+                <span style={{color:isLiked ?'#5cab7d':'black',fontSize:'.6rem'}}>
                     <FiHeart 
-                        color={isUpVoted ?'#5cab7d':'black'} 
+                        color={isLiked ?'#5cab7d':'black'} 
                         onClick={()=>likeUnlike()} size={17}
                     />
                     {prop.likes}
                 </span>
                 {/* <TiArrowDownOutline color={isDownVoted ? '5cab7d':'black'} onClick={()=>downVoteState()} size={20}/> */}
                 <span style={{fontSize:'.8rem'}}><AiOutlineRetweet size={20}/></span>
-                <span style={{fontSize:'.8rem'}}><FaRegCommentAlt size={15}/> {prop.comments}</span>
+                <span style={{fontSize:'.6rem'}}><FaRegCommentAlt size={15}/> {prop.comments}</span>
             </div>
             {/* back modal */}
             {/* <div onClick={()=>setMoreModal('none')} style={{zIndex:2,width:"100%",height:'100%',position:'fixed',top:0,bottom:0,left:0,right:0}}></div> */}
@@ -90,9 +92,9 @@ function Dashboard(props) {
     const [ prevBtnDisabled , setPrevBtnDisabled ] = useState(false)
 
     let scroll    = Scroll.animateScroll;
+
     
     // GET NEWER TOPICS
-    
     async function getNewerTopics(){
         const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/topics?offset=0`);
         console.log('refreshed')
@@ -118,7 +120,6 @@ function Dashboard(props) {
         setOffset(offset + 15)
     }
     
-
     useEffect(()=>{
         async function getTopics(){
             const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/topics?offset=0`);
@@ -126,12 +127,19 @@ function Dashboard(props) {
             setTopics(res.data);
             setLoading(false)
         }
-        // setPage(page + 1)
-        getTopics();
+
+        //REFRESH TIMELINE EVERY 15 SECONDS
+        const interval = setInterval(()=>{
+            getTopics();
+        },15000)
 
         //to scroll back to previou position
         scroll.scrollTo(scrollPos); 
-        console.log('are you tunnin?')
+
+        return () => {
+            clearInterval(interval)
+            console.log('timeline interval cleared')
+        };
        
     },[])
 
@@ -146,6 +154,7 @@ function Dashboard(props) {
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
+            clearInterval(getNewerTopics())
         };
        
     },[])
