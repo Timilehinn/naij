@@ -28,45 +28,32 @@ import Modal from 'react-modal';
 import MoreModal from '../utils/moreModal'
 import { ToastContainer, toast } from 'react-toastify';
 import addTopic from '../../images/addTopicButton.png';
-import Report from '../report.js'
+// import Report from '../report.js'
 
 
 // like, comment, save, hide and report functions
 function TopicFunction(prop){
-
-   
-
-
     const [moreModal, setMoreModal] = useState('none')
     const {socket} = useContext(SocketContext);
-
-    
     const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos, topics, setTopics} = useContext(AuthContext);
     const {themeMode,setThemeMode,isEnabled,setIsEnabled} = useContext(ThemeContext)
     const [ isUpVoted, setIsUpVoted ] = useState(false)
     const [ isDownVoted, setIsDownVoted ] = useState(false)
     const [ likeCount, setLikeCount ] = useState(0)
     
-   
-    
-    //Upvote
+    //Like and unlike post
     async function likeUnlike(){
-        // socket.emit('likeUnlike',{msg:`a user liked, ${prop.topic_id}`,id:prop.topic_id})
-        // socket.on('new-like',val=>{
-        //     setLikeCount(likeCount+1);
-        // })
         setIsUpVoted(true)
         setIsDownVoted(false)
         setLikeCount(likeCount+1)
         const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
-       
     }
+    
     async function downVoteState(){
         setIsUpVoted(false)
         setIsDownVoted(true)
         const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
     }
-   
 
     return (
         <div style={{width:'100%',display:'flex',justifyContent:'space-between', alignItems:'flex-end'}}> 
@@ -85,7 +72,7 @@ function TopicFunction(prop){
             </div>
             {/* back modal */}
             {/* <div onClick={()=>setMoreModal('none')} style={{zIndex:2,width:"100%",height:'100%',position:'fixed',top:0,bottom:0,left:0,right:0}}></div> */}
-            <span style={{display:"flex",alignItems:'flex-end', flexDirection:"column"}}><MoreModal  topic_id={prop.topic_id} set={setMoreModal} mod={moreModal} state={moreModal} />
+            <span style={{display:"flex",alignItems:'flex-end', flexDirection:"column"}}><MoreModal topic={prop.topic} topic_id={prop.topic_id} set={setMoreModal} mod={moreModal} state={moreModal} />
                 <span className={styles.more_ellipsis}><FaEllipsisV style={{padding:'.25rem'}} onClick={()=>setMoreModal('block')} size={13} /></span>
             </span>
         </div>
@@ -185,8 +172,7 @@ function Dashboard(props) {
                     loading ? <><Preview/><Preview/></>
                     :
                     topics.map(topic=>(
-
-                            <div className={styles.topicDiv} key={topic.id} key={topic.id}>
+                        <div className={styles.topicDiv} key={topic.id} key={topic.id}>
                             <Link key={topic.id} to={{ pathname:`/topic/${topic.slug}`, topic_info:topic }} 
                                  style={{color:'black',textDecoration:'none'}}>
                                 <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'.5rem'}}>
@@ -209,11 +195,9 @@ function Dashboard(props) {
                                     <IoMdChatboxes size={20}/> {topic.comment_count}
                                 </div> */}
                             </Link>
-                    <TopicFunction likedby={topic.liked_by} likes={topic.likes} topic_id={topic.id} comments={topic.comment_count} />
+                        <TopicFunction topic={topic} likedby={topic.liked_by} likes={topic.likes} topic_id={topic.id} comments={topic.comment_count} />
                         {/* report component */}
-                        <Report />
-                    
-
+                        {/* <Report topic={topic}  /> */}
                     </div>
                 ))}
                 {!loading ? (<>

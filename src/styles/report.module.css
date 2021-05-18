@@ -1,5 +1,6 @@
 .report{
-    height: 300px;
+    padding:.5rem;
+    height: auto;
     width: 40%;
     background-color: white;
     position: fixed;
@@ -7,8 +8,8 @@
     left: 50%;
     transform: translate(-50%,-50%);
     z-index: 4;
-    border-top-right-radius: 50px;
-    border-bottom-left-radius: 50px;
+    border-top-right-radius: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
     transition: 0.5s;
 }
 
@@ -49,7 +50,14 @@ header{
     border-radius: 0px;
     padding: 5px 10px;
     font-weight: 600;
+    transition: .1s;
 }
+.report button:hover{
+    background-color: #5cab7d;
+    color:white;
+    transition: .1s;
+}
+
 
 @media (min-width: 0px) and (max-width: 1024px) { 
     .report{
