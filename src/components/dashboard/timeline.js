@@ -54,7 +54,7 @@ function TopicFunction(prop){
     async function downVoteState(){
         setIsLiked(false)
         setIsDownVoted(true)
-        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`http://localhost:3333/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
     }
 
     return (
@@ -96,7 +96,7 @@ function Dashboard(props) {
     
     // GET NEWER TOPICS
     async function getNewerTopics(){
-        const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/topics?offset=0`);
+        const res = await axios.get(`http://localhost:3333/api/topics?offset=0`);
         console.log('refreshed')
         setTopics(res.data);
         setLoading(false)
@@ -108,7 +108,7 @@ function Dashboard(props) {
     // OLDER TOPICS
     function olderTopics(){
         async function getTopics(){
-            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/topics?offset=${offset}`);
+            const res = await axios.get(`http://localhost:3333/api/topics?offset=${offset}`);
             console.log(res.data)
             setTopics((prevTopics)=>{
                 return [...prevTopics, ...res.data]
@@ -122,7 +122,7 @@ function Dashboard(props) {
     
     useEffect(()=>{
         async function getTopics(){
-            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/topics?offset=0`);
+            const res = await axios.get(`http://localhost:3333/api/topics?offset=0`);
             console.log(res.data)
             setTopics(res.data);
             setLoading(false)

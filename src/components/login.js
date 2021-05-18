@@ -24,7 +24,7 @@ function Login(props) {
                 setIsLoading(true)
                 e.preventDefault();
                 console.log('aw far')
-                var loginRes = await axios.post('https://naij-react-backend.herokuapp.com/api/login',{email,password})
+                var loginRes = await axios.post('http://localhost:3333/api/login',{email,password})
                 const msg = <p style={{fontSize:'.85rem'}}>{loginRes.data.auth_msg}</p>
                 toast.dark(msg,{
                     position: "bottom-center",

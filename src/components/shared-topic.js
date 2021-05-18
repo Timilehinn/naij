@@ -25,7 +25,7 @@ function SharedTopic(props) {
     // console.log(props, 'props here')
     useEffect(()=>{
         async function reloadTopic(){
-            axios.get(`https://naij-react-backend.herokuapp.com/refreshed-topic?slug=${props.match.params.room}`)
+            axios.get(`http://localhost:3333/refreshed-topic?slug=${props.match.params.room}`)
             .then((res) => {
                 return res
             })

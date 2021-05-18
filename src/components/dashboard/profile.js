@@ -61,7 +61,7 @@ function Profile(props) {
     const updateProfileImage = async ()=>{
         // updates only profile image
         if(photoBase64 !== '' && posterImgBase64 === ''){
-            const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-profile-image',
+            const res = await axios.post('http://localhost:3333/api/update-profile-image',
             {photoBase64,posterImgBase64,id:userDetails.id,creator_email:userDetails.email})
             console.log(res.data,' the data here')
             setUserDetails(res.data.details)
@@ -88,7 +88,7 @@ function Profile(props) {
             }
         // updates poster profile image
         }else if(posterImgBase64 !== '' && photoBase64 === ''){
-            const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-profile-poster-image',
+            const res = await axios.post('http://localhost:3333/api/update-profile-poster-image',
             {photoBase64,posterImgBase64,id:userDetails.id,creator_email:userDetails.email})
             console.log(res.data,' the data here')
             setUserDetails(res.data.details)
@@ -115,7 +115,7 @@ function Profile(props) {
             }
         }else{
             // updates both
-            const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-profile-images',
+            const res = await axios.post('http://localhost:3333/api/update-profile-images',
             {photoBase64,posterImgBase64,id:userDetails.id,creator_email:userDetails.email})
             console.log(res.data,' the data here')
             setUserDetails(res.data.details)
@@ -145,7 +145,7 @@ function Profile(props) {
 
     // to update username, fullname, password and email    
     const updateProfile = async ()=>{
-        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-profile-web',{id:userDetails.id,userName,password,fullName})
+        const res = await axios.post('http://localhost:3333/api/update-profile-web',{id:userDetails.id,userName,password,fullName})
         // console.log(res.data)
         if(res.data.success){
             toast.dark(res.data.message, {
@@ -174,11 +174,11 @@ function Profile(props) {
     return (
         <div className={styles.divBody}>
         <Navbar />
-        <Header title="Settings" />                             
+        <Header title="Profile" />                             
         <ToastContainer />
             <div className={styles.row1}>
                 <ReactFileReader handleFiles={e=>changePosterImage(e)} base64={true}>
-                    <img src={posterProfileImg} width="100%" height='150px' />
+                    <img src={posterProfileImg} width="100%" height='170px' />
                 </ReactFileReader>
                 <div style={{display:'flex',marginTop:'-3rem',flexDirection:'row',alignItems:'flex-end'}}>
                     <img src={profileImg} width="100px" height="100px" style={{borderRadius:'50%',backgroundColor:'white'}} />
