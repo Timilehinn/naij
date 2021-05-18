@@ -12,7 +12,10 @@ function ThemeContextApi(props) {
     })
     const [isEnabled, setIsEnabled] = useState(false);
 
-    const themeProviderValues = {themeMode,setThemeMode,isEnabled,setIsEnabled}
+    const [toggle, setToggle] = useState(true);
+
+    // used existing context api in existing project
+    const themeProviderValues = {themeMode,setThemeMode,isEnabled,setIsEnabled,toggle,setToggle}
 
     return (
         <ThemeContext.Provider value={themeProviderValues} >
