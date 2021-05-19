@@ -34,7 +34,7 @@ function Profile(props) {
 
     useEffect(()=>{
         const getUserTopics = async ()=>{
-            const res = await axios.get(`http://localhost:3333/api/user-topics?user=${userDetails.username}`)
+            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/user-topics?user=${userDetails.username}`)
             console.log(res)
             if(res.data.done){
                 setLoading(false)
@@ -65,7 +65,7 @@ function Profile(props) {
       }
   
     const deleteTopic = async (topic) =>{
-        const res = await axios.post('http://localhost:3333/api/delete-topic',{id:topic.id})
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/delete-topic',{id:topic.id})
         if(res.data.done){
             toast.dark(res.data.message, {
                 position: "bottom-center",
@@ -79,7 +79,7 @@ function Profile(props) {
         }
         if(res.data.success){
             const getUserTopics = async ()=>{
-                const res = await axios.get(`http://localhost:3333/api/user-topics?user=${userDetails.username}`)
+                const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/user-topics?user=${userDetails.username}`)
                 console.log(res)
                 if(res.data.done){
                     setLoading(false)
