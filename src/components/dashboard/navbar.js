@@ -41,7 +41,7 @@ function Header(props) {
                 <option>lorem 2</option>
                 <option>lorem 4</option>
             </select> */}
-           
+           <h2>odgdognodgn</h2>
             <div className={styles.inputBox}>
                 <img src={loupe} alt=""/>
                 <input placeholder="Search" className={styles.search} />  
