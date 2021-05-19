@@ -263,7 +263,7 @@ function Profile(props) {
                             value={url} 
                             onChange={e=>setUrl(e.target.value)}
                         />
-                        <button onClick={()=>updateUrl}><FaCheck color="#5cab7d" /></button>
+                        <button onClick={()=>updateUrl()}><FaCheck color="#5cab7d" /></button>
                     </span>
                     <p style={{fontSize:".8rem",color:'grey'}}>This can be a link to your portfolio or personal website</p>
 
