@@ -9,6 +9,7 @@
     align-items: flex-start;
 }
 .detailsForm input{
+    margin-top:.3rem;
     width:50%;
     height:40px;
     border:.5px solid grey;
@@ -19,6 +20,7 @@
     border:.5px solid grey;
 }
 .detailsForm textarea{
+    margin-top:.3rem;
     width:50%;
     min-height:80px;
     max-height:120px;

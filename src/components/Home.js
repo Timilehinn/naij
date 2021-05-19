@@ -21,7 +21,7 @@ function Home() {
       let email = localStorage.getItem("user_email");
         async function checkIsLoggedIn(e){
             if (token && email ) {
-                axios.get(`https://naij-react-backend.herokuapp.com/api/isUserAuth?email=${email}`, {
+                axios.get(`http://localhost:3333/api/isUserAuth?email=${email}`, {
                   headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function Home() {
                 <p className={styles.divOneP} >
                     Join convserations, share topics,<br /> meet new people.
                 </p>
-                <button onClick={()=>window.location.href='https://naij-react-backend.herokuapp.com/api/download-the-app'} className={styles.downloadButton}>
+                <button onClick={()=>window.location.href='http://localhost:3333/api/download-the-app'} className={styles.downloadButton}>
                     Download for Android
                 </button>
             </div>

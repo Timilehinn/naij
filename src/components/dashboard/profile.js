@@ -10,15 +10,17 @@ import Create_topic from './create_topic';
 import Bottomnav from './_bottomnav'
 import Header from './header'
 import ReactFileReader from 'react-file-reader';
-import { FaPen, FaCheckCircle } from 'react-icons/fa';
+import { FaPen,FaTimes, FaCheck, FaCheckCircle } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import { BsEye , BsEyeSlash } from 'react-icons/bs'
 import Navbar from './navbar'
 import Linkify from 'react-linkify';
 import Preview from '../utils/preview'
-import { BiUser, BiGlobe } from 'react-icons/bi'
+import { BiUser, BiGlobe, BiCheck } from 'react-icons/bi'
 import { BsInfo } from 'react-icons/bs'
 import { TiLocationOutline } from 'react-icons/ti'
+import Modal from 'react-modal';
+
 
 function Profile(props) {
 
@@ -27,9 +29,12 @@ function Profile(props) {
     const [ posterProfileImg, setPosterProfileImg ]= useState(userDetails.poster_img)
     const [userTopics, setUserTopics ] = useState([])
     const [ loading, setLoading ] = useState(true)
+    const [modalIsOpen,setIsOpen] = React.useState(false);
+
+
     useEffect(()=>{
         const getUserTopics = async ()=>{
-            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/user-topics?user=${userDetails.username}`)
+            const res = await axios.get(`http://localhost:3333/api/user-topics?user=${userDetails.username}`)
             console.log(res)
             if(res.data.done){
                 setLoading(false)
@@ -39,10 +44,56 @@ function Profile(props) {
         getUserTopics()
     },[])
 
+    const customStyles = {
+        content : {
+          top                   : '50%',
+          left                  : '50%',
+          right                 : 'auto',
+          bottom                : 'auto',
+          marginRight           : '-50%',
+          transform             : 'translate(-50%, -50%)',
+          border:'.5px solid grey'
+        }
+      };
+      function openModal() {
+        setIsOpen(true);
+      }
+    
+    
+      function closeModal(){
+        setIsOpen(false);
+      }
+  
+    const deleteTopic = async (topic) =>{
+        const res = await axios.post('http://localhost:3333/api/delete-topic',{id:topic.id})
+        if(res.data.done){
+            toast.dark(res.data.message, {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: false,
+            });
+        }
+        if(res.data.success){
+            const getUserTopics = async ()=>{
+                const res = await axios.get(`http://localhost:3333/api/user-topics?user=${userDetails.username}`)
+                console.log(res)
+                if(res.data.done){
+                    setLoading(false)
+                }
+                setUserTopics(res.data.topics)
+            }
+            getUserTopics()
+        }
+    }
+
     return (
         <div className={styles.divBody}>
         <Navbar />
-        {/* <Header title="Profile" />                              */}
+        {/* <Header title="Profile" />*/}
         <ToastContainer />
             <div className={styles.row1}>
                 <p style={{marginLeft:'1rem'}}>Your topics</p>
@@ -68,6 +119,21 @@ function Profile(props) {
                                     <p style={{fontSize:'.8rem',color:'grey',fontStyle:"italic"}}>likes: {topic.likes} replies: {topic.comment_count} </p>
                                 </div>
                             </Link>
+                            <Modal
+                                isOpen={modalIsOpen}
+                                onRequestClose={closeModal}
+                                style={customStyles}
+                                contentLabel="Example Modal"
+                            >
+                                <div style={{padding:'0rem'}}>
+                                    <h3>Delete</h3>
+                                    <p>Do you want to delete this topic?</p>
+                                    <button onClick={()=>deleteTopic(topic)} style={{backgroundColor:'transparent',padding:'.3rem',width:'50%',border:'.5px solid grey'}}>yes <FaCheck /></button>
+                                    <button onClick={()=>setIsOpen(false)} style={{backgroundColor:'transparent',padding:'.3rem',width:'50%',border:'.5px solid grey'}}>not <FaTimes /></button>
+                                </div>
+                            </Modal>
+                            <button style={{backgroundColor:'transparent',padding:'.3rem',border:'.5px solid grey'}} onClick={()=>setIsOpen(true)}>Delete post</button>
+
                     </div>
                     ))}
             </div>

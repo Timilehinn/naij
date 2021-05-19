@@ -64,12 +64,11 @@ body{
     flex-direction: column;
     height:300px;
     padding:.5rem;
-    width:25%;
+    width:300px;
     background-color: white;
     align-items:center;
     overflow-y: scroll;
     border:.5px solid lightgrey;
-    position: fixed;
 }
 
 
