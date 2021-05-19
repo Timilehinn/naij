@@ -41,7 +41,6 @@ function Header(props) {
                 <option>lorem 2</option>
                 <option>lorem 4</option>
             </select> */}
-           
             <div className={styles.inputBox}>
                 <img src={loupe} alt=""/>
                 <input placeholder="Search" className={styles.search} />  
@@ -56,9 +55,10 @@ function Header(props) {
                     {/* <p style={{fontSize:'.9rem',margin:'0',color:'grey'}}>{userDetails.email}</p> */}
                     <h4 style={{margin:'0'}}>@{userDetails.username} {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
                 </div>
-                <img src={userDetails.img} style={{width:'40px',height:"40px",borderRadius:'50%' }}/>
+                <Link to='/profile'> <img src={userDetails.img} style={{width:'40px',height:"40px",borderRadius:'50%' }}/></Link>
+               
                  {/* <p style={{marginLeft:"20px"}} onClick={()=>signOut()}  >logout </p> */}
-                 <BiLogOutCircle color="white" size="30" style={{marginLeft:"20px",cursor:"pointer"}} />
+                 <BiLogOutCircle onClick={()=>signOut()}  color="white" size="25" style={{marginLeft:"20px",cursor:"pointer"}} />
             </div>
         </div>
     )

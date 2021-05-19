@@ -186,18 +186,18 @@ function Profile(props) {
                         <span style={{marginLeft:'-1rem',cursor:'pointer'}}><FaPen color="#5cab7d" size={15} /></span>
                     </ReactFileReader>
                 </div>
-                <button onClick={()=>updateProfileImage()} style={{marginTop:'1.7rem',border:'5px solid green',fontWeight:'bold',borderRadius:'3rem',padding:'.6rem',backgroundColor:'#5cab7d'}}>Update Image</button>
+                <button onClick={()=>updateProfileImage()} style={{marginTop:'1.7rem',border:"none",fontWeight:'bold',borderRadius:'3rem',padding:'.6rem',backgroundColor:'#5cab7d',}}>Update Image</button>
                  <p>Edit Details</p>
                  <div className={styles.detailsForm}>
                     <input 
-                        style={{width:'auto',paddingLeft:'15px',height:'40px',border:'.5px solid #5cab7d',borderRadius:'30px',marginBottom:'10px'}}
+                        style={{width:'auto',paddingLeft:'15px',height:'40px',border:'.5px solid #5cab7d',borderRadius:'30px',marginBottom:'10px',outline:"none"}}
                         name="username"
                         placeholder="username"
                         value={userName}
                         onChange={e=>setUserName(e.target.value)}
                     />
                      <input 
-                        style={{width:'auto',paddingLeft:'15px',height:'40px',border:'.5px solid #5cab7d',borderRadius:'30px',marginBottom:'10px'}}
+                        style={{width:'auto',paddingLeft:'15px',height:'40px',border:'.5px solid #5cab7d',borderRadius:'30px',marginBottom:'10px',outline:"none"}}
                         name="fullname"
                         placeholder="fullname"
                         value={fullName} 
@@ -220,7 +220,7 @@ function Profile(props) {
                     />
                         <BsEye onClick={()=>showPassword()} style={{position:'relative',float:'right',marginBottom:'.7rem',marginLeft:'-2rem'}} />
                     </span>
-                     <button onClick={()=>updateProfile()} style={{width:'auto',borderRadius:'30px',fontWeight:'bold',height:'45px',backgroundColor:'#5cab7d',border:'.5px solid #5cab7d',border:'5px solid green',marginBottom:'10px'}}>Update Details</button>
+                     <button onClick={()=>updateProfile()} style={{width:'auto',borderRadius:'30px',fontWeight:'bold',height:'45px',backgroundColor:'#5cab7d',border:'.5px solid #5cab7d',marginBottom:'10px'}}>Update Details</button>
                  </div>
             </div>
             <div className={styles.row2}>
