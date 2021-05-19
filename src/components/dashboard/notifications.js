@@ -16,7 +16,7 @@ function Search() {
         <ToastContainer />
             <div className={styles.row1}>
                 <IoMdNotificationsOutline color="grey" size={50} />
-                <h3 style={{color:'grey'}}>You have no notifications yet</h3>
+                <h3 style={{color:'grey',textAlign:'center'}}>You have no notifications yet</h3>
             </div>
             <div className={styles.row2}>
             </div>
