@@ -1,6 +1,6 @@
 import React,{ useState, useContext } from 'react'
 import styles from '../../styles/navbar.module.css'
-import { FaPen, FaCheckCircle } from 'react-icons/fa';
+import { FaPen, FaCheckCircle, FaCog } from 'react-icons/fa';
 import { Link, useHistory } from 'react-router-dom'
 import {AuthContext} from '../../contexts/authContextApi'
 import { useMediaQuery } from 'react-responsive'
@@ -41,7 +41,6 @@ function Header(props) {
                 <option>lorem 2</option>
                 <option>lorem 4</option>
             </select> */}
-           
             <div className={styles.inputBox}>
                 <img src={loupe} alt=""/>
                 <input placeholder="Search" className={styles.search} />  
@@ -52,13 +51,16 @@ function Header(props) {
             </Link> */}
            
             <div style={{display:'flex',alignItems:"center", flexDirection:'row',marginRight:'1rem'}}>
-                <div style={{display:'flex',flexDirection:'column',marginRight:'1rem'}}>
                     {/* <p style={{fontSize:'.9rem',margin:'0',color:'grey'}}>{userDetails.email}</p> */}
                     <h4 style={{margin:'0'}}>@{userDetails.username} {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
-                </div>
-                <img src={userDetails.img} style={{width:'40px',height:"40px",borderRadius:'50%' }}/>
+                <Link to="/settings/editprofile">
+                    <FaCog color="white" size="20" style={{marginLeft:"20px",cursor:"pointer"}} />
+                </Link>
+
+                <Link to='/myprofile'> <img src={userDetails.img} style={{width:'40px',marginLeft:'2rem',height:"40px",borderRadius:'50%' }}/></Link>
+               
                  {/* <p style={{marginLeft:"20px"}} onClick={()=>signOut()}  >logout </p> */}
-                 <BiLogOutCircle color="white" size="30" style={{marginLeft:"20px",cursor:"pointer"}} />
+                 <BiLogOutCircle onClick={()=>signOut()}  color="white" size="25" style={{marginLeft:"20px",cursor:"pointer"}} />
             </div>
         </div>
     )

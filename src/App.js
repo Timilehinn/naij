@@ -10,6 +10,8 @@ import Create_topic from './components/dashboard/create_topic'
 import Room from './components/dashboard/room';
 import Search from './components/dashboard/search';
 import Notifications from './components/dashboard/notifications';
+import Editprofile from './components/dashboard/editprofile';
+import Viewprofile from './components/dashboard/viewprofile'
 import ProtectedRoute from './components/protectedRoute'
 import axios from 'axios'
 function App() {
@@ -22,10 +24,12 @@ function App() {
           <Route path='/signup' component={Register} />
           <ProtectedRoute path='/timeline' component={Timeline} />
           <ProtectedRoute path='/create-topic' component={Create_topic} />
-          <ProtectedRoute path='/profile' component={Profile} />
+          <ProtectedRoute path='/myprofile' component={Profile} />
+          <ProtectedRoute path='/settings/editprofile' component={Editprofile} />
           <ProtectedRoute path='/search' component={Search} />
           <ProtectedRoute path='/topic/:room' component={Room} />
           <ProtectedRoute path='/notifications' component={Notifications} />
+          <ProtectedRoute path='/profile/:username' component={Viewprofile} />
           <ProtectedRoute component={Four} />
       </Switch>
     </div>

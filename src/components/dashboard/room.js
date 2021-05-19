@@ -24,6 +24,7 @@ import Navbar from './navbar'
 import * as Scroll from 'react-scroll';
 import {Helmet} from "react-helmet";
 import Preview from '../utils/preview'
+import Linkify from 'react-linkify';
 
 
 // like, comment, save, hide and report functions
@@ -264,10 +265,11 @@ function Room(props) {
             <div className={styles.row1} style={{paddingTop:'1.6rem',}}>
                 {loading? <Preview/> : (<div className={styles.topicWrapper}>
                     <div style={{display:'flex',alignItems:'center',flexDirection:'row',paddingLeft:'1rem',paddingRight:'1rem',}}>
-                        <img src={loading ? '' : refTopic.creator_img} style={{width:'60px',height:'60px',marginRight:'.5rem',borderRadius:'50%'}} />
-                        {/* {JSON.stringify(refTopic)} */}
+                        <Link to={`/profile/${refTopic.creator}`}>
+                            <img src={refTopic.creator_img} style={{width:'60px',height:'60px',marginRight:'.5rem',borderRadius:'50%'}} />
+                        </Link>
                         <div>
-                            <p style={{margin:0}}>@{loading ? '' : refTopic.creator} {loading ? '' : refTopic.is_poster_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
+                            <p style={{margin:0}}>@{refTopic.creator} {refTopic.is_poster_verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/>:<></>}</p>
                         </div>
                     </div>
                     <div style={{paddingLeft:'1rem',marginTop:'.5rem'}}>
@@ -276,16 +278,17 @@ function Room(props) {
 
                     {/* <img src={topic.img} style={{width:'100%',borderRadius:'2rem'}} /> */}
                     {
-                        loading ? '' : refTopic.img === 'data:image/png;base64,' ? <></> 
+                        refTopic.img === 'data:image/png;base64,' ? <></> 
                         : 
-                        <img src ={loading ? '' : refTopic.img} onClick={()=>openImg()}
+                        <img src ={refTopic.img} onClick={()=>openImg()}
                             style={{width:'95%',height:'100%', borderRadius:'.5rem', margin:'1rem'}}
                         />
                     }
-                    {loading ? '' : <div style={{margin:'.5rem',paddingLeft:'.5rem',wordBreak:'break-all', textOverflow:'ellipsis'}} dangerouslySetInnerHTML={{__html: refTopic.topic_body}} ></div>}
+                    {<Linkify><div style={{margin:'.5rem',paddingLeft:'.5rem',wordBreak:'break-all', textOverflow:'ellipsis'}}>{refTopic.topic_body}</div></Linkify>}
+                    
                     {/* TIME AND DATE */}
                     <div style={{paddingLeft:'1rem',}}>
-                        <p style={{fontSize:'.7rem',color:'grey'}}>{loading ? '' : `${refTopic.time} - ${refTopic.date}`}</p>
+                        <p style={{fontSize:'.7rem',color:'grey'}}>{refTopic.date} - {refTopic.time}</p>
                     </div>
                 </div>)}
                 <div style={{marginLeft:'1rem'}}>
@@ -300,29 +303,12 @@ function Room(props) {
                                 <p style={{fontSize:'.75rem',margin:0,color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={10} color='#5cab7d'/> : <></>}</p>
                             </div>
                             <div style={{marginLeft:'2.5rem',width:'80%',wordBreak:'break-word'}}>
-                                <p style={{margin:'0rem'}}>{msg.text}</p>
+                                <Linkify><p style={{margin:'0rem'}}>{msg.text}</p></Linkify>
                             </div>
                             <div style={{display:'flex',width:'90%', marginLeft:'2.5rem',alignItems:'center',justifyContent:"space-between" }}>
                                 <p style={{fontSize:'.7rem',color:'grey'}}>{msg.time} </p>
                                 {/* <TiArrowBack onClick={()=>messageReply(msg)} style={{cursor:'pointer',marginRight:"1rem"}} color='#5cab7d' size={20}/> */}
                             </div>
-                            {/* <p style={{fontSize:'.75rem',margin:0,marginRight:'.5rem',color:'grey'}}>@{msg.username} {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}</p>
-                            <p>{msg.text}</p> */}
-                            
-                            {/* <div style={{display:'flex',width:'100%', alignItems:'center',justifyContent:"space-between" }}>
-                                <p style={{fontSize:'.75rem',color:'grey'}}>{msg.date} - {msg.time} </p>
-                                <TiArrowBack onClick={()=>messageReply(msg)} style={{marginRight:"1rem",cursor:'pointer'}} color='grey' size={20}/>
-                            </div>  */}
-                            {/* <div style={{backgroundColor:'red',width:'95%'}}>
-                                {replyMessage.map(msg=>(
-                                    <>
-                                        <img src={msg.img} style={{width:'30px',height:"30px",borderRadius:'50%' }}/>
-                                        <p style={{fontSize:'.75rem',margin:0,marginRight:'.5rem',color:'red'}}>@{msg.reply_from} replying {msg.verified == 'true' ? <FaCheckCircle size={15} color='#5cab7d'/> : <></>}
-                                        </p>
-                                        <p>{msg.text}</p>
-                                    </>
-                                ))} 
-                            </div> */}
                         </div>
                         
                     </div>
@@ -335,10 +321,10 @@ function Room(props) {
                                 <p style={{fontSize:'.75rem',margin:0,color:'grey'}}>@{msg.sender_name} {msg.is_msg_sender_verified == 'true' ? <FaCheckCircle size={10} color='#5cab7d'/> : <></>}</p>
                             </div>
                             <div style={{marginLeft:'2.5rem',width:'80%',wordBreak:'break-word'}}>
-                                <p style={{margin:'0rem'}}>{msg.messages}</p>
+                                <Linkify><p style={{margin:'0rem',fontSize:'.85rem'}}>{msg.messages}</p></Linkify>
                             </div>
                             <div style={{display:'flex',width:'90%', marginLeft:'2rem',alignItems:'center',justifyContent:"space-between" }}>
-                                <p style={{fontSize:'.75rem',color:'grey', marginLeft:'.5rem'}}>{msg.date} - {msg.time} </p>
+                                <p style={{fontSize:'.7rem',color:'grey', marginLeft:'.5rem'}}>{msg.date} - {msg.time} </p>
                                 <TiArrowBack onClick={()=>messageReply(msg)} style={{cursor:'pointer',marginRight:"1rem"}} color='#5cab7d' size={20}/>
                             </div>
                             <p style={{marginLeft:'2rem',color:'grey',fontSize:'.7rem',display:'flex',alignItems:'center'}}>replies <TiArrowBack/> </p>
@@ -350,7 +336,10 @@ function Room(props) {
                                         <span style={{fontSize:'.7rem',fontWeight:'bold',fontStyle:'italic'}}> replied</span> 
                                         </p>
                                     </div>
-                                    <p style={{marginLeft:"2rem",fontSize:".8rem"}}>{reply.msg}</p>
+                                    <div style={{marginLeft:"2rem"}}>
+                                        <Linkify><p style={{fontSize:'.85rem'}}>{reply.msg}</p></Linkify>
+                                        <p style={{fontSize:'.7rem',color:'grey'}}>{reply.date}  - {reply.time}</p>
+                                    </div>
                                 </div>
                             ))}
                         </div>

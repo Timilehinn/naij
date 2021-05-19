@@ -24,7 +24,7 @@ function Bottomnav() {
             <Link to="/notifications">
                 <IoMdNotificationsOutline size={23} color="#5cba7d"/>
             </Link>
-            <Link to="/profile">
+            <Link to="/myprofile">
                 <BiUser color="#5cba7d" size={22} />
             </Link>
         </div>
