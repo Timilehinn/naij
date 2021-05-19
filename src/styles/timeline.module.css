@@ -85,8 +85,10 @@
     border-radius: .5rem;
     padding-top:1.6rem;
     background-color: white;
-    border:.5px solid lightgrey;
+    /* border:.5px solid lightgrey; */
     padding:.5rem;
+    transition: 0.5s;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 .more_ellipsis:hover{
   cursor: pointer;
@@ -94,8 +96,9 @@
   border-radius: .3rem;
 }
 .topicDiv:hover{
-  border:.8px solid grey;
-    transition:.3s;
+  /* border:.8px solid grey; */
+  transition:.3s;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 .row2{
     flex-direction: column;
@@ -106,6 +109,7 @@
     flex-direction: column;
     height:300px;
     border:.5px solid lightgrey;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     padding:.5rem;
     width:25%;
     background-color: white;
@@ -146,7 +150,8 @@
     body { /* background-color: red;  */ } 
     .divOne{ flex:0; display:none; }
     .divBody{ margin-top:85px;padding-bottom:60px }
-    .topicDiv{ box-shadow: 0px 0px 0px 0px }
+    .topicDiv{    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    }
     .row1{ flex:1; max-width:95%;padding-top:0px }
     .row2{ flex:0; display:none; }
     .addTopic{display: none;}
