@@ -226,18 +226,20 @@ function Profile(props) {
                             placeholder="fullname"
                             value={fullName} 
                             onChange={e=>setFullName(e.target.value)}
+                            maxLength="30"
                         />
                         <button onClick={()=>updateFullname()}><FaCheck color="#5cab7d" /></button>
                     </span>
                     <p style={{fontSize:".8rem",color:'grey'}}>Your fullname is Optional</p>
 
 
-                    <label>Description (Optional)</label>
+                    <label>About (Optional)</label>
                     <span style={{display:'flex',width:'100%',display:'flex',alignItems:"flex-start"}}>
                         <textarea 
                             placeholder="Description"
                             value={description} 
                             onChange={e=>setDescription(e.target.value)}
+                            maxLength="200"
                         />
                         <button onClick={()=>updateDescription()}><FaCheck color="#5cab7d" /></button>
                     </span>
@@ -250,6 +252,7 @@ function Profile(props) {
                             placeholder="location"
                             value={location} 
                             onChange={e=>setLocation(e.target.value)}
+                            maxLength="35"
                         />
                         <button onClick={()=>updateLocation()}><FaCheck color="#5cab7d" /></button>
                     </span>
@@ -262,6 +265,7 @@ function Profile(props) {
                             placeholder="locations"
                             value={url} 
                             onChange={e=>setUrl(e.target.value)}
+                            maxLength="35"
                         />
                         <button onClick={()=>updateUrl()}><FaCheck color="#5cab7d" /></button>
                     </span>
@@ -308,6 +312,7 @@ function Profile(props) {
                             placeholder="new password"
                             value={password2} 
                             onChange={e=>setPassword2(e.target.value)}
+                            maxLength="15"
                         />
                         <BsEye onClick={()=>showPassword2()}/>
                         <button onClick={()=>updatePassword()}><FaCheck color="#5cab7d" /></button>
