@@ -230,7 +230,7 @@ function Profile(props) {
                         />
                         <button onClick={()=>updateFullname()}><FaCheck color="#5cab7d" /></button>
                     </span>
-                    <p style={{fontSize:".8rem",color:'grey'}}>Your fullname is Optional</p>
+                    <p style={{fontSize:".8rem",color:'grey'}}>Your fullname will be dsiplayed on your profile.</p>
 
 
                     <label>About (Optional)</label>
