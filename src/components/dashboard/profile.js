@@ -29,7 +29,7 @@ function Profile(props) {
     const [ loading, setLoading ] = useState(true)
     useEffect(()=>{
         const getUserTopics = async ()=>{
-            const res = await axios.get(`http://localhost:3333/api/user-topics?user=${userDetails.username}`)
+            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/user-topics?user=${userDetails.username}`)
             console.log(res)
             if(res.data.done){
                 setLoading(false)

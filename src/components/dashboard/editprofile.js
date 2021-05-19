@@ -61,7 +61,7 @@ function Profile(props) {
         // setPreview_img_display('block')
     }
     const updateBannerImage = async ()=>{
-        const res = await axios.post('http://localhost:3333/api/update-banner-image',{posterImgBase64,id:userDetails.id})
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-banner-image',{posterImgBase64,id:userDetails.id})
         if(res.data.done){
             toast.dark(res.data.message,{
                 position: "bottom-center",
@@ -83,7 +83,7 @@ function Profile(props) {
         setProfileImg(e.base64)
     }
     const updateProfileImage = async ()=>{
-        const res = await axios.post('http://localhost:3333/api/update-profile-image',{photoBase64,id:userDetails.id})
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-profile-image',{photoBase64,id:userDetails.id})
         if(res.data.done){
             toast.dark(res.data.message,{
                 position: "bottom-center",
@@ -95,12 +95,12 @@ function Profile(props) {
                 progress: false,
             })
         }
-        if(res.data.success){ const ress = await axios.post('http://localhost:3333/api/update-topic-creator-img',{img:res.data.pic,username:userDetails.username})}
+        if(res.data.success){ const ress = await axios.post('https://naij-react-backend.herokuapp.com/api/update-topic-creator-img',{img:res.data.pic,username:userDetails.username})}
     }
 
     // UPDATE USERNAME
     const updateUsername = async ()=>{
-        const res = await axios.post('http://localhost:3333/api/update-username',{userName,id:userDetails.id})
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-username',{userName,id:userDetails.id})
         if(res.data.done){
             toast.dark(res.data.message,{
                 position: "bottom-center",
@@ -113,12 +113,12 @@ function Profile(props) {
             })
         }
         if(res.data.success){
-            const ress = await axios.post('http://localhost:3333/api/update-topic-creator',{oldusername:res.data.oldusername,newusername:res.data.newusername})
+            const ress = await axios.post('https://naij-react-backend.herokuapp.com/api/update-topic-creator',{oldusername:res.data.oldusername,newusername:res.data.newusername})
         }
     }
 
     const updateFullname = async()=>{
-        const res = await axios.post('http://localhost:3333/api/update-fullname',{fullName, id:userDetails.id})
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-fullname',{fullName, id:userDetails.id})
         if(res.data.done){
             toast.dark(res.data.message,{
                 position: "bottom-center",
@@ -133,7 +133,7 @@ function Profile(props) {
     }
 
     const updateDescription = async()=>{
-        const res = await axios.post('http://localhost:3333/api/update-description',{description, id:userDetails.id})
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-description',{description, id:userDetails.id})
         if(res.data.done){
             toast.dark(res.data.message,{
                 position: "bottom-center",
@@ -148,7 +148,7 @@ function Profile(props) {
     }
 
     const updateLocation = async()=>{
-        const res = await axios.post('http://localhost:3333/api/update-location',{location, id:userDetails.id})
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-location',{location, id:userDetails.id})
         if(res.data.done){
             toast.dark(res.data.message,{
                 position: "bottom-center",
@@ -163,7 +163,7 @@ function Profile(props) {
     }
 
     const updateUrl = async()=>{
-        const res = await axios.post('http://localhost:3333/api/update-url',{url, id:userDetails.id})
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-url',{url, id:userDetails.id})
         if(res.data.done){
             toast.dark(res.data.message,{
                 position: "bottom-center",
@@ -178,7 +178,7 @@ function Profile(props) {
     }
 
     const updatePassword = async()=>{
-        const res = await axios.post('http://localhost:3333/api/update-password',{password2, id:userDetails.id})
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-password',{password2, id:userDetails.id})
         if(res.data.done){
             toast.dark(res.data.message,{
                 position: "bottom-center",
