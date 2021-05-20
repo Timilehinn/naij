@@ -1,6 +1,6 @@
 # Naijchat - Microblogging app
 
-Naijchat is a microblogging app created to serve as a community where people can share thier opinion on different things. Naijchat is an open source project in its early stage and its open to contributions.
+Naijchat is a group chatting and topic sharing platform  created to serve as a community where people can share thier opinion on different things. Naijchat is an open source project in its early stage and its open to contributions.
 
 ## Site URL
 
