@@ -37,7 +37,6 @@ function Login(props) {
                 console.log(loginRes)
                 if(loginRes.data.session){
                     setLoginState(true)
-                    setIsLoading(false)
                     //INITIATE SESSION ID
                     localStorage.setItem("frse_token",loginRes.data.token);
                     localStorage.setItem("user_email",loginRes.data.email);
@@ -50,6 +49,9 @@ function Login(props) {
                     setIsLoading(false)
                     setLoginState(false)
                     history.push('/signin')
+                }
+                if(loginRes.data.done){
+                    setIsLoading(false)
                 }
     }
  
