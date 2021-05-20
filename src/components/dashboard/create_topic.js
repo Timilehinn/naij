@@ -252,9 +252,9 @@ function Create_topic() {
                   /> */}
                   <TextareaAutosize placeholder="Text (optional)" className={styles.post_input} value={post}  onChange={(e)=>setPost(e.target.value)}  />
                   <label style={{cursor:'pointer',fontSize:'.75rem'}} for="img-up">Tap to choose an image from device
-                  <input style={{visibility:'hidden'}} type="file" id="img-up" onChange={e=>handleFiles(e)} accept="image/x-png,image/gif,image/jpeg" />
+                    <input style={{visibility:'hidden'}} type="file" id="img-up" onChange={e=>handleFiles(e)} accept="image/x-png,image/gif,image/jpeg" />
                   </label>
-                      <span style={{color:'grey',fontStyle:'italic'}}>{photoName}</span>
+                      <span style={{color:'grey',fontSize:'.7rem',fontStyle:'italic'}}>{photoName.length > 15 ? photoName.substring(0,15)+'...' :photoName}</span>
                   {/* </ReactFileReader> */}
                   {/* <textarea onChange={e=>setPost(e.target.value)} maxLength="350" style={{marginTop:".5rem",height:'150px',width:'100%'}}  placeholder="Post (Optional)" /> */}
                   <button style={{padding:'.75rem',zIndex:0, color:'white', fontWeight:'bold', backgroundColor:'#5cab7d', width:'100%',marginTop:'1rem',border:'0px solid grey',cursor:'pointer'}} >Publish</button>

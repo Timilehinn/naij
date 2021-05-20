@@ -232,12 +232,10 @@ function Profile(props) {
                             value={fullName} 
                             onChange={e=>setFullName(e.target.value)}
                             maxLength="30"
-                            minLength="6"
-                            required
                         />
                         <button><FaCheck color="#5cab7d" /></button>
                     </form>
-                    <p style={{fontSize:'.7rem',color:"grey"}}>{30 - fullName.length} characters remaining (minimum of 6 characters)</p>
+                    <p style={{fontSize:'.7rem',color:"grey"}}>{30 - fullName.length} characters remaining</p>
 
 
                     <label>About (Optional)</label>
@@ -247,13 +245,11 @@ function Profile(props) {
                             placeholder="Description"
                             value={description} 
                             onChange={e=>setDescription(e.target.value)}
-                            minLength = "5"
                             maxLength="200"
-                            required
                         />
                         <button><FaCheck color="#5cab7d" /></button>
                     </form>
-                    <p style={{fontSize:'.7rem',color:"grey"}}>{200 - description.length} characters remaining (minimum of 5 characters)</p>
+                    <p style={{fontSize:'.7rem',color:"grey"}}>{200 - description.length} characters remaining</p>
 
 
                     <label>Location (Optional)</label>
@@ -263,13 +259,11 @@ function Profile(props) {
                             placeholder="location"
                             value={location} 
                             onChange={e=>setLocation(e.target.value)}
-                            minLength="5"
                             maxLength="25"
-                            required
                         />
                         <button><FaCheck color="#5cab7d" /></button>
                     </form>
-                    <p style={{fontSize:'.7rem',color:"grey"}}>{25 - location.length} characters remaining (minimum of 5 characters)</p>
+                    <p style={{fontSize:'.7rem',color:"grey"}}>{25 - location.length} characters remaining</p>
 
 
                     <label>Url (Optional)</label>
@@ -279,13 +273,11 @@ function Profile(props) {
                             placeholder="location"
                             value={url} 
                             onChange={e=>setUrl(e.target.value)}
-                            minLength="5"
                             maxLength="35"
-                            required
                         />
                         <button><FaCheck color="#5cab7d" /></button>
                     </form>
-                    <p style={{fontSize:'.7rem',color:"grey"}}>{35 - url.length} characters remaining (minimum of 5 characters)</p>
+                    <p style={{fontSize:'.7rem',color:"grey"}}>{35 - url.length} characters remaining</p>
 
 
                     <h3>Images</h3>
