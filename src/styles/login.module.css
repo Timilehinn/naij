@@ -45,9 +45,9 @@
     flex-direction: column;
 }
 .form input{
-    width:350px;
+    /* width:350px; */
     height:45px;
-    margin-top:1rem;
+    /* margin-top:1rem; */
     border-radius:5rem;
     border:2px solid #5cab7d;
     background-color: #f5f9e9;
@@ -55,8 +55,29 @@
     padding-left:1rem;
     outline: none;
 }
+
+
+.inputWrap{
+    width: 300px;
+    border:2px solid #5cab7d;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    border-radius:5rem;
+    margin-top: 1rem;
+    padding-right: 1rem;
+}
+
+.inputWrap input{
+    width: 100%;
+    border: none;
+    
+}
+
+
+
 .form button{
-    width:370px;
+    /* width:370px; */
     height:50px;
     margin-top:1rem;
     border-radius:5rem;
