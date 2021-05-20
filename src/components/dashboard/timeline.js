@@ -162,12 +162,9 @@ function Dashboard(props) {
         }
         getNotifications();
 
-        const interval = setInterval(()=>{
-            getNotifications();
-        },15000)
+       
 
         return () => {
-            clearInterval(interval)
             console.log('get notification interval cleared')
         };
     },[])
