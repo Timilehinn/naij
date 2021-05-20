@@ -60,7 +60,7 @@ function Profile(props) {
                 </div>
                 <div style={{display:'flex',width:'95%',alignItems:'flex-start',flexDirection:'column',marginTop:'-2rem',marginLeft:'.3rem'}}>
                     <span>
-                        <img src={profileImg} width="75px" height="75px" style={{borderRadius:'50%',backgroundColor:'white'}} />{userDetails.verified ?<FaCheckCircle color="#5cab7d" /> :<></>}
+                        <img src={profileImg} width="75px" height="75px" style={{borderRadius:'50%',backgroundColor:'white'}} />{userDetails.verified === 'true'? <FaCheckCircle color="#5cab7d" /> :<></>}
                     </span>
                     {userDetails.fullname ? <h3>{userDetails.fullname}</h3> :<></>}
                     <p style={{display:'flex',alignItems:'center',fontSize:'.75rem',color:'grey',margin:'2px'}}><BiUser/> @{userDetails.username}</p>

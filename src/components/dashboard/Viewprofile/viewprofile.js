@@ -56,7 +56,7 @@ function ViewProfile(props) {
                 </div>
                 <div style={{display:'flex',width:'95%',alignItems:'flex-start',flexDirection:'column',marginTop:'-2rem',marginLeft:'.3rem'}}>
                     <span>
-                        <img src={user.img} width="75px" height="75px" style={{borderRadius:'50%',backgroundColor:'white'}} />{user.verified ?<FaCheckCircle color="#5cab7d" /> :<></>}
+                        <img src={user.img} width="75px" height="75px" style={{borderRadius:'50%',backgroundColor:'white'}} />{user.verified === 'true'? <FaCheckCircle color="#5cab7d" /> :<></>}
                     </span>
                     {/* <span style={{marginLeft:'-1rem',cursor:'pointer'}}><FaPen color="#5cab7d" size={15} /></span> */}
                     {user.fullname ? <h3>{user.fullname}</h3> :<></>}
