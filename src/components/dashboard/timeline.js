@@ -48,9 +48,9 @@ function TopicFunction(prop){
         }else{
             setIsLiked(false)
         }
-        const res = await axios.post(`http://localhost:3333/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
         if(res.data.done && res.data.liked){
-                await axios.post('http://localhost:3333/api/create-notification',{topic_id:prop.topic_id, from:userDetails.username,to:prop.creator,type:'like',img:userDetails.img,verified:userDetails.verified})
+                await axios.post('https://naij-react-backend.herokuapp.com/api/create-notification',{topic_id:prop.topic_id, from:userDetails.username,to:prop.creator,type:'like',img:userDetails.img,verified:userDetails.verified})
         }
     }
     
@@ -155,7 +155,7 @@ function Dashboard(props) {
 
     useEffect(()=>{
         const getNotifications =async()=>{
-            const res = await axios.get(`http://localhost:3333/api/get-notifications?user=${userDetails.username}`)
+            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/get-notifications?user=${userDetails.username}`)
             console.log(res)
             setNotifications(res.data.details.filter(dets=>dets.n_from !== userDetails.username))
             setNotifCount(res.data.details.length)

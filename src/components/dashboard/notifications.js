@@ -14,7 +14,7 @@ function Search() {
     const { userDetails, setUserDetails, notifCount, setNotifCount,notifications, setNotifications } = useContext(AuthContext);
 
     const getNotifications =async()=>{
-        const res = await axios.get(`http://localhost:3333/api/get-notifications?user=${userDetails.username}`)
+        const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/get-notifications?user=${userDetails.username}`)
         console.log(res)
         setNotifications(res.data.details.filter(dets=>dets.n_from !== userDetails.username))
         setNotifCount(res.data.details.length)
@@ -25,7 +25,7 @@ function Search() {
     },[])
 
     async function confirmRead(notif){
-            const res = await axios.post(`http://localhost:3333/api/read-notifications?notif_id=${notif.id}`)
+            const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/read-notifications?notif_id=${notif.id}`)
             console.log(res)
             if(res.data.done && res.data.success){
                 getNotifications()
