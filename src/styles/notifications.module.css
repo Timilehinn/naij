@@ -31,7 +31,6 @@ body{
     box-shadow: 1px 1px 3px 3px rgba(221, 210, 210, 0.596);
     padding:1rem;
     width:60%;
-    height:80vh;
 }
 .detaislForm{
     display:flex;
