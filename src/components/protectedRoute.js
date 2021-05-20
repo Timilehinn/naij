@@ -1,6 +1,7 @@
 import React,{ useState, useEffect, useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 import axios from 'axios'
+import styles from '../styles/timeline.module.css'
 import {AuthContext} from '../contexts/authContextApi'
 
   const ProtectedRoute = ({ component: Component, ...rest }) => {
@@ -53,7 +54,11 @@ import {AuthContext} from '../contexts/authContextApi'
       refreshValidatePage();
   }, [])
 
- if (!isTokenValidated) return <p>loading</p> //loader
+ if (!isTokenValidated) return (
+   <div className={styles.the_box}>
+      <span className={styles.loader}></span>
+   </div>
+ )//loader
 
   return (<Route {...rest}
     render={(props) => {

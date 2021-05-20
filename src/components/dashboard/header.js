@@ -57,37 +57,29 @@ function Header(props) {
             </div>
             
             <div className={styles.sidebar} style={{zIndex:'1',overflowX:'scroll',transform:`translateX(${showSideBar}%)`}}>
-                <div style={{display:'flex',marginLeft:'auto',marginRight:'auto',marginTop:'0rem',flexDirection:'column',alignItems:"center"}}>
-                    {/* {userDetails.map(dets=>( */}
-                        <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-                            
-                            <img src={userDetails.poster_img} style={{width:'100%',margin:'0rem',height:"100px"}}/>
-                            <Link to="/profile">
+                <div style={{display:'flex',marginLeft:'auto',marginRight:'auto',marginTop:'0rem',flexDirection:'column',alignItems:"flex-start"}}>
+                    <div style={{display:'flex',flexDirection:'column',alignItems:'flex-start'}}>
+                        <img src={userDetails.poster_img} style={{width:'100%',margin:'0rem',height:"150px"}}/>
+                        <div style={{marginLeft:'1.5rem'}}>
+                            <Link to="/myprofile">
                                 <img src={userDetails.img} style={{width:'70px',height:"70px",marginTop:'-2.3rem',borderRadius:'50%' }}/>
                             </Link>
                             <h4><span style={{color:'grey'}}>@{userDetails.username}</span>  {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h4>
-                            {/* <p style={{fontSize:'.9rem',color:'grey'}}>{userDetails.email}</p> */}
-                             
                         </div>
-                    {/* ))} */}
-                    {/* <p>{Cookies.get('n_s_id')}</p> */}
-                    
-                    <div style={{display:'flex',alignItems:'center',flexDirection:'row'}}>
-                        {/* <h4 style={{fontWeight:'bold', color:"#5cab7d", fontStyle:"italic"}}>karma - 79  </h4> */}
-                        {/* <IoMdStar color="#5cab7d" size={15} /> */}
                     </div>
-                        <Link style={{textDecoration:'none',color:'black'}} to={'/timeline'}><h3 style={{marginBottom:'.5rem'}}>Home</h3></Link>
-                        <Link to="/create-topic" style={{textDecoration:'none',color:'black'}}><h3 style={{marginBottom:'.5rem'}}>Create Topic</h3></Link>
-                        <Link style={{textDecoration:'none',color:'black'}}><h3 style={{marginBottom:'.5rem'}}>Get Verified</h3></Link>
-                    <br/>
-                    {/*  */}
-                    <div className={styles.lowerSideBar}>
-                        <h3 onClick={()=>alert('Naijchat is a topic sharing and group messaging platform ...')}>About</h3>
-                        <h3 onClick={()=>alert('Lorem ipsum')}>Policy</h3>
-                        <h3 style={{color:'orange'}} onClick={()=>{localStorage.removeItem('frse_token');localStorage.removeItem('user_email'); history.push('/')}}>logout</h3>
-                        {/* <h3 onClick={()=>alert(Cookies.get('n_s_id'))}>chaeck state</h3> */}
+                    <div style={{display:'flex',alignItems:'flex-start',marginLeft:'1.5rem',flexDirection:'column '}}>
+                            <Link style={{textDecoration:'none',color:'black'}} to={'/timeline'}><h3 style={{marginBottom:'.5rem'}}>Home</h3></Link>
+                            <Link to="/create-topic" style={{textDecoration:'none',color:'black'}}><h3 style={{marginBottom:'.5rem'}}>Create Topic</h3></Link>
+                            <Link style={{textDecoration:'none',color:'black'}}><h3 style={{marginBottom:'.5rem'}}>Get Verified</h3></Link>
+                        <br/>
+                        {/*  */}
+                        <div className={styles.lowerSideBar}>
+                            <h3 onClick={()=>alert('Naijchat is a topic sharing and group messaging platform ...')}>About</h3>
+                            <h3 onClick={()=>alert('Lorem ipsum')}>Policy</h3>
+                            <h3 style={{color:'orange'}} onClick={()=>{localStorage.removeItem('frse_token');localStorage.removeItem('user_email'); history.push('/')}}>logout</h3>
+                            {/* <h3 onClick={()=>alert(Cookies.get('n_s_id'))}>chaeck state</h3> */}
+                        </div>
                     </div>
-                
                 </div>
             </div> 
             <div className={styles.backmodal} onClick={()=>{setShowSideBar(-100); showBackModal('hidden')}} style={{visibility:backModal}}></div>

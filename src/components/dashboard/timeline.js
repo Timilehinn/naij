@@ -8,7 +8,7 @@ import styles from '../../styles/timeline.module.css';
 import axios from 'axios';
 import User_home from './user_home'
 import Create_topic from './create_topic';
-import Profile from './profile';
+import Profile from './Profile/profile';
 import Bottomnav from './_bottomnav'
 import Header from './header'
 import Sidebar from './sidebar'
@@ -16,7 +16,7 @@ import { FaCheckCircle,FaEllipsisV,FaRegCommentAlt, FaChartLine, FaArrowUp, FaAr
 import  { MdBookmarkBorder } from 'react-icons/md'
 import { TiArrowDownOutline, TiArrowUpOutline } from 'react-icons/ti'
 import { BiCommentDetail } from 'react-icons/bi'
-import { AiOutlineRetweet } from 'react-icons/ai'
+import { AiOutlineRetweet, AiOutlineLike } from 'react-icons/ai'
 import { IoMdChatboxes, IoEllipsisVerticalOutline,IoMdHeart,IoIosImage, IoMdArrowDown,IoMdArrowUp,IoMdRefresh, IoIosChatbubbles } from 'react-icons/io'
 import { FiHeart } from 'react-icons/fi'
 import userImg from '../../images/user-circle.svg'
@@ -49,14 +49,11 @@ function TopicFunction(prop){
             setIsLiked(false)
         }
         const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
+        if(res.data.done && res.data.liked){
+                await axios.post('https://naij-react-backend.herokuapp.com/api/create-notification',{topic_id:prop.topic_id, from:userDetails.username,to:prop.creator,type:'like',img:userDetails.img,verified:userDetails.verified})
+        }
     }
     
-    async function downVoteState(){
-        setIsLiked(false)
-        setIsDownVoted(true)
-        const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/downvote-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
-    }
-
     return (
         <div style={{width:'100%',display:'flex',justifyContent:'space-between', alignItems:'flex-end'}}> 
 
@@ -83,7 +80,9 @@ function TopicFunction(prop){
 
 function Dashboard(props) {  
     const history = useHistory();
-    const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos, topics, setTopics} = useContext(AuthContext);
+    const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos, topics, setTopics,
+        notifCount, setNotifCount,notifications, setNotifications
+    } = useContext(AuthContext);
     // const [ olderTopics, setOlderTopics ] = useState([]);
     const [ switchPage, setSwitchPage ] = useState('home')
     const [ loading, setLoading ] = useState(true)
@@ -125,6 +124,9 @@ function Dashboard(props) {
         getTopics();
         setOffset(offset + 15)
     }
+
+    
+    
     
     useEffect(()=>{
         async function getTopics(){
@@ -144,7 +146,6 @@ function Dashboard(props) {
 
         //to scroll back to previou position
         scroll.scrollTo(scrollPos); 
-
         return () => {
             clearInterval(interval)
             console.log('timeline interval cleared')
@@ -152,7 +153,24 @@ function Dashboard(props) {
        
     },[])
 
-    
+    useEffect(()=>{
+        const getNotifications =async()=>{
+            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/get-notifications?user=${userDetails.username}`)
+            console.log(res)
+            setNotifications(res.data.details.filter(dets=>dets.n_from !== userDetails.username))
+            setNotifCount(res.data.details.length)
+        }
+        getNotifications();
+
+        const interval = setInterval(()=>{
+            getNotifications();
+        },15000)
+
+        return () => {
+            clearInterval(interval)
+            console.log('get notification interval cleared')
+        };
+    },[])
 
     useLayoutEffect(()=>{
         const handleScroll = () => {
@@ -191,7 +209,7 @@ function Dashboard(props) {
                     :
                     topics.map(topic=>(
                         <div className={styles.topicDiv} key={topic.id} key={topic.id}>
-                            <Link key={topic.id} to={{ pathname:`/topic/${topic.slug}`, topic_info:topic }} 
+                            <Link key={topic.id} to={{ pathname:`/topic/${topic.slug}/${topic.creator}`, topic_info:topic }} 
                                  style={{color:'black',textDecoration:'none'}}>
                                 <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'.5rem'}}>
                                     <img src={topic.creator_img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
@@ -213,7 +231,7 @@ function Dashboard(props) {
                                     <IoMdChatboxes size={20}/> {topic.comment_count}
                                 </div> */}
                             </Link>
-                        <TopicFunction topic={topic} likedby={topic.liked_by} likes={topic.likes} topic_id={topic.id} comments={topic.comment_count} />
+                        <TopicFunction topic={topic} creator={topic.creator} likedby={topic.liked_by} likes={topic.likes} topic_id={topic.id} comments={topic.comment_count} />
                         {/* report component */}
                         {/* <Report topic={topic}  /> */}
                     </div>

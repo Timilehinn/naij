@@ -10,144 +10,63 @@ import Create_topic from './create_topic';
 import Bottomnav from './_bottomnav'
 import Header from './header'
 import ReactFileReader from 'react-file-reader';
-import { FaPen, FaCheckCircle } from 'react-icons/fa';
+import { FaPen,FaTimes, FaCheck, FaCheckCircle } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import { BsEye , BsEyeSlash } from 'react-icons/bs'
 import Navbar from './navbar'
+import Linkify from 'react-linkify';
+import Preview from '../utils/preview'
+import { BiUser, BiGlobe, BiCheck } from 'react-icons/bi'
+import { BsInfo } from 'react-icons/bs'
+import { TiLocationOutline } from 'react-icons/ti'
+import Modal from 'react-modal';
 
 
 function Profile(props) {
 
-    const [ photo, setPhoto ] = useState('');
-    const [ photoBase64, setPhotoBase64 ] = useState('');
-    const history = useHistory();
     const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
     const [ profileImg, setProfileImg ] = useState(userDetails.img)
-    const [ topics, setTopics ] = useState([]);
-    const [ switchPage, setSwitchPage ] = useState('home')
-    const [fullName,setFullName] = useState(userDetails.fullname);
-    const [userName,setUserName] = useState(userDetails.username);
-    const [email,setEmail] = useState(userDetails.email);
-    const [password,setPassword] = useState(userDetails.password);
-    const [ posterImg, setPosterImg ]= useState('')
-    const [ posterImgBase64, setPosterImgBase64 ] = useState('')
     const [ posterProfileImg, setPosterProfileImg ]= useState(userDetails.poster_img)
-    const [ isShowPassword, setIsShowPassword ] = useState('password')
- 
-    function showPassword(){
-        if(isShowPassword === 'password'){
-            setIsShowPassword('text')
-        }else{
-            setIsShowPassword('password')
+    const [userTopics, setUserTopics ] = useState([])
+    const [ loading, setLoading ] = useState(true)
+    const [modalIsOpen,setIsOpen] = React.useState(false);
+
+
+    useEffect(()=>{
+        const getUserTopics = async ()=>{
+            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/user-topics?user=${userDetails.username}`)
+            console.log(res)
+            if(res.data.done){
+                setLoading(false)
+            }
+            setUserTopics(res.data.topics)
         }
-    }
-    function changePosterImage(e){
-        var pre_removed = e.base64.substring(e.base64.indexOf(",") + 1)
-        setPosterImg(e.base64)
-        setPosterImgBase64(pre_removed)
-        setPosterProfileImg(e.base64)
-        // setPreview_img_display('block')
-    }
+        getUserTopics()
+    },[])
 
-
-    function handleFiles(e){
-        var pre_removed = e.base64.substring(e.base64.indexOf(",") + 1)
-        setPhoto(e.base64)
-        setPhotoBase64(pre_removed)
-        setProfileImg(e.base64)
-        // setPreview_img_display('block')
-    }
-
-    const updateProfileImage = async ()=>{
-        // updates only profile image
-        if(photoBase64 !== '' && posterImgBase64 === ''){
-            const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-profile-image',
-            {photoBase64,posterImgBase64,id:userDetails.id,creator_email:userDetails.email})
-            console.log(res.data,' the data here')
-            setUserDetails(res.data.details)
-            if(res.data.done){
-                toast.dark(res.data.message, {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: false,
-                });
-            }else{
-                toast.dark(res.data.message, {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: false,
-                });
-            }
-        // updates poster profile image
-        }else if(posterImgBase64 !== '' && photoBase64 === ''){
-            const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-profile-poster-image',
-            {photoBase64,posterImgBase64,id:userDetails.id,creator_email:userDetails.email})
-            console.log(res.data,' the data here')
-            setUserDetails(res.data.details)
-            if(res.data.done){
-                toast.dark(res.data.message, {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: false,
-                });
-            }else{
-                toast.dark(res.data.message, {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: false,
-                });
-            }
-        }else{
-            // updates both
-            const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-profile-images',
-            {photoBase64,posterImgBase64,id:userDetails.id,creator_email:userDetails.email})
-            console.log(res.data,' the data here')
-            setUserDetails(res.data.details)
-            if(res.data.done){
-                toast.dark(res.data.message, {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: false,
-                });
-            }else{
-                toast.warning(res.data.message, {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: false,
-                });
-            }
+    const customStyles = {
+        content : {
+          top                   : '50%',
+          left                  : '50%',
+          right                 : 'auto',
+          bottom                : 'auto',
+          marginRight           : '-50%',
+          transform             : 'translate(-50%, -50%)',
+          border:'.5px solid grey'
         }
-    }
-
-    // to update username, fullname, password and email    
-    const updateProfile = async ()=>{
-        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/update-profile-web',{id:userDetails.id,userName,password,fullName})
-        // console.log(res.data)
-        if(res.data.success){
+      };
+      function openModal() {
+        setIsOpen(true);
+      }
+    
+    
+      function closeModal(){
+        setIsOpen(false);
+      }
+  
+    const deleteTopic = async (topic) =>{
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/delete-topic',{id:topic.id})
+        if(res.data.done){
             toast.dark(res.data.message, {
                 position: "bottom-center",
                 autoClose: 3000,
@@ -157,74 +76,80 @@ function Profile(props) {
                 draggable: true,
                 progress: false,
             });
-        }else{
-            toast.error(res.data.message,{
-                position: "bottom-center",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: false,
-            })
+        }
+        if(res.data.success){
+            const getUserTopics = async ()=>{
+                const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/user-topics?user=${userDetails.username}`)
+                console.log(res)
+                if(res.data.done){
+                    setLoading(false)
+                }
+                setUserTopics(res.data.topics)
+            }
+            getUserTopics()
         }
     }
-
 
     return (
         <div className={styles.divBody}>
         <Navbar />
-        <Header title="Profile" />                             
+        {/* <Header title="Profile" />*/}
         <ToastContainer />
             <div className={styles.row1}>
-                <ReactFileReader handleFiles={e=>changePosterImage(e)} base64={true}>
-                    <img src={posterProfileImg} width="100%" height='170px' />
-                </ReactFileReader>
-                <div style={{display:'flex',marginTop:'-3rem',flexDirection:'row',alignItems:'flex-end'}}>
-                    <img src={profileImg} width="100px" height="100px" style={{borderRadius:'50%',backgroundColor:'white'}} />
-                    <ReactFileReader handleFiles={e=>handleFiles(e)} base64={true}>
-                        <span style={{marginLeft:'-1rem',cursor:'pointer'}}><FaPen color="#5cab7d" size={15} /></span>
-                    </ReactFileReader>
-                </div>
-                <button onClick={()=>updateProfileImage()} style={{marginTop:'1.7rem',border:"none",fontWeight:'bold',borderRadius:'3rem',padding:'.6rem',backgroundColor:'#5cab7d',}}>Update Image</button>
-                 <p>Edit Details</p>
-                 <div className={styles.detailsForm}>
-                    <input 
-                        style={{width:'auto',paddingLeft:'15px',height:'40px',border:'.5px solid #5cab7d',borderRadius:'30px',marginBottom:'10px',outline:"none"}}
-                        name="username"
-                        placeholder="username"
-                        value={userName}
-                        onChange={e=>setUserName(e.target.value)}
-                    />
-                     <input 
-                        style={{width:'auto',paddingLeft:'15px',height:'40px',border:'.5px solid #5cab7d',borderRadius:'30px',marginBottom:'10px',outline:"none"}}
-                        name="fullname"
-                        placeholder="fullname"
-                        value={fullName} 
-                        onChange={e=>setFullName(e.target.value)}
-                    />
-                     {/* <input 
-                        style={{width:'auto',paddingLeft:'15px',height:'40px',border:'.5px solid #5cab7d',borderRadius:'30px',marginBottom:'10px'}} 
-                        name="email"
-                        value={email} 
-                        onChange={e=>setEmail(e.target.value)}
-                    /> */}
-                    <span style={{display:'flex',cursor:"pointer",alignItems:'center'}}>
-                     <input  
-                        style={{width:'95%',paddingLeft:'15px',height:'40px',border:'.5px solid #5cab7d',borderRadius:'30px',marginBottom:'10px'}} 
-                        name="password"
-                        type={isShowPassword}
-                        placeholder="password"
-                        value={password} 
-                        onChange={e=>setPassword(e.target.value)}
-                    />
-                        <BsEye onClick={()=>showPassword()} style={{position:'relative',float:'right',marginBottom:'.7rem',marginLeft:'-2rem'}} />
-                    </span>
-                     <button onClick={()=>updateProfile()} style={{width:'auto',borderRadius:'30px',fontWeight:'bold',height:'45px',backgroundColor:'#5cab7d',border:'.5px solid #5cab7d',marginBottom:'10px'}}>Update Details</button>
-                 </div>
+                <p style={{marginLeft:'1rem'}}>Your topics</p>
+                  {loading ? <><Preview /><Preview /></> : 
+                    userTopics.map(topic=>(
+                    <div className={styles.topicDiv} key={topic.id} key={topic.id}>
+                            <Link key={topic.id} to={{ pathname:`/topic/${topic.slug}`, topic_info:topic }} 
+                                 style={{color:'black',textDecoration:'none'}}>
+                                <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'.5rem'}}>
+                                    <img src={topic.creator_img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
+                                    <div style={{marginLeft:'.5rem'}}>
+                                        <p style={{fontSize:'.75rem',color:'grey'}}>Posted by @{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={12} color='#5cab7d'/> : <></>}</p>
+                                    </div>
+                                </div>
+                                <p style={{fontWeight:'bold',marginLeft:'.5rem',marginBottom:'0rem'}}>{topic.title}</p>
+                                <div style={{display:'flex',flexDirection:'column',marginLeft:'0rem',padding:'.5rem'}}>
+                                {topic.img === 'data:image/png;base64,' ? <div style={{height:'0px'}}></div> 
+                                    : 
+                                    <img src={topic.img} style={{borderRadius:'.5rem'}} width="auto" height="300px" />
+                                }
+                                    {topic.topic_body ? ( <Linkify><div style={{paddingLeft:'0rem',wordBreak:'break-all'}}>{topic.topic_body.length > 200 ? topic.topic_body.substring(0,200) + ' ...' : topic.topic_body }</div></Linkify> ) :''  }
+                                    <p style={{fontSize:'.8rem',color:'grey'}}>{topic.date} {topic.time}</p>
+                                    <p style={{fontSize:'.8rem',color:'grey',fontStyle:"italic"}}>likes: {topic.likes} replies: {topic.comment_count} </p>
+                                </div>
+                            </Link>
+                            <Modal
+                                isOpen={modalIsOpen}
+                                onRequestClose={closeModal}
+                                style={customStyles}
+                                contentLabel="Example Modal"
+                            >
+                                <div style={{padding:'0rem'}}>
+                                    <h3>Delete</h3>
+                                    <p>Do you want to delete this topic?</p>
+                                    <button onClick={()=>deleteTopic(topic)} style={{backgroundColor:'transparent',padding:'.3rem',width:'50%',border:'.5px solid grey'}}>yes <FaCheck /></button>
+                                    <button onClick={()=>setIsOpen(false)} style={{backgroundColor:'transparent',padding:'.3rem',width:'50%',border:'.5px solid grey'}}>not <FaTimes /></button>
+                                </div>
+                            </Modal>
+                            <button style={{backgroundColor:'transparent',padding:'.3rem',border:'.5px solid grey'}} onClick={()=>setIsOpen(true)}>Delete post</button>
+
+                    </div>
+                    ))}
             </div>
             <div className={styles.row2}>
-                    {/* <input style={{width:'80%', height:'30px',borderRadius:'5rem',border:'.5px solid green'}} /> */}
+                <div className={styles.posterdiv} style={{display:'flex',justifyContent:'center',backgroundSize:'cover',flexDirection:'column',alignItems:'center',width:'100%',backgroundImage:`url(${posterProfileImg})`}}>
+                </div>
+                <div style={{display:'flex',width:'95%',alignItems:'flex-start',flexDirection:'column',marginTop:'-2rem',marginLeft:'.3rem'}}>
+                    <img src={profileImg} width="75px" height="75px" style={{borderRadius:'50%',backgroundColor:'white'}} />
+                    {userDetails.fullname ? <h3>{userDetails.fullname}</h3> :<></>}
+                    <p style={{display:'flex',alignItems:'center',fontSize:'.75rem',color:'grey',margin:'2px'}}><BiUser/> @{userDetails.username}</p>
+                    {userDetails.description ? <Linkify><p style={{fontSize:'.7rem',margin:'2px'}}>{userDetails.description}</p></Linkify>:<></>}
+                    {userDetails.location ? <p style={{display:'flex',alignItems:'center',fontSize:'.7rem', color:'grey',margin:0}}><TiLocationOutline /> {userDetails.location}</p> :<></>}
+                    {userDetails.url ? <Linkify><p style={{display:'flex',alignItems:'center',fontSize:'.7rem', color:'grey'}}><BiGlobe /> {userDetails.url}</p></Linkify> :<p style={{margin:0}}></p>}
+                    <p style={{display:'flex',alignItems:'center',fontSize:'.7rem',color:'grey',margin:'2px'}}>Joined {new Date(userDetails.createdAt).getUTCMonth()}/{new Date(userDetails.createdAt).getFullYear()}</p>
+                    <Link to="settings/editprofile" style={{textDecoration:'none', fontSize:'.65rem',color:'grey',padding:'.5rem',border:'.5px solid grey',borderRadius:'.8rem',backgroundColor:'transparent'}}>edit profile</Link>
+                </div>
             </div>
             <Bottomnav />
         </div>
