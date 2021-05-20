@@ -5,13 +5,13 @@ import Register from './components/register'
 import Timeline from './components/dashboard/timeline'
 import Four from './components/404'
 import { Route, Switch } from 'react-router-dom';
-import Profile from './components/dashboard/profile'
+import Profile from './components/dashboard/Profile/profile'
 import Create_topic from './components/dashboard/create_topic'
 import Room from './components/dashboard/room';
 import Search from './components/dashboard/search';
 import Notifications from './components/dashboard/notifications';
 import Editprofile from './components/dashboard/editprofile';
-import Viewprofile from './components/dashboard/viewprofile'
+import Viewprofile from './components/dashboard/Viewprofile/viewprofile'
 import ProtectedRoute from './components/protectedRoute'
 import axios from 'axios'
 function App() {
@@ -27,7 +27,7 @@ function App() {
           <ProtectedRoute path='/myprofile' component={Profile} />
           <ProtectedRoute path='/settings/editprofile' component={Editprofile} />
           <ProtectedRoute path='/search' component={Search} />
-          <ProtectedRoute path='/topic/:room' component={Room} />
+          <ProtectedRoute path='/topic/:room/:creator' component={Room} />
           <ProtectedRoute path='/notifications' component={Notifications} />
           <ProtectedRoute path='/profile/:username' component={Viewprofile} />
           <ProtectedRoute component={Four} />

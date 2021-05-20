@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import {AuthContext} from '../../contexts/authContextApi'
 import styles from '../../styles/_bottomnav.module.css'
 import { IoIosList, IoMdNotificationsOutline } from 'react-icons/io'
 import { BiUser } from 'react-icons/bi'
@@ -8,6 +9,9 @@ import { Link } from 'react-router-dom'
 
 
 function Bottomnav() {
+
+    const { userDetails, setUserDetails, notifCount, setNotifCount } = useContext(AuthContext);
+
 
     return (
         <div className={styles.bottomnav}>
@@ -21,8 +25,11 @@ function Bottomnav() {
             <Link to="/create-topic">
                     <AiOutlinePlus size={25} color="#5cba7d" />
             </Link>
-            <Link to="/notifications">
-                <IoMdNotificationsOutline size={23} color="#5cba7d"/>
+            <Link style={{color:'red',textDecoration:"none"}} to="/notifications">
+                <span style={{display:'flex',marginBottom:'.3rem',justifyContent:'flex-start'}}>
+                    <IoMdNotificationsOutline size={23} color="#5cba7d"/>
+                    {notifCount === 0? '': <span style={{width:'5px',height:'5px',backgroundColor:'red',borderRadius:'50%'}}></span>}
+                </span>
             </Link>
             <Link to="/myprofile">
                 <BiUser color="#5cba7d" size={22} />

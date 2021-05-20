@@ -7,7 +7,7 @@ import styles from '../../styles/room.module.css';
 import axios from 'axios';
 import User_home from './user_home'
 import Create_topic from './create_topic';
-import Settings from './profile';
+import Settings from './Profile/profile';
 import Bottomnav from './_bottomnav'
 import Chatheader from './chat-header'
 import Sidebar from './sidebar'
@@ -80,7 +80,6 @@ function TopicFunction(prop){
 
 
 function Room(props) {
-
     const [ messages,setMesages ] = useState([]);
     const {socket} = useContext(SocketContext);
     const [ userMsg,setUserMsg ] = useState('');
@@ -98,6 +97,7 @@ function Room(props) {
     const [ replyState, setReplyState ] = useState(false)
     const [ replyDetails, setReplyDetails ] = useState([])
     const [ replies, setReplies ] = useState([])
+    const creator = props.match.params.creator
 
 
     // console.log(props, 'props here')
@@ -227,7 +227,8 @@ function Room(props) {
                   room:room,
                   verified:userDetails.verified,
                   email:userDetails.email,
-                  photoBase64
+                  photoBase64,
+                  msg_to:creator
                 })
                 setUserMsg('')
                 setPhoto(null)
@@ -273,7 +274,7 @@ function Room(props) {
                         </div>
                     </div>
                     <div style={{paddingLeft:'1rem',marginTop:'.5rem'}}>
-                        <p style={{fontStyle:'italic',fontWeight:'bold',fontSize:'.85rem',margin:0}}>{loading ? '' : refTopic.title}</p>
+                        <p style={{textTransform:'capitalize', fontWeight:'bold',fontSize:'1.3rem',margin:0}}>{refTopic.title}</p>
                     </div>
 
                     {/* <img src={topic.img} style={{width:'100%',borderRadius:'2rem'}} /> */}
@@ -284,7 +285,7 @@ function Room(props) {
                             style={{width:'95%',height:'100%', borderRadius:'.5rem', margin:'1rem'}}
                         />
                     }
-                    {<Linkify><div style={{margin:'.5rem',paddingLeft:'.5rem',wordBreak:'break-all', textOverflow:'ellipsis'}}>{refTopic.topic_body}</div></Linkify>}
+                    {<Linkify><div style={{margin:'.5rem',whiteSpace:'pre-line', paddingLeft:'.5rem',wordBreak:'break-word', textOverflow:'ellipsis'}}>{refTopic.topic_body}</div></Linkify>}
                     
                     {/* TIME AND DATE */}
                     <div style={{paddingLeft:'1rem',}}>
