@@ -37,20 +37,6 @@ function ViewProfile(props) {
             setUser(res.data.details)
         }
         findUser();
-
-<<<<<<< HEAD:src/components/dashboard/viewprofile.js
-        const getUserTopics = async ()=>{
-            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/user-topics?user=${username}`)
-            console.log(res)
-            if(res.data.done){
-                setLoading(false)
-            }
-            setUserTopics(res.data.topics)
-        }
-        getUserTopics()
-=======
-        
->>>>>>> local:src/components/dashboard/Viewprofile/viewprofile.js
     
     },[])
 
