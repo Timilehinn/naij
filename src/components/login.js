@@ -23,7 +23,6 @@ function Login(props) {
     async function authenticateUser(e){
                 setIsLoading(true)
                 e.preventDefault();
-                console.log('aw far')
                 var loginRes = await axios.post('https://naij-react-backend.herokuapp.com/api/login',{email,password})
                 const msg = <p style={{fontSize:'.85rem'}}>{loginRes.data.auth_msg}</p>
                 toast.dark(msg,{
@@ -38,7 +37,6 @@ function Login(props) {
                 console.log(loginRes)
                 if(loginRes.data.session){
                     setLoginState(true)
-                    setIsLoading(false)
                     //INITIATE SESSION ID
                     localStorage.setItem("frse_token",loginRes.data.token);
                     localStorage.setItem("user_email",loginRes.data.email);
@@ -51,6 +49,9 @@ function Login(props) {
                     setIsLoading(false)
                     setLoginState(false)
                     history.push('/signin')
+                }
+                if(loginRes.data.done){
+                    setIsLoading(false)
                 }
     }
  

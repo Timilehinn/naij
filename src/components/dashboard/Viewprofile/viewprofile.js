@@ -37,6 +37,11 @@ function ViewProfile(props) {
             setUser(res.data.details)
         }
         findUser();
+<<<<<<< HEAD
+=======
+
+        
+>>>>>>> local
     
     },[])
 
