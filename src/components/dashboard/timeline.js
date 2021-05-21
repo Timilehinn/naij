@@ -139,15 +139,15 @@ function Dashboard(props) {
         }
         getTopics();
 
-        //REFRESH TIMELINE EVERY 15 SECONDS
-        // const interval = setInterval(()=>{
-        //     getTopics();
-        // },15000)
+        // REFRESH TIMELINE EVERY 15 SECONDS
+        const interval = setInterval(()=>{
+            getTopics();
+        },15000)
 
         //to scroll back to previou position
         scroll.scrollTo(scrollPos); 
         return () => {
-            // clearInterval(interval)
+            clearInterval(interval)
             console.log('timeline interval cleared')
         };
        
@@ -178,7 +178,6 @@ function Dashboard(props) {
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            clearInterval(getNewerTopics())
         };
        
     },[])
