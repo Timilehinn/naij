@@ -73,7 +73,7 @@ function Login(props) {
                 <input type="text" value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" required />
                 <div className={styles.inputWrap}>
                     <input value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" type={isShowPwrd ? "password" : 'text'} required />
-                    {  isShowPwrd ? <RiEyeCloseLine size='20' style={{cursor:"pointer"}} onClick={showText} />  : <RiEyeFill size="20" style={{cursor:"pointer"}} onClick={showPassword}  />}
+                    {  isShowPwrd ? <RiEyeCloseLine size='20' color="grey" style={{cursor:"pointer"}} onClick={showText} />  : <RiEyeFill size="20" style={{cursor:"pointer"}} onClick={showPassword}  />}
                 </div>
                
                 <button style={{display:'flex',justifyContent:'center',flexDirection:"row",alignItems:'center',color:'white',fontWeight:'bold'}}>
