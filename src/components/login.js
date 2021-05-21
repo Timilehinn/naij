@@ -8,12 +8,14 @@ import {AuthContext} from '../contexts/authContextApi'
 import Cookies from 'js-cookie';
 import naijIcon from '../images/logo1.png'
 import Preloader from './utils/preloader'
+import {RiEyeCloseLine} from 'react-icons/ri'
+import {RiEyeFill} from 'react-icons/ri'
 
 function Login(props) {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
-    const [isShowPwrd, setIsShowPwrd] = useState('password');
+    const [isShowPwrd, setIsShowPwrd] = useState(true);
     const history = useHistory();
     const {auth, setAuth, userDetails,setUserDetails} = useContext(AuthContext);
     const [loginState , setLoginState] = useState(false);
@@ -41,18 +43,26 @@ function Login(props) {
                     localStorage.setItem("frse_token",loginRes.data.token);
                     localStorage.setItem("user_email",loginRes.data.email);
                     // localStorage.setItem("user_det",JSON.stringify(loginRes.data.details));
-                    setUserDetails(loginRes.data.details)
-                    setAuth(loginRes.data.authenticated)
+                    setUserDetails(loginRes.data.details);
+                    setAuth(loginRes.data.authenticated);
                     // history.push('/meet')
-                    history.push(`/timeline`)
+                    history.push(`/timeline`);
                 }else{
-                    setIsLoading(false)
-                    setLoginState(false)
-                    history.push('/signin')
+                    setIsLoading(false);
+                    setLoginState(false);
+                    history.push('/signin');
                 }
                 if(loginRes.data.done){
                     setIsLoading(false)
                 }
+    }
+
+    function showText(){
+        setIsShowPwrd(false)
+    }
+
+    function showPassword(){
+        setIsShowPwrd(true)
     }
  
     return (
@@ -61,7 +71,11 @@ function Login(props) {
                  <img src={naijIcon} width="60px" height="70px" style={{alignSelf:'center'}} />
                 <h2 style={{textAlign:'center',userSelect:'none',color:'#5cab7d'}}>Sign In</h2>
                 <input type="text" value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" required />
-                <input value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" type={isShowPwrd} required />
+                <div className={styles.inputWrap}>
+                    <input value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" type={isShowPwrd ? "password" : 'text'} required />
+                    {  isShowPwrd ? <RiEyeCloseLine size='20' style={{cursor:"pointer"}} onClick={showText} />  : <RiEyeFill size="20" style={{cursor:"pointer"}} onClick={showPassword}  />}
+                </div>
+               
                 <button style={{display:'flex',justifyContent:'center',flexDirection:"row",alignItems:'center',color:'white',fontWeight:'bold'}}>
                     Sign In {isLoading? <Preloader /> :''}
                 </button>
