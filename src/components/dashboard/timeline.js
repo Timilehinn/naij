@@ -140,14 +140,14 @@ function Dashboard(props) {
         getTopics();
 
         //REFRESH TIMELINE EVERY 15 SECONDS
-        const interval = setInterval(()=>{
-            getTopics();
-        },15000)
+        // const interval = setInterval(()=>{
+        //     getTopics();
+        // },15000)
 
         //to scroll back to previou position
         scroll.scrollTo(scrollPos); 
         return () => {
-            clearInterval(interval)
+            // clearInterval(interval)
             console.log('timeline interval cleared')
         };
        
@@ -162,12 +162,9 @@ function Dashboard(props) {
         }
         getNotifications();
 
-        const interval = setInterval(()=>{
-            getNotifications();
-        },15000)
+       
 
         return () => {
-            clearInterval(interval)
             console.log('get notification interval cleared')
         };
     },[])
