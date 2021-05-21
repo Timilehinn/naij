@@ -28,7 +28,7 @@ import Modal from 'react-modal';
 import MoreModal from '../utils/moreModal'
 import { ToastContainer, toast } from 'react-toastify';
 import addTopic from '../../images/addTopicButton.png';
-// import Report from '../report.js'
+import LazyLoad from 'react-lazyload';
 
 
 // like, comment, save, hide and report functions
@@ -139,7 +139,7 @@ function Dashboard(props) {
         }
         getTopics();
 
-        //REFRESH TIMELINE EVERY 15 SECONDS
+        // REFRESH TIMELINE EVERY 15 SECONDS
         const interval = setInterval(()=>{
             getTopics();
         },15000)
@@ -162,12 +162,9 @@ function Dashboard(props) {
         }
         getNotifications();
 
-        const interval = setInterval(()=>{
-            getNotifications();
-        },15000)
+       
 
         return () => {
-            clearInterval(interval)
             console.log('get notification interval cleared')
         };
     },[])
@@ -181,7 +178,6 @@ function Dashboard(props) {
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            clearInterval(getNewerTopics())
         };
        
     },[])
@@ -212,26 +208,27 @@ function Dashboard(props) {
                             <Link key={topic.id} to={{ pathname:`/topic/${topic.slug}/${topic.creator}`, topic_info:topic }} 
                                  style={{color:'black',textDecoration:'none'}}>
                                 <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'.5rem'}}>
-                                    <img src={topic.creator_img} style={{width:'50px',height:"50px",borderRadius:'50%' }}/>
+                                    <img src={topic.creator_img} style={{width:'30px',height:"30px",borderRadius:'50%' }}/>
                                     <div style={{marginLeft:'.5rem'}}>
-                                        <p style={{fontSize:'.75rem',color:'grey'}}>Posted by @{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={12} color='#5cab7d'/> : <></>}</p>
+                                        <p style={{fontSize:'.75rem',color:'grey'}}>Posted by @{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={12} color='#5cab7d'/> : <></>}{topic.time} - {topic.date}</p>
                                     </div>
                                 </div>
-                                <p style={{fontWeight:'bold',marginLeft:'.5rem',marginBottom:'0rem'}}>{topic.title}</p>
-                                <div style={{display:'flex',flexDirection:'column',marginLeft:'0rem',padding:'.5rem'}}>
-                                {topic.img === 'data:image/png;base64,' ? <div style={{height:'0px'}}></div> 
-                                    : 
-                                    <img src={topic.img} style={{borderRadius:'.5rem'}} width="auto" height="300px" />
-                                }
-                                {/* MARKDOWN SAVED IN THE DATABSE IS CONVERTED TO HTML HERE */}
-                                    {topic.topic_body ? ( <Linkify><div style={{paddingLeft:'0rem',wordBreak:'break-all'}}>{topic.topic_body.length > 200 ? topic.topic_body.substring(0,200) + ' ...' : topic.topic_body }</div></Linkify> ) :''  }
-                                    <p style={{fontSize:'.8rem',color:'grey'}}>{topic.date} {topic.time}</p>
+                                <div style={{display:"flex",justifyContent:'space-between'}}>
+                                    <div style={{marginBottom:'1rem'}}>
+                                        <p style={{fontWeight:'bold',marginLeft:'.5rem',marginBottom:'.5rem'}}>{topic.title}</p>
+                                        {topic.topic_body ? ( <Linkify><div className={styles.topic_body} style={{marginLeft:'.5rem',wordBreak:'break-all'}}>{topic.topic_body.length > 200 ? topic.topic_body.substring(0,200) + ' ...' : topic.topic_body }</div></Linkify> ) :''  }
+                                    </div>
+                                    <div style={{display:'flex',flexDirection:'column',marginLeft:'0rem',padding:'.5rem'}}>
+                                        {topic.img === 'data:image/png;base64,' ? <div style={{height:'0px'}}></div> 
+                                            : 
+                                            <LazyLoad once={true} >
+                                                <img className={styles.topicImg} src={topic.img} />
+                                            </LazyLoad>
+                                        }
+                                    </div>
                                 </div>
-                                {/* <div> <FaArrowUp onClick={()=>alert(scrollPos)} size={20}/> <FaArrowDown size={20}/> <MdBookmarkBorder size={25}/>
-                                    <IoMdChatboxes size={20}/> {topic.comment_count}
-                                </div> */}
                             </Link>
-                        <TopicFunction topic={topic} creator={topic.creator} likedby={topic.liked_by} likes={topic.likes} topic_id={topic.id} comments={topic.comment_count} />
+                        <TopicFunction topic={topic} date={topic.date} time={topic.time} creator={topic.creator} likedby={topic.liked_by} likes={topic.likes} topic_id={topic.id} comments={topic.comment_count} />
                         {/* report component */}
                         {/* <Report topic={topic}  /> */}
                     </div>

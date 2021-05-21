@@ -95,7 +95,7 @@ function Profile(props) {
                 progress: false,
             })
         }
-        if(res.data.success){ const ress = await axios.post('https://naij-react-backend.herokuapp.com/api/update-topic-creator-img',{img:res.data.pic,username:userDetails.username})}
+        if(res.data.success && res.data.done){ const ress = await axios.post('https://naij-react-backend.herokuapp.com/api/update-topic-creator-img',{img:res.data.pic,username:userDetails.username})}
     }
 
     // UPDATE USERNAME
