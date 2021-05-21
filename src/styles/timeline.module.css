@@ -91,6 +91,11 @@
     transition: 0.5s;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
+.topicImg{
+  width:150px;
+  height:150px;
+  border-radius: .5rem;
+}
 .more_ellipsis:hover{
   cursor: pointer;
   background-color: rgb(224, 224, 224);
@@ -151,8 +156,9 @@
     body { /* background-color: red;  */ } 
     .divOne{ flex:0; display:none; }
     .divBody{ margin-top:85px;padding-bottom:60px }
-    .topicDiv{    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-    }
+    .topicDiv{    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;}
+    .topicImg{ width:75px; height:75px }
+    .topic_body{display:none}
     .row1{ flex:1; max-width:95%;padding-top:0px }
     .row2{ flex:0; display:none; }
     .addTopic{display: none;}
