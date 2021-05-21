@@ -15,7 +15,7 @@ import {AuthContext} from '../contexts/authContextApi'
       let token = localStorage.getItem("frse_token");
       let email = localStorage.getItem("user_email");
       if (token && email ) {
-        axios.get(`http://localhost:3333/api/isUserAuth?email=${email}`, {
+        axios.get(`https://naij-react-backend.herokuapp.com/api/isUserAuth?email=${email}`, {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

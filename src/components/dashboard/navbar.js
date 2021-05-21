@@ -6,7 +6,7 @@ import {AuthContext} from '../../contexts/authContextApi'
 import { useMediaQuery } from 'react-responsive'
 import Logo from '../../images/logo1.png'
 import Cookies from 'js-cookie'
-import { IoMdAddCircle,IoIosList, IoMdAddCircleOutline} from 'react-icons/io'
+import { IoMdAddCircle,IoIosList,IoMdNotificationsOutline, IoMdAddCircleOutline} from 'react-icons/io'
 import { BiLogOutCircle } from 'react-icons/bi'
 import { RiArrowDownSLine } from 'react-icons/ri'
 import { ImProfile } from 'react-icons/im'
@@ -20,12 +20,13 @@ import whitelogo from '../../images/whitelogo.png'
 function NavDropDown(prop){
     const history = useHistory();
 
-    const {auth, setAuth,userDetails,setUserDetails} = useContext(AuthContext);
+    const {auth, setAuth,userDetails,setUserDetails,notifCount, setNotifCount } = useContext(AuthContext);
    
     function profile(){ history.push('/myprofile') }
     function timeline(){ history.push('/timeline') }
     function userSettings(){ history.push('/settings/editprofile') }
     function about(){ alert('Naijchat is a topic sharing and group messaging platform ...') }
+    function notifications(){ history.push('/notifications') }
     function signOut(){
         history.push('/signin')
         localStorage.removeItem('frse_token');
@@ -39,6 +40,10 @@ function NavDropDown(prop){
                 </span>
                 <span onClick={()=>profile()} style={{color:'black',textDecoration:'none',fontSize:'.9rem',fontWeight:'bold',display:'flex',alignItems:'center'}} to='/myprofile'>
                     <BiUser/>Profile
+                </span>
+                <span onClick={()=>notifications()} style={{color:'black',textDecoration:'none',fontSize:'.9rem',fontWeight:'bold',display:'flex',alignItems:'center'}} to='/myprofile'>
+                    <IoMdNotificationsOutline/>Notifications
+                    {notifCount === 0? '': <div style={{marginLeft:'.3rem',width:'5px',height:'5px',backgroundColor:'tomato',borderRadius:'50%'}}></div>}
                 </span>
                 <span onClick={()=>userSettings()} style={{color:'black',textDecoration:'none',fontSize:'.9rem',fontWeight:'bold',display:'flex',alignItems:'center'}} to="/settings/editprofile">
                     <HiOutlineCog/>User Settings
@@ -59,7 +64,7 @@ function NavDropDown(prop){
 
 
 function Header(props) {
-    const {auth, setAuth,userDetails,setUserDetails} = useContext(AuthContext);
+    const {auth, setAuth,userDetails,setUserDetails,notifCount, setNotifCount} = useContext(AuthContext);
     const [ showSideBar, setShowSideBar ] = useState(-100);
     const [ backModal, showBackModal ] = useState('hidden');
     const isDesktopOrLaptop = useMediaQuery({
@@ -91,6 +96,7 @@ function Header(props) {
             <div onClick={()=>dropDownState()} style={{userSelect:'none', cursor:'pointer',display:'flex',justifyContent:'space-around', border:'1px solid grey',width:'220px',height:'40px',borderRadius:'.3rem',alignItems:"center", flexDirection:'row',marginRight:'1rem'}}>
                 <h5 style={{margin:'0'}}>@{userDetails.username} {userDetails.verified =='true' ? <FaCheckCircle color="#5cab7d" /> : '' }</h5>
                 <img src={userDetails.img} style={{width:'30px',marginLeft:'2rem',height:"30px",borderRadius:'50%' }}/>
+                {notifCount === 0? '': <div style={{width:'5px',height:'5px',backgroundColor:'tomato',borderRadius:'50%'}}></div>}
                 <RiArrowDownSLine />
 
             </div>
