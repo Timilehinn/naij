@@ -85,18 +85,17 @@ function Home() {
             <div className={styles.divOne} style={{paddingTop:'1.5rem',display:'flex',flexDirection:'column',alignItems:"center"}}>
             <ToastContainer />
                 <h1 className={styles.naij_logo}>naijchat</h1>
-                <p className={styles.divOneP} >
-                    Join convserations, share topics,<br /> meet new people.
-                </p>
-                <button onClick={()=>window.location.href='https://naij-react-backend.herokuapp.com/api/download-the-app'} className={styles.downloadButton}>
+                {/* <p className={styles.divOneP} > */}
+                {/* </p> */}
+                {/* <button onClick={()=>alert('The android app is no longer availbale for now.')} className={styles.downloadButton}>
                     Download for Android
-                </button>
+                </button> */}
             </div>
             <div style={{paddingTop:'5rem'}} className={styles.buttonsForm}>
-                <img src={naijIcon} width="60px" height="70px"/>
-                <p style={{color:'black',fontSize:'1.5rem', fontWeight:'lighter', lineHeight:'35px',userSelect:"none"}}>
-                    A group chatting and topic <br />sharing platform, 
-                    Login <br />to join others!
+                {/* <img src={naijIcon} width="60px" height="70px"/> */}
+                <p style={{textAlign:'center',color:'black',fontSize:'1.5rem', fontWeight:'lighter', lineHeight:'35px',userSelect:"none"}}>
+                Join convserations, share topics, meet new people.
+
                 </p>
                 {/* LOGIN AND SIGN IN BUTTON */}
                 <Link style={{textDecoration:'none'}} to="/signup" className={styles.button1}>

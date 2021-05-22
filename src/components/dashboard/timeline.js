@@ -40,20 +40,35 @@ function TopicFunction(prop){
     const [ isLiked, setIsLiked ] = useState(false)
     const [ isDownVoted, setIsDownVoted ] = useState(false)
     const [ likeCount, setLikeCount ] = useState(0)
-    
+    const [ islikedBy, setIsLikedBy ] = useState(prop.likedby)
+
     //Like and unlike post
     async function likeUnlike(){
         if(isLiked == false){
             setIsLiked(true)
+            setLikeCount(likeCount + 1)
         }else{
             setIsLiked(false)
+            setLikeCount(likeCount - 1)
         }
         const res = await axios.post(`https://naij-react-backend.herokuapp.com/api/like-topic?user=${userDetails.email}&topic_id=${prop.topic_id}`);
         if(res.data.done && res.data.liked){
                 await axios.post('https://naij-react-backend.herokuapp.com/api/create-notification',{topic_id:prop.topic_id, from:userDetails.username,to:prop.creator,type:'like',img:userDetails.img,verified:userDetails.verified})
         }
     }
-    
+    // useEffect(()=>{
+    //     const found = islikedBy.find(likedby=>likedby.email === userDetails.email)
+
+    //     function findLikes(){
+    //         if(found) return setIsLiked(true)
+    //     }
+    // },[])
+        
+        // if(found !== undefined) {
+        //     setIsLiked(true)
+        // }
+   
+
     return (
         <div style={{width:'100%',display:'flex',justifyContent:'space-between', alignItems:'flex-end'}}> 
 
@@ -83,14 +98,13 @@ function Dashboard(props) {
     const {auth, setAuth, width, setWidth, userDetails,setUserDetails, setScrollPos, scrollPos, topics, setTopics,
         notifCount, setNotifCount,notifications, setNotifications
     } = useContext(AuthContext);
-    // const [ olderTopics, setOlderTopics ] = useState([]);
     const [ switchPage, setSwitchPage ] = useState('home')
     const [ loading, setLoading ] = useState(true)
     const [ offset, setOffset ] = useState(15)
     const [ nextBtnDisabled , setNextBtnDisabled ] = useState(false)
     const [ prevBtnDisabled , setPrevBtnDisabled ] = useState(false)
 
-    let scroll    = Scroll.animateScroll;
+    let scroll = Scroll.animateScroll;
 
     
     // GET NEWER TOPICS
@@ -198,7 +212,8 @@ function Dashboard(props) {
             <Header title="Recent topics" />
             
                 <div className={styles.row1}>
-                <p style={{display:'flex',cursor:'pointer', alignItems:'center',flexDirection:'row',marginBottom:'.25rem'}} onClick={()=>getNewerTopics()}>refresh <IoMdRefresh/></p>
+                <p style={{display:'flex',cursor:'pointer', alignItems:'center',flexDirection:'row',marginBottom:'.25rem'}} onClick={()=>getNewerTopics()}>refresh <IoMdRefresh/>
+                </p>
 
                 {
                     loading ? <><Preview/><Preview/></>
@@ -210,7 +225,7 @@ function Dashboard(props) {
                                 <div style={{display:'flex',alignItems:'center',flexDirection:'row',marginLeft:'.5rem'}}>
                                     <img src={topic.creator_img} style={{width:'30px',height:"30px",borderRadius:'50%' }}/>
                                     <div style={{marginLeft:'.5rem'}}>
-                                        <p style={{fontSize:'.75rem',color:'grey'}}>Posted by @{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={12} color='#5cab7d'/> : <></>}{topic.time} - {topic.date}</p>
+                                        <p style={{fontSize:'.75rem',color:'grey'}}>@{topic.creator} {topic.is_poster_verified == 'true' ? <FaCheckCircle size={12} color='#5cab7d'/> : <></>}{topic.time} - {topic.date}</p>
                                     </div>
                                 </div>
                                 <div style={{display:"flex",justifyContent:'space-between'}}>

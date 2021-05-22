@@ -29,9 +29,9 @@
 
 
 .divOne{
-    background-color: #f5f9e9;
+    background-color: white;
     background-size:100vw 100vh;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     font-size: calc(10px + 2vmin);
@@ -63,6 +63,7 @@
     height: 45px;
     display: flex;
     align-items: center;
+    background-color:transparent;
     border-radius:5rem;
     margin-top: 1rem;
     padding-right: 1rem;

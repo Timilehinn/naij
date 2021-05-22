@@ -11,6 +11,8 @@ import Preloader from './utils/preloader'
 import {RiEyeCloseLine} from 'react-icons/ri'
 import {RiEyeFill} from 'react-icons/ri'
 
+
+
 function Login(props) {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
@@ -68,12 +70,12 @@ function Login(props) {
     return (
         <div className={styles.divOne}>
             <form className={styles.form} onSubmit={(e)=>authenticateUser(e)}>
-                 <img src={naijIcon} width="60px" height="70px" style={{alignSelf:'center'}} />
+                 {/* <img src={naijIcon} width="60px" height="70px" style={{alignSelf:'center'}} /> */}
                 <h2 style={{textAlign:'center',userSelect:'none',color:'#5cab7d'}}>Sign In</h2>
-                <input type="text" value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" required />
+                <input type="text" value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email or Username" required />
                 <div className={styles.inputWrap}>
                     <input value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" type={isShowPwrd ? "password" : 'text'} required />
-                    {  isShowPwrd ? <RiEyeCloseLine size='20' style={{cursor:"pointer"}} onClick={showText} />  : <RiEyeFill size="20" style={{cursor:"pointer"}} onClick={showPassword}  />}
+                    {  isShowPwrd ? <RiEyeCloseLine size='20' color="grey" style={{cursor:"pointer"}} onClick={showText} />  : <RiEyeFill size="20" style={{cursor:"pointer"}} onClick={showPassword}  />}
                 </div>
                
                 <button style={{display:'flex',justifyContent:'center',flexDirection:"row",alignItems:'center',color:'white',fontWeight:'bold'}}>

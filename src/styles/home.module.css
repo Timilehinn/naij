@@ -1,7 +1,7 @@
 .homeDiv{
     /* background-color: #282c34; */
-    background-image: linear-gradient(90deg,#5cab7d 55%,#f5f9e9 45% );
-  background-size:100vw 100vh;
+    background-image: linear-gradient(90deg,#5cab7d 55%,white 45% );
+    background-size:100vw 100vh;
     min-height: 100vh;
     display: flex;
     /* flex-direction: column; */
@@ -67,7 +67,7 @@
     justify-content: center;
     /* box-shadow:1px 7px 7px 7px #5cab7d71; */
     /* border:.5px solid rgba(128, 128, 128, 0.459); */
-    box-shadow:0px 0px 7px 7px rgba(201, 192, 192, 0.281);
+    /* box-shadow:0px 0px 7px 7px rgba(201, 192, 192, 0.281); */
     transition: .5s;
 }
 .button1:hover{
@@ -79,7 +79,7 @@
 .button2{
     width:320px;
     height:50px;
-    border:0px;
+    border:2px solid #5cab7d;
     border-radius: 2rem;
     margin-top:2rem;
     font-weight: bold;
@@ -90,7 +90,7 @@
     align-items:center;
     justify-content: center;
     /* border:.5px solid rgba(128, 128, 128, 0.253); */
-    box-shadow:0px 0px 7px 7px rgba(201, 192, 192, 0.1);
+    /* box-shadow:0px 0px 7px 7px rgba(201, 192, 192, 0.1); */
     transition: .5s;
 
 }
@@ -138,18 +138,19 @@ footer{
 
 @media only screen and (max-width:700px){
     .homeDiv{
-        background-image: linear-gradient(180deg,#5cab7d 55%,#f5f9e9 45%);
+        background-image: linear-gradient(180deg,white 55%,white 45%);
         background-size:100vw auto;
         min-height: 100vh;
         width:auto;
         display:flex;
         flex-direction:column;
+        justify-content: flex-start;
     }
     .naij_logo{
         text-align: center;
         font-size:4rem;
         text-shadow:0 0;
-        color:white;
+        color:#5cab7d;
     }
 
     .divOneP{
