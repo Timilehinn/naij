@@ -327,7 +327,7 @@ function Profile(props) {
                     required
                 />
                 {/* <BsEye onClick={()=>showPassword2()}/> */}
-                <button><FaCheck color="#5cab7d" /></button>
+                <button><FaCheck color="white" /></button>
             </form>
             <p style={{fontSize:'.7rem',color:"grey"}}>{15 - password2.length} characters remaining (minimum of 6 characters)</p>
             </div>
