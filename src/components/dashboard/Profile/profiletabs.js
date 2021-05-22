@@ -8,7 +8,6 @@ import Preview from '../../utils/preview'
 import { FaPen,FaTimes, FaCheck, FaCheckCircle } from 'react-icons/fa';
 import Linkify from 'react-linkify'
 import { useHistory, Link, Switch } from 'react-router-dom';
-import Modal from 'react-modal';
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -32,51 +31,35 @@ const ProfileTabs = () => {
         getUserTopics()
     },[])
 
-    const deleteTopic = async (topic) =>{
-        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/delete-topic',{id:topic.id})
-        if(res.data.done){
-            toast.dark(res.data.message, {
-                position: "bottom-center",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: false,
-            });
+    const deleteTopic = async (id) =>{
+        if(window.confirm('Delete this topic?')){
+        const res = await axios.post('https://naij-react-backend.herokuapp.com/api/delete-topic',{id:id})
+          if(res.data.done){
+              toast.dark(res.data.message, {
+                  position: "bottom-center",
+                  autoClose: 3000,
+                  hideProgressBar: true,
+                  closeOnClick: true,
+                  pauseOnHover: false,
+                  draggable: true,
+                  progress: false,
+              });
+          }
+          if(res.data.success){
+              const getUserTopics = async ()=>{
+                  const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/user-topics?user=${userDetails.username}`)
+                  console.log(res)
+                  if(res.data.done){
+                      setLoading(false)
+                  }
+                  setUserTopics(res.data.topics)
+              }
+              getUserTopics()
+          }
         }
-        if(res.data.success){
-            const getUserTopics = async ()=>{
-                const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/user-topics?user=${userDetails.username}`)
-                console.log(res)
-                if(res.data.done){
-                    setLoading(false)
-                }
-                setUserTopics(res.data.topics)
-            }
-            getUserTopics()
-        }
+        
     }
-    const customStyles = {
-        content : {
-          top                   : '50%',
-          left                  : '50%',
-          right                 : 'auto',
-          bottom                : 'auto',
-          marginRight           : '-50%',
-          transform             : 'translate(-50%, -50%)',
-          border:'.5px solid grey'
-        }
-      };
-      function openModal() {
-        setIsOpen(true);
-      }
-    
-    
-      function closeModal(){
-        setIsOpen(false);
-      }
-
+   
     return (
     <Tabs>
       <TabList style={{border:'0px'}}>
@@ -108,22 +91,8 @@ const ProfileTabs = () => {
                             <p style={{fontSize:'.8rem',color:'grey',fontStyle:"italic"}}>likes: {topic.likes} replies: {topic.comment_count} </p>
                         </div>
                     </Link>
-                    <Modal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
-                        style={customStyles}
-                        contentLabel="Example Modal"
-                    >
-                        <div style={{padding:'0rem'}}>
-                            <h3>Delete</h3>
-                            <p>Do you want to delete this topic?</p>
-                            <button onClick={()=>deleteTopic(topic)} style={{backgroundColor:'transparent',padding:'.3rem',width:'50%',border:'.5px solid grey'}}>yes <FaCheck /></button>
-                            <button onClick={()=>setIsOpen(false)} style={{backgroundColor:'transparent',padding:'.3rem',width:'50%',border:'.5px solid grey'}}>not <FaTimes /></button>
-                        </div>
-                    </Modal>
-                    <button style={{backgroundColor:'transparent',padding:'.3rem',border:'.5px solid grey'}} onClick={()=>setIsOpen(true)}>Delete post</button>
-
-            </div>
+                    <button onClick={()=>deleteTopic(topic.id)} style={{backgroundColor:'transparent',padding:'.3rem',width:'50%',border:'.5px solid grey'}}>Delete</button>
+              </div>
             ))}
       </TabPanel>
       <TabPanel>
