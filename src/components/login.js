@@ -68,7 +68,7 @@ function Login(props) {
     return (
         <div className={styles.divOne}>
             <form className={styles.form} onSubmit={(e)=>authenticateUser(e)}>
-                 <img src={naijIcon} width="60px" height="70px" style={{alignSelf:'center'}} />
+                 {/* <img src={naijIcon} width="60px" height="70px" style={{alignSelf:'center'}} /> */}
                 <h2 style={{textAlign:'center',userSelect:'none',color:'#5cab7d'}}>Sign In</h2>
                 <input type="text" value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" required />
                 <div className={styles.inputWrap}>
