@@ -19,19 +19,20 @@ function Search() {
         setNotifications(res.data.details.filter(dets=>dets.n_from !== userDetails.username))
         setNotifCount(res.data.details.length)
     }
-    
+    async function confirmRead(){
+        const res = await axios.post(`http://localhost:3333/api/read-notifications?user=${userDetails.username}`)
+        console.log(res)
+        if(res.data.done && res.data.success){
+            setNotifCount(notifCount.length)
+        }
+    }
     useEffect(()=>{
-        getNotifications()
+        getNotifications();
+        confirmRead();
+        setNotifCount(0)
     },[])
 
-    async function confirmRead(notif){
-            const res = await axios.post(`http://localhost:3333/api/read-notifications?notif_id=${notif.id}`)
-            console.log(res)
-            if(res.data.done && res.data.success){
-                getNotifications()
-                setNotifCount(notifCount.length)
-            }
-    }
+   
 
     return (
         <div className={styles.divBody}>
@@ -48,12 +49,11 @@ function Search() {
                             <img src={notification.img} style={{height:'20px',width:'20px',borderRadius:'50%',marginRight:'.5rem'}} />
                             {notification.info}
                         </div>
-                        {notification.read === false? <FaTimes onClick={()=>confirmRead(notification)} size={25} /> : <></>}
                     </div>
                     ))}
                 </>
                 :
-                <div style={{display:'flex',flexDirection:'column',alignItems:'center',height:'100%',justifyContent:'center'}}>
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',height:'80vh',justifyContent:'center'}}>
                 <IoMdNotificationsOutline color="grey" size={50} />
                 <h3 style={{color:'grey',textAlign:'center'}}>You have no unread notification.</h3>
                 </div>}

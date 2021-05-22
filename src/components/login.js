@@ -71,10 +71,10 @@ function Login(props) {
                  {/* <img src={naijIcon} width="60px" height="70px" style={{alignSelf:'center'}} /> */}
                 <h2 style={{textAlign:'center',userSelect:'none',color:'#5cab7d'}}>Sign In</h2>
                 <input type="text" value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" required />
-                <div className={styles.inputWrap}>
+                <span className={styles.inputWrap}>
                     <input value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" type={isShowPwrd ? "password" : 'text'} required />
-                    {  isShowPwrd ? <RiEyeCloseLine size='20' color="grey" style={{cursor:"pointer"}} onClick={showText} />  : <RiEyeFill size="20" style={{cursor:"pointer"}} onClick={showPassword}  />}
-                </div>
+                    {  isShowPwrd ? <RiEyeCloseLine size='20' color="grey" style={{marginLeft:'-2.2rem',cursor:"pointer"}} onClick={showText} />  : <RiEyeFill size="20" style={{marginLeft:'-2.2rem',cursor:"pointer"}} onClick={showPassword}  />}
+                </span>
                
                 <button style={{display:'flex',justifyContent:'center',flexDirection:"row",alignItems:'center',color:'white',fontWeight:'bold'}}>
                     Sign In {isLoading? <Preloader /> :''}
