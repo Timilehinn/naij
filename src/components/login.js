@@ -23,38 +23,38 @@ function Login(props) {
 
     
     async function authenticateUser(e){
-                setIsLoading(true)
-                e.preventDefault();
-                var loginRes = await axios.post('https://naij-react-backend.herokuapp.com/api/login',{email,password})
-                const msg = <p style={{fontSize:'.85rem'}}>{loginRes.data.auth_msg}</p>
-                toast.dark(msg,{
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    hideProgressBar: true, 
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: false,
-                    progress: undefined,
-                })
-                console.log(loginRes)
-                if(loginRes.data.session){
-                    setLoginState(true)
-                    //INITIATE SESSION ID
-                    localStorage.setItem("frse_token",loginRes.data.token);
-                    localStorage.setItem("user_email",loginRes.data.email);
-                    // localStorage.setItem("user_det",JSON.stringify(loginRes.data.details));
-                    setUserDetails(loginRes.data.details);
-                    setAuth(loginRes.data.authenticated);
-                    // history.push('/meet')
-                    history.push(`/timeline`);
-                }else{
-                    setIsLoading(false);
-                    setLoginState(false);
-                    history.push('/signin');
-                }
-                if(loginRes.data.done){
-                    setIsLoading(false)
-                }
+        setIsLoading(true)
+        e.preventDefault();
+        var loginRes = await axios.post('https://naij-react-backend.herokuapp.com/api/login',{email,password})
+        const msg = <p style={{fontSize:'.85rem'}}>{loginRes.data.auth_msg}</p>
+        toast.dark(msg,{
+            position: "bottom-center",
+            autoClose: 3000,
+            hideProgressBar: true, 
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+        });
+        console.log(loginRes)
+        if(loginRes.data.session){
+            setLoginState(true);
+            //INITIATE SESSION ID
+            localStorage.setItem("frse_token",loginRes.data.token);
+            localStorage.setItem("user_email",loginRes.data.email);
+            // localStorage.setItem("user_det",JSON.stringify(loginRes.data.details));
+            setUserDetails(loginRes.data.details);
+            setAuth(loginRes.data.authenticated);
+            // history.push('/meet')
+            history.push(`/timeline`);
+        }else{
+            setIsLoading(false);
+            setLoginState(false);
+            history.push('/signin');
+        }
+        if(loginRes.data.done){
+            setIsLoading(false)
+        }
     }
 
     function showText(){
