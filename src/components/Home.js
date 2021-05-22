@@ -21,7 +21,7 @@ function Home() {
       let email = localStorage.getItem("user_email");
         async function checkIsLoggedIn(e){
             if (token && email ) {
-                axios.get(`http://localhost:3333/api/isUserAuth?email=${email}`, {
+                axios.get(`https://naij-react-backend.herokuapp.com/api/isUserAuth?email=${email}`, {
                   headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',

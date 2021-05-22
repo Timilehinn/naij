@@ -24,7 +24,7 @@ const ViewProfileTabs = (props) => {
 
     useEffect(()=>{
         const getUserTopics = async ()=>{
-          const res = await axios.get(`http://localhost:3333/api/user-topics?user=${props.username}`)
+          const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/user-topics?user=${props.username}`)
           console.log(res)
           if(res.data.done){
               setLoading(false)

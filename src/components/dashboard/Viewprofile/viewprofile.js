@@ -29,7 +29,7 @@ function ViewProfile(props) {
             history.push('/myprofile')
         }
         const findUser = async ()=>{
-            const res = await axios.get(`http://localhost:3333/api/find-user-profile?user=${username}`);
+            const res = await axios.get(`https://naij-react-backend.herokuapp.com/api/find-user-profile?user=${username}`);
             console.log(res)
             if(res.data.found){
                 setLoading(false)
