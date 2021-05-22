@@ -31,7 +31,7 @@ function App() {
           <ProtectedRoute path='/notifications' component={Notifications} exact />
           <ProtectedRoute path='/profile/:username' component={Viewprofile} exact />
           <Route path="*" component={Four} />
-          <ProtectedRoute path="/myprofile/*"  component={Profile} />
+          {/* <ProtectedRoute path="/myprofile/*"  component={Profile} /> */}
       </Switch>
     </div>
   );
