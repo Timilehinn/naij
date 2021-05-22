@@ -48,7 +48,7 @@ function Register() {
         const registerRes = await axios.post('https://naij-react-backend.herokuapp.com/api/register',{email,username,password});
         console.log(registerRes.data)
         const msg = <p style={{fontSize:'.85rem'}}>{registerRes.data.msg}</p>
-
+ 
       
         if(registerRes.data.success){
                 console.log('aw far')
@@ -91,18 +91,18 @@ function Register() {
     return (
         <div className={styles.divOne}>
             <form className={styles.form} onSubmit={(e)=>authenticateUser(e)}>
-                <img src={naijIcon} width="80px" height="90px" style={{alignSelf:'center'}} />
-                <h2 style={{textAlign:'center',userSelect:'none',color:'white'}}>Sign Up</h2>
+                {/* <img src={naijIcon} width="80px" height="90px" style={{alignSelf:'center'}} /> */}
+                <h2 style={{textAlign:'center',userSelect:'none',color:'#5cab7d'}}>Sign Up</h2>
                 <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" required/>
                 <input type="text" value={username} maxLength={15} onChange={e=>validateUsername(e.target.value)} placeholder="username" required/>
                 <div style={{width:"300px",paddingLeft:'1rem', wordBreak:'break-word'}}>
-                    <p style={{fontSize:'.7rem',color:isUsernameValid ? 'grey' : 'red'}}>{isUsernameValid ? 'A randomly generated usename.' : 'Your username must be 15 characters or less and contain ony letters, numbers, and underscores and no spaces'}</p>
+                    <p style={{fontSize:'.7rem',margin:0,color:isUsernameValid ? 'grey' : 'red'}}>{isUsernameValid ? 'A randomly generated usename.' : 'Your username must be 15 characters or less and contain ony letters, numbers, and underscores and no spaces'}</p>
                 </div>
                 <input minLength="6" value={password} onChange={e=>setPassword(e.target.value)} placeholder="password" type={isShowPwrd} required/>
                 <button disabled={btnState} style={{cursor:btnState ? 'not-allowed! important' : 'pointer', display:'flex',justifyContent:'center',flexDirection:"row",alignItems:'center',color:'white',fontWeight:'bold'}}>
                     Sign Up {isLoading? <Preloader /> :''}
                 </button>
-                <Link to="/signin" style={{textDecoration:'none',color:'white'}}>
+                <Link to="/signin" style={{textDecoration:'none',color:'grey'}}>
                     <p style={{textAlign:'center',fontSize:'1rem'}}>Already registered? Sign In</p></Link>
             </form>
             <div style={{position:'absolute'}}><ToastContainer position="top-center"/></div>

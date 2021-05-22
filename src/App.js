@@ -20,17 +20,18 @@ function App() {
     <div> 
       <Switch>
           <Route path='/' component={Home} exact />
-          <Route path='/signin' component={Login} />
-          <Route path='/signup' component={Register} />
-          <ProtectedRoute path='/timeline' component={Timeline} />
-          <ProtectedRoute path='/create-topic' component={Create_topic} />
-          <ProtectedRoute path='/myprofile' component={Profile} />
-          <ProtectedRoute path='/settings/editprofile' component={Editprofile} />
-          <ProtectedRoute path='/search' component={Search} />
-          <ProtectedRoute path='/topic/:room/:creator' component={Room} />
-          <ProtectedRoute path='/notifications' component={Notifications} />
-          <ProtectedRoute path='/profile/:username' component={Viewprofile} />
-          <ProtectedRoute component={Four} />
+          <Route path='/signin' component={Login} exact />
+          <Route path='/signup' component={Register} exact />
+          <ProtectedRoute path='/timeline' component={Timeline} exact />
+          <ProtectedRoute path='/create-topic' component={Create_topic} exact />
+          <ProtectedRoute path='/myprofile' component={Profile} exact />
+          <ProtectedRoute path='/settings/editprofile' component={Editprofile} exact />
+          <ProtectedRoute path='/search' component={Search} exact />
+          <ProtectedRoute path='/topic/:room/:creator' component={Room} exact/>
+          <ProtectedRoute path='/notifications' component={Notifications} exact />
+          <ProtectedRoute path='/profile/:username' component={Viewprofile} exact />
+          <Route path="*" component={Four} />
+          {/* <ProtectedRoute path="/myprofile/*"  component={Profile} /> */}
       </Switch>
     </div>
   );
