@@ -184,7 +184,7 @@ function Create_topic() {
             // console.log(title)
             // console.log(post)
             // console.log(photoBase64)
-            const res = await axios.post('https://naij-react-backend.herokuapp.com/api/create-topic',{
+            const res = await axios.post('https://+naij-react-backend.herokuapp.com/api/create-topic',{
                 title,post,photoBase64,creator:userDetails.username,creator_img:userDetails.img,verified:userDetails.verified,
                 creator_email:userDetails.email
             })
