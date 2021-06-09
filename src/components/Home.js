@@ -95,7 +95,6 @@ function Home() {
                 {/* <img src={naijIcon} width="60px" height="70px"/> */}
                 <p style={{textAlign:'center',color:'black',fontSize:'1.5rem', fontWeight:'lighter', lineHeight:'35px',userSelect:"none"}}>
                 Join convserations, share topics, meet new people.
-
                 </p>
                 {/* LOGIN AND SIGN IN BUTTON */}
                 <Link style={{textDecoration:'none'}} to="/signup" className={styles.button1}>
@@ -105,7 +104,7 @@ function Home() {
                   <p style={{fontSize:'.9rem',textDecoration:'none'}}>Sign In</p>
                 </Link>
                 <footer style={{marginTop:'1.5rem'}}>
-                    <p style={{textAlign:'center',userSelect:'none',fontSize:'.8rem',fontWeight:'200'}}>naijchat &copy; 2021, a product of <a href="https://www.pacavel.com">Pacavel</a></p>
+                    <p style={{textAlign:'center',userSelect:'none',fontSize:'.8rem',fontWeight:'200'}}>naijchat &copy; 2021, a product of <a href="http://www.pacavel.com">Pacavel</a></p>
                     {/* <p style={{textAlign:'center',userSelect:'none',fontSize:'.8rem',fontWeight:'200'}}>pacavel</p> */}
                 </footer>
             </div>

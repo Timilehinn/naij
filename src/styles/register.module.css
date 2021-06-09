@@ -1,5 +1,5 @@
 .divOne{
-    background-color: #5cab7d;
+    background-color: white;
     background-size:100vw 100vh;
     min-height: 100vh;
     display: flex;
@@ -19,7 +19,7 @@
     height:45px;
     margin-top:1rem;
     border-radius:5rem;
-    border:2px solid white;
+    border:2px solid #5cab7d;
     /* background-color: #5cab7d; */
     color:black;
     padding-left:1rem;

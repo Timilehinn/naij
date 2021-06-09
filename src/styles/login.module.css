@@ -45,7 +45,7 @@
     flex-direction: column;
 }
 .form input{
-    /* width:350px; */
+    width:350px;
     height:45px;
     /* margin-top:1rem; */
     border-radius:5rem;
@@ -58,7 +58,6 @@
 
 
 .inputWrap{
-    width: 300px;
     border:2px solid #5cab7d;
     height: 45px;
     display: flex;
@@ -67,11 +66,9 @@
     border-radius:5rem;
     margin-top: 1rem;
     padding-right: 1rem;
-    background-color:none;
 }
 
 .inputWrap input{
-    width: 100%;
     border: none;
     
 }
