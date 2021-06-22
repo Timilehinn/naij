@@ -94,7 +94,7 @@ function Home() {
             <div style={{paddingTop:'5rem'}} className={styles.buttonsForm}>
                 {/* <img src={naijIcon} width="60px" height="70px"/> */}
                 <p style={{textAlign:'center',color:'black',fontSize:'1.5rem', fontWeight:'lighter', lineHeight:'35px',userSelect:"none"}}>
-                Join convserations, share topics, meet new people.
+                Join conversations, share topics, meet new people.
                 </p>
                 {/* LOGIN AND SIGN IN BUTTON */}
                 <Link style={{textDecoration:'none'}} to="/signup" className={styles.button1}>

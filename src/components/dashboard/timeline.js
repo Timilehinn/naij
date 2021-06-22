@@ -230,7 +230,7 @@ function Dashboard(props) {
                                 </div>
                                 <div style={{display:"flex",justifyContent:'space-between'}}>
                                     <div style={{marginBottom:'1rem'}}>
-                                        <p style={{fontWeight:'bold',marginLeft:'.5rem',marginBottom:'.5rem'}}>{topic.title}</p>
+                                        <p style={{fontWeight:'600',lineHeight:'25px',marginLeft:'.5rem',marginBottom:'.5rem'}}>{topic.title}</p>
                                         {topic.topic_body ? ( <Linkify><div className={styles.topic_body} style={{marginLeft:'.5rem',wordBreak:'break-all'}}>{topic.topic_body.length > 200 ? topic.topic_body.substring(0,200) + ' ...' : topic.topic_body }</div></Linkify> ) :''  }
                                     </div>
                                     <div style={{display:'flex',flexDirection:'column',marginLeft:'0rem',padding:'.5rem'}}>
